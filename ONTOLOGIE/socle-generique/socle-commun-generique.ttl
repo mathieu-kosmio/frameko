@@ -1,0 +1,130 @@
+@prefix rc:    <https://ontology.kosm.io/socle-commun#> .
+@prefix std:   <https://ontology.kosm.io/standards/core#> .
+@prefix flo:   <https://ontology.kosm.io/floriscore/ref#> .
+@prefix cccev: <http://data.europa.eu/m8g/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann:  <http://purl.org/vocab/vann/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#  SOCLE COMMUN GENERIQUE D'EXIGENCES (multi-domaine, CCCEV)
+#################################################################
+
+<https://ontology.kosm.io/socle-commun> a owl:Ontology ;
+    dct:title "Socle commun générique d'exigences"@fr ;
+    owl:versionInfo "0.1.0" ;
+    vann:preferredNamespacePrefix "rc" ;
+    rdfs:comment "Taxonomie transverse de critères communs, indépendante du domaine, sur laquelle se rapprochent les critères de tout référentiel (labels, normes ISO, réglementations)."@fr .
+
+#################################################################
+#  COEUR DE MODELE GENERIQUE (std:) extension de CCCEV
+#################################################################
+
+std:Framework a owl:Class ; rdfs:subClassOf cccev:ReferenceFramework ; rdfs:label "Référentiel"@fr , "Reference framework"@en ; rdfs:comment "Tout cadre d'exigences : label, norme ISO, réglementation, charte."@fr .
+std:CommonCriterion a owl:Class ; rdfs:subClassOf cccev:Criterion , skos:Concept ; rdfs:label "Critère commun"@fr .
+std:FrameworkCriterion a owl:Class ; rdfs:subClassOf cccev:Criterion ; rdfs:label "Critère de référentiel"@fr .
+std:Domain a owl:Class ; rdfs:subClassOf skos:Concept ; rdfs:label "Domaine"@fr , "Domain"@en .
+std:Theme a owl:Class ; rdfs:subClassOf skos:Concept ; rdfs:label "Thème"@fr , "Theme"@en .
+std:Category a owl:Class ; rdfs:subClassOf skos:Concept ; rdfs:label "Catégorie transverse"@fr , "Cross-cutting category"@en .
+std:RequirementLevel a owl:Class ; rdfs:subClassOf skos:Concept ; rdfs:label "Niveau d'exigence"@fr .
+
+std:hasDomain a owl:ObjectProperty ; rdfs:label "domaine"@fr ; rdfs:range std:Domain .
+std:hasTheme  a owl:ObjectProperty ; rdfs:label "thème"@fr ; rdfs:range std:Theme .
+std:hasLevel  a owl:ObjectProperty ; rdfs:label "niveau"@fr ; rdfs:range std:RequirementLevel .
+std:alignsWith a owl:ObjectProperty ; rdfs:subPropertyOf skos:mappingRelation ; rdfs:label "se rapproche de (générique)"@fr .
+std:equivalentTo a owl:ObjectProperty ; rdfs:subPropertyOf std:alignsWith , skos:exactMatch ; rdfs:label "équivaut à"@fr .
+std:closeTo a owl:ObjectProperty ; rdfs:subPropertyOf std:alignsWith , skos:closeMatch ; rdfs:label "proche de"@fr .
+std:broaderThan a owl:ObjectProperty ; rdfs:subPropertyOf std:alignsWith , skos:broadMatch ; rdfs:label "plus large que"@fr .
+std:narrowerThan a owl:ObjectProperty ; rdfs:subPropertyOf std:alignsWith , skos:narrowMatch ; rdfs:label "plus strict que"@fr .
+std:weight a owl:DatatypeProperty ; rdfs:subPropertyOf cccev:weight ; rdfs:label "pondération de scoring"@fr ; rdfs:range xsd:decimal .
+
+rc:SocleCommun a skos:ConceptScheme ; dct:title "Socle commun d'exigences"@fr .
+
+# --- Domaines ---
+rc:dom-transverse a std:Domain ; skos:inScheme rc:SocleCommun ; skos:prefLabel "Transverse (tous secteurs)"@fr , "Cross-sector"@en .
+rc:dom-horticulture a std:Domain ; skos:inScheme rc:SocleCommun ; skos:prefLabel "Horticulture et floriculture"@fr , "Horticulture and floriculture"@en .
+rc:dom-foret-bois a std:Domain ; skos:inScheme rc:SocleCommun ; skos:prefLabel "Forêt-bois"@fr , "Forestry and wood"@en .
+rc:dom-agroalimentaire a std:Domain ; skos:inScheme rc:SocleCommun ; skos:prefLabel "Agroalimentaire"@fr , "Agri-food"@en .
+rc:dom-industrie a std:Domain ; skos:inScheme rc:SocleCommun ; skos:prefLabel "Industrie"@fr , "Industry"@en .
+rc:dom-numerique a std:Domain ; skos:inScheme rc:SocleCommun ; skos:prefLabel "Numérique et systèmes d'information"@fr , "Digital and information systems"@en .
+rc:dom-services a std:Domain ; skos:inScheme rc:SocleCommun ; skos:prefLabel "Services"@fr , "Services"@en .
+
+# --- Categories transverses (niveau 1) ---
+rc:cat-gouvernance a std:Category ; skos:inScheme rc:SocleCommun ; skos:topConceptOf rc:SocleCommun ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Gouvernance, management et conformité"@fr , "Governance, management and compliance"@en .
+rc:cat-social a std:Category ; skos:inScheme rc:SocleCommun ; skos:topConceptOf rc:SocleCommun ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Travail, droits humains et conditions sociales"@fr , "Labour, human rights and social conditions"@en .
+rc:cat-sst a std:Category ; skos:inScheme rc:SocleCommun ; skos:topConceptOf rc:SocleCommun ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Santé et sécurité au travail"@fr , "Occupational health and safety"@en .
+rc:cat-environnement a std:Category ; skos:inScheme rc:SocleCommun ; skos:topConceptOf rc:SocleCommun ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Environnement et ressources naturelles"@fr , "Environment and natural resources"@en .
+rc:cat-intrants a std:Category ; skos:inScheme rc:SocleCommun ; skos:topConceptOf rc:SocleCommun ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Intrants, matières et chaîne d'approvisionnement"@fr , "Inputs, materials and supply chain"@en .
+rc:cat-produit a std:Category ; skos:inScheme rc:SocleCommun ; skos:topConceptOf rc:SocleCommun ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Produit, qualité et sécurité"@fr , "Product, quality and safety"@en .
+rc:cat-donnees a std:Category ; skos:inScheme rc:SocleCommun ; skos:topConceptOf rc:SocleCommun ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Données, traçabilité et transparence"@fr , "Data, traceability and transparency"@en .
+
+# --- Themes (niveau 2) ---
+rc:thm-gouvernance a std:Theme ; skos:inScheme rc:SocleCommun ; skos:broader rc:cat-gouvernance ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Gouvernance et système de gestion"@fr , "Governance and management system"@en ; skos:exactMatch flo:thm-gouvernance .
+rc:thm-social a std:Theme ; skos:inScheme rc:SocleCommun ; skos:broader rc:cat-social ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Droit du travail et conditions sociales"@fr , "Labour law and social conditions"@en ; skos:exactMatch flo:thm-social .
+rc:thm-formation a std:Theme ; skos:inScheme rc:SocleCommun ; skos:broader rc:cat-social ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Formation, entraînement et bien-être"@fr , "Training and well-being"@en ; skos:exactMatch flo:thm-formation .
+rc:thm-sst a std:Theme ; skos:inScheme rc:SocleCommun ; skos:broader rc:cat-sst ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Santé et sécurité au travail"@fr , "Occupational health and safety"@en ; skos:exactMatch flo:thm-sst .
+rc:thm-eau a std:Theme ; skos:inScheme rc:SocleCommun ; skos:broader rc:cat-environnement ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Gestion et conservation de l'eau"@fr , "Water management and conservation"@en ; skos:exactMatch flo:thm-eau .
+rc:thm-sols a std:Theme ; skos:inScheme rc:SocleCommun ; skos:broader rc:cat-environnement ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Sols, substrats et fertilisation"@fr , "Soil, substrates and fertilisation"@en ; skos:exactMatch flo:thm-sols .
+rc:thm-phyto a std:Theme ; skos:inScheme rc:SocleCommun ; skos:broader rc:cat-environnement ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Contrôle phytosanitaire et usage des pesticides"@fr , "Crop protection and pesticide use"@en ; skos:exactMatch flo:thm-phyto .
+rc:thm-dechets a std:Theme ; skos:inScheme rc:SocleCommun ; skos:broader rc:cat-environnement ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Gestion des déchets"@fr , "Waste management"@en ; skos:exactMatch flo:thm-dechets .
+rc:thm-biodiversite a std:Theme ; skos:inScheme rc:SocleCommun ; skos:broader rc:cat-environnement ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Paysage et biodiversité"@fr , "Landscape and biodiversity"@en ; skos:exactMatch flo:thm-biodiversite .
+rc:thm-energie a std:Theme ; skos:inScheme rc:SocleCommun ; skos:broader rc:cat-environnement ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Énergie, maintenance et empreinte carbone"@fr , "Energy, maintenance and carbon footprint"@en ; skos:exactMatch flo:thm-energie .
+rc:thm-intrants a std:Theme ; skos:inScheme rc:SocleCommun ; skos:broader rc:cat-intrants ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Origine du matériel végétal et intrants"@fr , "Origin of plant material and inputs"@en ; skos:exactMatch flo:thm-intrants .
+rc:thm-qualite a std:Theme ; skos:inScheme rc:SocleCommun ; skos:broader rc:cat-produit ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Qualité et post-récolte"@fr , "Quality and post-harvest"@en ; skos:exactMatch flo:thm-qualite .
+rc:thm-tracabilite a std:Theme ; skos:inScheme rc:SocleCommun ; skos:broader rc:cat-donnees ; std:hasDomain rc:dom-transverse ; skos:prefLabel "Traçabilité, registres et transparence"@fr , "Traceability, records and transparency"@en ; skos:exactMatch flo:thm-tracabilite .
+
+# --- Criteres communs (niveau 3) migres depuis l horticulture ---
+rc:c-001 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-gouvernance ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Responsabilité et engagement de la direction"@fr ; skos:exactMatch flo:cc-responsabilidad-y-compromiso-gerencial .
+rc:c-002 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-gouvernance ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Inspection et audit interne"@fr ; skos:exactMatch flo:cc-inspeccion-y-auditoria-interna .
+rc:c-003 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-gouvernance ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Traitement des non-conformités et des plaintes"@fr ; skos:exactMatch flo:cc-atencion-a-no-conformidades-quejas-y-reclamos .
+rc:c-004 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-gouvernance ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Lutte contre la corruption"@fr ; skos:exactMatch flo:cc-lucha-contra-el-soborno .
+rc:c-005 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-social ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Travail volontaire (interdiction du travail forcé)"@fr ; skos:exactMatch flo:cc-trabajo-voluntario .
+rc:c-006 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-social ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Durée du travail"@fr ; skos:exactMatch flo:cc-horas-de-trabajo .
+rc:c-007 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-social ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Interdiction du travail des enfants"@fr ; skos:exactMatch flo:cc-no-trabajo-infantil .
+rc:c-008 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-social ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Non-discrimination et absence de maltraitance"@fr ; skos:exactMatch flo:cc-no-discriminacion-ni-maltrato .
+rc:c-009 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-social ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Liberté d'association et négociation collective"@fr ; skos:exactMatch flo:cc-libertad-de-asociacion-y-negociacion-colectiva .
+rc:c-010 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-social ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Pratiques de travail"@fr ; skos:exactMatch flo:cc-practicas-laborales .
+rc:c-011 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-social ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Rémunération et salaires"@fr ; skos:exactMatch flo:cc-remuneracion-y-salarios .
+rc:c-012 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-social ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Sous-traitance"@fr ; skos:exactMatch flo:cc-subcontratacion .
+rc:c-013 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-formation ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Formation et entraînement"@fr ; skos:exactMatch flo:cc-formacion-y-entrenamiento .
+rc:c-014 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-formation ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Bien-être des travailleurs"@fr ; skos:exactMatch flo:cc-bienestar .
+rc:c-015 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-sst ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Politique et objectifs de santé et sécurité au travail"@fr ; skos:exactMatch flo:cc-politica-y-objetivos-de-seguridad-y-salud-en-el- .
+rc:c-016 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-sst ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Organisation du système de santé et sécurité au travail"@fr ; skos:exactMatch flo:cc-organizacion-del-sistema-de-seguridad-y-salud-en .
+rc:c-017 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-sst ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Évaluation des conditions de santé et de travail"@fr ; skos:exactMatch flo:cc-evaluacion-de-las-condiciones-de-salud-y-trabajo .
+rc:c-018 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-sst ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Programme de formation et d'accueil en SST"@fr ; skos:exactMatch flo:cc-programa-de-formacion-entrenamiento-induccion-y- .
+rc:c-019 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-sst ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Médecine préventive et du travail"@fr ; skos:exactMatch flo:cc-medicina-preventiva-y-del-trabajo .
+rc:c-020 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-sst ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Mise en œuvre du système de gestion SST (SG-SST)"@fr ; skos:exactMatch flo:cc-implementacion-del-sistema-de-gestion-de-segurid .
+rc:c-021 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-sst ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Signalement et investigation des incidents, accidents et maladies professionnelles"@fr ; skos:exactMatch flo:cc-reporte-e-investigacion-de-incidentes-accidentes .
+rc:c-022 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-sst ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Achats et sous-traitance conformes aux dispositions du SG-SST"@fr ; skos:exactMatch flo:cc-criterios-para-adquisicion-de-bienes-o-contratac .
+rc:c-023 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-sst ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Mesure et évaluation de la gestion SST"@fr ; skos:exactMatch flo:cc-medicion-y-evaluacion-de-la-gestion-en-sst .
+rc:c-024 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-eau ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Usage efficient et économie de l'eau"@fr ; skos:exactMatch flo:cc-uso-eficiente-y-ahorro-de-agua .
+rc:c-025 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-eau ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Qualité de l'eau"@fr ; skos:exactMatch flo:cc-calidad-del-agua .
+rc:c-026 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-sols ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Usage des substrats"@fr ; skos:exactMatch flo:cc-uso-de-sustratos .
+rc:c-027 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-sols ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Gestion du sol"@fr ; skos:exactMatch flo:cc-manejo-del-suelo .
+rc:c-028 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-sols ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Suivi des besoins nutritionnels"@fr ; skos:exactMatch flo:cc-monitoreo-de-las-necesidades-nutricionales .
+rc:c-029 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-sols ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Programmes et registres d'application des fertilisants"@fr ; skos:exactMatch flo:cc-programas-y-registros-de-aplicacion-de-fertiliza .
+rc:c-030 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-sols ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Manipulation sûre des fertilisants"@fr ; skos:exactMatch flo:cc-manejo-seguro-de-fertilizantes .
+rc:c-031 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-phyto ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Lutte intégrée contre les ravageurs (MIP)"@fr ; skos:exactMatch flo:cc-manejo-integrado-de-plagas-mip .
+rc:c-032 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-phyto ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Contrôle phytosanitaire"@fr ; skos:exactMatch flo:cc-control-fitosanitario .
+rc:c-033 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-phyto ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Programmes et registres d'application des pesticides"@fr ; skos:exactMatch flo:cc-programas-y-registros-de-aplicacion-de-plaguicid .
+rc:c-034 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-phyto ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Minimisation du risque chimique lié aux pesticides et bio-intrants"@fr ; skos:exactMatch flo:cc-minimizacion-del-riesgo-quimico-por-plaguicidas- .
+rc:c-035 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-phyto ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Installations, équipements et pratiques pour la manipulation sûre des pesticides"@fr ; skos:exactMatch flo:cc-instalaciones-equipos-y-practicas-adecuadas-para .
+rc:c-036 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-dechets ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Prévention et réduction des déchets"@fr ; skos:exactMatch flo:cc-prevencion-y-minimizacion .
+rc:c-037 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-dechets ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Réutilisation et recyclage"@fr ; skos:exactMatch flo:cc-reutilizacion-y-reciclaje .
+rc:c-038 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-dechets ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Traitement et élimination finale"@fr ; skos:exactMatch flo:cc-tratamiento-y-disposicion-final .
+rc:c-039 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-biodiversite ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Implantation sur des sites autorisés"@fr ; skos:exactMatch flo:cc-desarrollo-de-la-actividad-en-sitios-permitidos .
+rc:c-040 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-biodiversite ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Gestion de l'unité de production"@fr ; skos:exactMatch flo:cc-manejo-de-la-unidad-de-produccion .
+rc:c-041 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-biodiversite ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Paysage, biodiversité et conservation"@fr ; skos:exactMatch flo:cc-paisajismo-biodiversidad-y-conservacion .
+rc:c-042 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-energie ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Efficacité énergétique"@fr ; skos:exactMatch flo:cc-eficiencia-energetica .
+rc:c-043 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-energie ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Maintenance"@fr ; skos:exactMatch flo:cc-mantenimiento .
+rc:c-044 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-energie ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Émissions de gaz à effet de serre (GES)"@fr ; skos:exactMatch flo:cc-emisiones-de-gases-de-efecto-de-invernadero-gei .
+rc:c-045 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-intrants ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Origine du matériel végétal"@fr ; skos:exactMatch flo:cc-chap11 .
+rc:c-046 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-qualite ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Procédures de post-récolte"@fr ; skos:exactMatch flo:cc-procedimientos-poscosecha .
+rc:c-047 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-qualite ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Traitements de post-récolte"@fr ; skos:exactMatch flo:cc-tratamientos-poscosecha .
+rc:c-048 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-qualite ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Qualité du produit"@fr ; skos:exactMatch flo:cc-calidad-del-producto .
+rc:c-049 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-qualite ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Qualité de l'eau en post-récolte"@fr ; skos:exactMatch flo:cc-calidad-del-agua-utilizada-en-poscosecha .
+rc:c-050 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-tracabilite ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Traçabilité et registres"@fr ; skos:exactMatch flo:cc-chap13 .
+rc:c-051 a std:CommonCriterion ; skos:inScheme rc:SocleCommun ; skos:broader rc:thm-gouvernance ; std:hasDomain rc:dom-horticulture ; skos:prefLabel "Statut et usage de la marque Florverde Sustainable Flowers"@fr ; skos:exactMatch flo:cc-chap14 .

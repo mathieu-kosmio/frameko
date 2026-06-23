@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Environnement
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+.next/
+.nuxt/
+dist/
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Logs
+*.log
+logs/

@@ -1,0 +1,877 @@
+Référentiel,Référence,Critère,Thème,Niveau,Critère commun,Degré
+Florverde (FSF),1.1,"Existe-t-il une instance de participation de l'équipe dirigeante, officiellement constituée pour le suivi des aspects sociaux et environnementaux ?",Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,plusLargeQue
+Florverde (FSF),1.2,"Une politique socio-environnementale en vigueur, écrite, diffusée et comprise existe-t-elle ?",Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,rapprocheDe
+Florverde (FSF),1.3,Des objectifs et cibles socio-environnementaux sont-ils définis ?,Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,plusStrictQue
+Florverde (FSF),1.4,Un plan d'action socio-environnemental écrit existe-t-il pour atteindre les objectifs et cibles ?,Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,rapprocheDe
+Florverde (FSF),1.5,La direction réalise-t-elle une revue des aspects sociaux et environnementaux ?,Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,plusLargeQue
+Florverde (FSF),1.6,Une inspection/audit interne a-t-elle été réalisée pour assurer la conformité à la norme Florverde ?,Gouvernance,Niveau 1 (majeur),Inspection et audit interne,equivautA
+Florverde (FSF),1.7,Des mesures ont-elles été prises pour corriger les constats des inspections/audits internes ou externes ?,Gouvernance,Niveau 1 (majeur),Traitement des non-conformités et des plaintes,rapprocheDe
+Florverde (FSF),1.8,Existe-t-il un mécanisme pour traiter les plaintes des travailleurs et des parties prenantes ?,Gouvernance,Niveau 1 (majeur),Traitement des non-conformités et des plaintes,equivautA
+Florverde (FSF),1.9,Aucun pot-de-vin n'est-il offert ni accepté ?,Gouvernance,Niveau 1 (majeur),Lutte contre la corruption,plusStrictQue
+Florverde (FSF),1.10,Des contrôles internes existent-ils pour prévenir et détecter la corruption ?,Gouvernance,Niveau 1 (majeur),Lutte contre la corruption,equivautA
+Florverde (FSF),1.11,Les contrôles et mesures de prévention de la corruption sont-ils diffusés ?,Gouvernance,Niveau 1 (majeur),Lutte contre la corruption,equivautA
+Florverde (FSF),1.12,Les contributions aux candidats ou partis politiques sont-elles légitimes ?,Gouvernance,Niveau 1 (majeur),Lutte contre la corruption,rapprocheDe
+Florverde (FSF),1.13,L'information n'est-elle pas falsifiée ?,Gouvernance,Niveau 1 (majeur),Lutte contre la corruption,plusStrictQue
+Florverde (FSF),2.1,Le travail forcé est-il interdit ?,Droit du travail,Niveau 1 (majeur),Travail volontaire (interdiction du travail forcé),equivautA
+Florverde (FSF),2.2,La durée du travail respecte-t-elle la législation du travail en vigueur ?,Droit du travail,Niveau 1 (majeur),Durée du travail,equivautA
+Florverde (FSF),2.3,"La limite de 12 heures supplémentaires hebdomadaires par travailleur est-elle respectée, avec autorisation légale ?",Droit du travail,Niveau 2,Durée du travail,equivautA
+Florverde (FSF),2.4,Les temps de repos sont-ils accordés conformément à la législation du travail nationale en vigueur ?,Droit du travail,Niveau 1 (majeur),Durée du travail,equivautA
+Florverde (FSF),2.5,Tous les travailleurs ont-ils plus de 18 ans ?,Droit du travail,Niveau 1 (majeur),Interdiction du travail des enfants,rapprocheDe
+Florverde (FSF),2.6,"Aucune pratique de maltraitance, de harcèlement, de discrimination ou d'inéquité envers les travailleurs n'existe-t-elle ?",Droit du travail,Niveau 1 (majeur),Non-discrimination et absence de maltraitance,equivautA
+Florverde (FSF),2.7,"Le droit de participation, de libre association et de négociation collective des travailleurs est-il respecté ?",Droit du travail,Niveau 1 (majeur),Liberté d'association et négociation collective,equivautA
+Florverde (FSF),2.8,Le règlement intérieur de travail est-il publié ?,Droit du travail,Niveau 1 (majeur),Pratiques de travail,equivautA
+Florverde (FSF),2.9,Les travailleurs disposent-ils d'un contrat de travail écrit ?,Droit du travail,Niveau 1 (majeur),Pratiques de travail,equivautA
+Florverde (FSF),2.10,Des procédures de gestion disciplinaire sont-elles appliquées ?,Droit du travail,Niveau 1 (majeur),Pratiques de travail,plusStrictQue
+Florverde (FSF),2.11,La fin de la relation de travail est-elle formalisée conformément à la réglementation en vigueur ?,Droit du travail,Niveau 1 (majeur),Pratiques de travail,equivautA
+Florverde (FSF),2.12,Un entretien de départ est-il réalisé avec les travailleurs ?,Droit du travail,Niveau 2,Pratiques de travail,equivautA
+Florverde (FSF),2.13,Les dossiers du personnel sont-ils tenus à jour et archivés ?,Droit du travail,Niveau 1 (majeur),Pratiques de travail,plusStrictQue
+Florverde (FSF),2.14,"En cas d'embauche d'apprentis, la législation applicable est-elle respectée ?",Droit du travail,Niveau 1 (majeur),Pratiques de travail,plusStrictQue
+Florverde (FSF),2.15,Les salaires et prestations sociales sont-ils payés correctement et en temps voulu ?,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,equivautA
+Florverde (FSF),2.16,La sécurité sociale et les cotisations sont-elles payées correctement et en temps voulu ?,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,rapprocheDe
+Florverde (FSF),2.17,Les versements et démarches relatifs aux fonds d'indemnités (cesantías) sont-ils réalisés correctement et en temps voulu ?,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,rapprocheDe
+Florverde (FSF),2.18,La dotation en vêtements et chaussures de travail est-elle remise aux travailleurs en temps voulu ?,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,rapprocheDe
+Florverde (FSF),2.19,Existe-t-il une procédure de contractualisation des tiers ?,Droit du travail,Niveau 1 (majeur),Sous-traitance,plusStrictQue
+Florverde (FSF),2.20,Des contrats écrits existent-ils pour la sous-traitance avec des tiers ?,Droit du travail,Niveau 1 (majeur),Sous-traitance,equivautA
+Florverde (FSF),2.21,"Des contrats écrits avec les entreprises de travail temporaire existent-ils, conformément au droit du travail ?",Droit du travail,Niveau 1 (majeur),Sous-traitance,rapprocheDe
+Florverde (FSF),2.22,"Des contrats écrits avec les coopératives ou organisations de travail associé existent-ils, conformément à la réglementation ?",Droit du travail,Niveau 1 (majeur),Sous-traitance,rapprocheDe
+Florverde (FSF),2.23,Les paiements des salaires et de la sécurité sociale des tiers sont-ils contrôlés ?,Droit du travail,Niveau 1 (majeur),Sous-traitance,plusStrictQue
+Florverde (FSF),3.1,Existe-t-il un programme de formation répondant aux besoins internes de l'unité de production ?,Formation & bien-être,Niveau 1 (majeur),Formation et entraînement,equivautA
+Florverde (FSF),3.2,Des avantages supplémentaires sont-ils offerts aux travailleurs ?,Formation & bien-être,Niveau 2,Bien-être des travailleurs,rapprocheDe
+Florverde (FSF),3.3,Des installations pour la prise des repas sont-elles fournies aux travailleurs ?,Formation & bien-être,Niveau 1 (majeur),Bien-être des travailleurs,rapprocheDe
+Florverde (FSF),3.4,Des vestiaires et casiers sont-ils fournis aux travailleurs ?,Formation & bien-être,Niveau 1 (majeur),Bien-être des travailleurs,rapprocheDe
+Florverde (FSF),3.5,Des projets ou actions de soutien à la communauté environnante existent-ils ?,Formation & bien-être,Niveau 2,Bien-être des travailleurs,plusStrictQue
+Florverde (FSF),3.6,"En cas de transport fourni aux travailleurs, celui-ci est-il assuré de manière sûre ?",Formation & bien-être,Niveau 1 (majeur),Bien-être des travailleurs,rapprocheDe
+Florverde (FSF),3.7,L'employeur n'empêche-t-il pas la scolarisation des enfants des travailleurs vivant sur l'unité de production ?,Formation & bien-être,Niveau 1 (majeur),Bien-être des travailleurs,rapprocheDe
+Florverde (FSF),4.1,Existe-t-il un système de gestion de la santé et de la sécurité au travail ?,Santé-sécurité,Niveau 1 (majeur),Politique et objectifs de santé et sécurité au travail,equivautA
+Florverde (FSF),4.2,Existe-t-il une politique de santé et de sécurité au travail ?,Santé-sécurité,Niveau 1 (majeur),Politique et objectifs de santé et sécurité au travail,equivautA
+Florverde (FSF),4.3,Un règlement d'hygiène et de sécurité industrielle est-il publié ?,Santé-sécurité,Niveau 1 (majeur),Politique et objectifs de santé et sécurité au travail,plusStrictQue
+Florverde (FSF),4.4,Un membre de la direction est-il désigné par écrit comme responsable de la santé et de la sécurité ?,Santé-sécurité,Niveau 1 (majeur),Organisation du système de santé et sécurité au travail,rapprocheDe
+Florverde (FSF),4.5,Existe-t-il un comité avec des représentants des travailleurs pour promouvoir la santé et la sécurité ?,Santé-sécurité,Niveau 1 (majeur),Organisation du système de santé et sécurité au travail,equivautA
+Florverde (FSF),4.6,Un diagnostic des conditions de santé des travailleurs est-il réalisé ?,Santé-sécurité,Niveau 1 (majeur),Évaluation des conditions de santé et de travail,equivautA
+Florverde (FSF),4.7,Les risques de toutes les tâches ou procédés sont-ils identifiés et évalués ?,Santé-sécurité,Niveau 1 (majeur),Évaluation des conditions de santé et de travail,plusStrictQue
+Florverde (FSF),4.8,L'auto-évaluation initiale du système de gestion SST est-elle réalisée ?,Santé-sécurité,Niveau 1 (majeur),Évaluation des conditions de santé et de travail,plusStrictQue
+Florverde (FSF),4.9,"Existe-t-il un plan d'action cohérent avec le diagnostic de santé, l'évaluation des risques et l'auto-évaluation ?",Santé-sécurité,Niveau 1 (majeur),Évaluation des conditions de santé et de travail,equivautA
+Florverde (FSF),4.10,"Existe-t-il un programme de formation et d'accueil en santé, sécurité et hygiène au travail ?",Santé-sécurité,Niveau 1 (majeur),Programme de formation et d'accueil en SST,equivautA
+Florverde (FSF),4.11,Des examens médicaux du travail et de surveillance épidémiologique sont-ils réalisés ?,Santé-sécurité,Niveau 1 (majeur),Médecine préventive et du travail,rapprocheDe
+Florverde (FSF),4.12,Des campagnes de promotion de la santé et de prévention des maladies existent-elles ?,Santé-sécurité,Niveau 1 (majeur),Médecine préventive et du travail,rapprocheDe
+Florverde (FSF),4.13,Des processus de réadaptation ou de reclassement des travailleurs sont-ils réalisés selon les recommandations des assurances santé ?,Santé-sécurité,Niveau 2,Médecine préventive et du travail,rapprocheDe
+Florverde (FSF),4.14,Existe-t-il un plan d'intervention en cas d'urgence ?,Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+Florverde (FSF),4.15,Une signalisation adaptée aux conditions de l'unité de production existe-t-elle ?,Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+Florverde (FSF),4.16,Les zones de l'unité de production sont-elles délimitées selon les risques identifiés ?,Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),rapprocheDe
+Florverde (FSF),4.17,Les équipements de protection individuelle (EPI) sont-ils fournis aux travailleurs ?,Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+Florverde (FSF),4.18,"Des règles de sécurité sont-elles appliquées lors de l'utilisation des équipements, machines et outils ?",Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),rapprocheDe
+Florverde (FSF),4.19,Les règles de manipulation sûre des substances chimiques dangereuses sont-elles connues et appliquées ?,Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),rapprocheDe
+Florverde (FSF),4.20,Existe-t-il des règles de sécurité pour le stockage des matériaux et intrants ?,Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+Florverde (FSF),4.21,Les lieux de travail sont-ils maintenus en bon état d'ordre et de propreté ?,Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+Florverde (FSF),4.22,Des règles de sécurité et d'hygiène existent-elles et sont-elles communiquées aux travailleurs ?,Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),rapprocheDe
+Florverde (FSF),4.23,Le personnel dispose-t-il de services d'hygiène adéquats ?,Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+Florverde (FSF),4.24,De l'eau potable est-elle fournie aux travailleurs ?,Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+Florverde (FSF),4.25,Les lieux de travail présentent-ils des conditions sûres ?,Santé-sécurité,Niveau 2,Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+Florverde (FSF),4.26,Les logements des travailleurs sont-ils adéquats ?,Santé-sécurité,Niveau 2,Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+Florverde (FSF),4.27,"Les incidents et accidents du travail sont-ils signalés, traités et investigués ?",Santé-sécurité,Niveau 1 (majeur),"Signalement et investigation des incidents, accidents et maladies professionnelles",equivautA
+Florverde (FSF),4.28,Une reddition de comptes est-elle réalisée au sein de l'unité de production ?,Santé-sécurité,Niveau 1 (majeur),"Signalement et investigation des incidents, accidents et maladies professionnelles",plusStrictQue
+Florverde (FSF),4.29,L'indicateur d'absentéisme pour raison de santé est-il enregistré et analysé ?,Santé-sécurité,Niveau 1 (majeur),"Signalement et investigation des incidents, accidents et maladies professionnelles",plusStrictQue
+Florverde (FSF),4.30,Les règles de santé et sécurité au travail sont-elles respectées par les tiers ?,Santé-sécurité,Niveau 1 (majeur),Achats et sous-traitance conformes aux dispositions du SG-SST,plusStrictQue
+Florverde (FSF),4.31,La manipulation sûre des aliments préparés sur l'unité de production est-elle garantie ?,Santé-sécurité,Niveau 1 (majeur),Achats et sous-traitance conformes aux dispositions du SG-SST,rapprocheDe
+Florverde (FSF),4.32,Des indicateurs de suivi du système de gestion SST sont-ils définis ?,Santé-sécurité,Niveau 1 (majeur),Mesure et évaluation de la gestion SST,rapprocheDe
+Florverde (FSF),4.33,Le système de gestion SST est-il revu annuellement par la direction ?,Santé-sécurité,Niveau 1 (majeur),Mesure et évaluation de la gestion SST,rapprocheDe
+Florverde (FSF),5.1,Les sources d'eau utilisées sont-elles inventoriées et autorisées par l'autorité compétente ?,Eau,Niveau 1 (majeur),Usage efficient et économie de l'eau,plusStrictQue
+Florverde (FSF),5.2,Les conditions de la concession d'eau sont-elles respectées ?,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+Florverde (FSF),5.3,"Des registres des volumes d'eau captés existent-ils, provenant de sources approuvées ?",Eau,Niveau 1 (majeur),Usage efficient et économie de l'eau,plusStrictQue
+Florverde (FSF),5.4,Les volumes d'eau d'irrigation sont-ils déterminés selon les besoins hydriques de la culture ?,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+Florverde (FSF),5.5,Des registres de consommation d'eau d'irrigation existent-ils ?,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+Florverde (FSF),5.6,L'indicateur de captage et de consommation d'eau est-il enregistré et analysé ?,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+Florverde (FSF),5.7,Existe-t-il un programme quinquennal d'usage efficient et d'économie de l'eau ?,Eau,Niveau 1 (majeur),Usage efficient et économie de l'eau,equivautA
+Florverde (FSF),5.8,Des systèmes d'irrigation efficients sont-ils employés ?,Eau,Niveau 1 (majeur),Usage efficient et économie de l'eau,rapprocheDe
+Florverde (FSF),5.9,L'eau de pluie est-elle utilisée dans la culture ?,Eau,Niveau 1 (majeur),Usage efficient et économie de l'eau,plusStrictQue
+Florverde (FSF),5.10,Une évaluation des risques de disponibilité de la ressource en eau est-elle réalisée ?,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+Florverde (FSF),5.11,Une participation active aux efforts d'amélioration des bassins versants locaux existe-t-elle ?,Eau,Niveau 3 (mineur),Usage efficient et économie de l'eau,rapprocheDe
+Florverde (FSF),5.12,"En cas d'usage d'eaux usées traitées ou de sources potentiellement contaminées, cet usage est-il justifié ?",Eau,Niveau 1 (majeur),Qualité de l'eau,rapprocheDe
+Florverde (FSF),5.13,Une évaluation des risques de la qualité de l'eau utilisée dans la culture est-elle réalisée ?,Eau,Niveau 2,Qualité de l'eau,equivautA
+Florverde (FSF),5.14,Des mesures ont-elles été prises en cas de résultats défavorables de l'évaluation de l'eau ?,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+Florverde (FSF),5.15,Le laboratoire d'analyse de l'eau utilisée dans la culture est-il accrédité ?,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+Florverde (FSF),6.1,"En cas de substrats d'origine naturelle, sait-on qu'ils ne proviennent pas de zones de conservation ?",Sols & fertilisation,Niveau 2,Usage des substrats,equivautA
+Florverde (FSF),6.2,Une réutilisation des substrats est-elle pratiquée ?,Sols & fertilisation,Niveau 2,Usage des substrats,equivautA
+Florverde (FSF),6.3,"Si des produits chimiques sont utilisés pour stériliser les substrats, cet usage est-il sûr ?",Sols & fertilisation,Niveau 1 (majeur),Usage des substrats,equivautA
+Florverde (FSF),6.4,"Dans les cultures hors-sol, les lixiviats sont-ils contrôlés pour éviter qu'ils ne drainent vers le sol ou les eaux ?",Sols & fertilisation,Niveau 2,Usage des substrats,rapprocheDe
+Florverde (FSF),6.5,Les types de sol de la zone de culture sont-ils identifiés ?,Sols & fertilisation,Niveau 3 (mineur),Gestion du sol,plusStrictQue
+Florverde (FSF),6.6,Des alternatives ont-elles été évaluées avant de recourir à la fumigation chimique du sol ?,Sols & fertilisation,Niveau 3 (mineur),Gestion du sol,plusStrictQue
+Florverde (FSF),6.7,"Si des produits chimiques sont utilisés pour désinfecter le sol, cet usage est-il sûr ?",Sols & fertilisation,Niveau 1 (majeur),Gestion du sol,plusStrictQue
+Florverde (FSF),6.8,Le bromure de méthyle n'est-il pas utilisé pour désinfecter le sol ?,Sols & fertilisation,Niveau 1 (majeur),Gestion du sol,plusStrictQue
+Florverde (FSF),6.9,Des techniques de réduction de l'érosion du sol sont-elles appliquées ?,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+Florverde (FSF),6.10,Des techniques d'amélioration ou de maintien de la structure du sol sont-elles utilisées ?,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+Florverde (FSF),6.11,Une rotation des cultures annuelles est-elle réalisée lorsque c'est possible ?,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+Florverde (FSF),6.12,La fertilisation est-elle réalisée selon les besoins nutritionnels de la culture ?,Sols & fertilisation,Niveau 2,Suivi des besoins nutritionnels,equivautA
+Florverde (FSF),6.13,La fertilisation est-elle contrôlée par des suivis réguliers ?,Sols & fertilisation,Niveau 2,Suivi des besoins nutritionnels,rapprocheDe
+Florverde (FSF),6.14,Les programmes de fertilisation sont-ils élaborés par du personnel qualifié ?,Sols & fertilisation,Niveau 2,Programmes et registres d'application des fertilisants,equivautA
+Florverde (FSF),6.15,Des registres d'application des fertilisants existent-ils ?,Sols & fertilisation,Niveau 2,Programmes et registres d'application des fertilisants,equivautA
+Florverde (FSF),6.16,L'information sur la consommation et la composition chimique des fertilisants est-elle disponible ?,Sols & fertilisation,Niveau 2,Manipulation sûre des fertilisants,rapprocheDe
+Florverde (FSF),6.17,Une évaluation des risques des fertilisants organiques utilisés est-elle réalisée ?,Sols & fertilisation,Niveau 2,Manipulation sûre des fertilisants,rapprocheDe
+Florverde (FSF),6.18,L'usage de boues résiduelles comme engrais est-il interdit ?,Sols & fertilisation,Niveau 1 (majeur),Manipulation sûre des fertilisants,plusStrictQue
+Florverde (FSF),6.19,Le personnel manipulant les fertilisants a-t-il reçu une formation à leur usage sûr ?,Sols & fertilisation,Niveau 1 (majeur),Manipulation sûre des fertilisants,equivautA
+Florverde (FSF),6.20,Les fertilisants chimiques solides sont-ils stockés de manière sûre ?,Sols & fertilisation,Niveau 1 (majeur),Manipulation sûre des fertilisants,equivautA
+Florverde (FSF),6.21,Les fertilisants chimiques liquides sont-ils stockés de manière sûre ?,Sols & fertilisation,Niveau 1 (majeur),Manipulation sûre des fertilisants,equivautA
+Florverde (FSF),6.22,Les engrais organiques sont-ils stockés de manière sûre ?,Sols & fertilisation,Niveau 2,Manipulation sûre des fertilisants,rapprocheDe
+Florverde (FSF),7.1,La réglementation phytosanitaire applicable dans le pays d'origine est-elle respectée ?,Phytosanitaire,Niveau 1 (majeur),Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+Florverde (FSF),7.2,"Des mesures de contrôle des insectes, rongeurs et nuisibles existent-elles ?",Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+Florverde (FSF),7.3,Le responsable de la lutte intégrée (MIP) et du choix des pesticides peut-il démontrer sa compétence ?,Phytosanitaire,Niveau 1 (majeur),Lutte intégrée contre les ravageurs (MIP),equivautA
+Florverde (FSF),7.4,Existe-t-il un plan de lutte intégrée contre les ravageurs (MIP) ?,Phytosanitaire,Niveau 1 (majeur),Lutte intégrée contre les ravageurs (MIP),equivautA
+Florverde (FSF),7.5,Des mesures de prévention sont-elles mises en œuvre pour réduire l'incidence des ravageurs ?,Phytosanitaire,Niveau 1 (majeur),Lutte intégrée contre les ravageurs (MIP),rapprocheDe
+Florverde (FSF),7.6,Un suivi est-il réalisé pour déterminer la présence et le niveau des ravageurs ?,Phytosanitaire,Niveau 1 (majeur),Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+Florverde (FSF),7.7,Des mesures d'intervention pour le contrôle des ravageurs sont-elles mises en œuvre ?,Phytosanitaire,Niveau 1 (majeur),Lutte intégrée contre les ravageurs (MIP),equivautA
+Florverde (FSF),7.8,Aucun pesticide interdit n'est-il utilisé sur l'unité de production ?,Phytosanitaire,Niveau 1 (majeur),Contrôle phytosanitaire,plusStrictQue
+Florverde (FSF),7.9,Les restrictions d'usage de produits phytosanitaires demandées par les clients sont-elles respectées ?,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,equivautA
+Florverde (FSF),7.10,Les pesticides utilisés disposent-ils de l'approbation officielle de l'autorité compétente ?,Phytosanitaire,Niveau 1 (majeur),Contrôle phytosanitaire,plusStrictQue
+Florverde (FSF),7.11,Les pesticides chimiques utilisés sont-ils recommandés pour protéger les cultures selon l'approbation officielle ?,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,rapprocheDe
+Florverde (FSF),7.12,Les pesticides chimiques utilisés sont-ils appropriés aux ravageurs pour lesquels ils sont recommandés ?,Phytosanitaire,Niveau 1 (majeur),Contrôle phytosanitaire,plusStrictQue
+Florverde (FSF),7.13,Les pesticides sont-ils alternés pour éviter la résistance des ravageurs et maintenir leur efficacité ?,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,rapprocheDe
+Florverde (FSF),7.14,"Lors de l'usage de pesticides chimiques, cherche-t-on à utiliser les moins toxiques ?",Phytosanitaire,Niveau 2,Contrôle phytosanitaire,rapprocheDe
+Florverde (FSF),7.15,Les registres d'application des pesticides sont-ils disponibles ?,Phytosanitaire,Niveau 1 (majeur),Programmes et registres d'application des pesticides,equivautA
+Florverde (FSF),7.16,Les quantités de pesticides consommées sont-elles enregistrées et reportées dans l'indicateur ?,Phytosanitaire,Niveau 1 (majeur),Programmes et registres d'application des pesticides,plusStrictQue
+Florverde (FSF),7.17,"En cas d'usage de substances autres que pesticides, bio-intrants et fertilisants, des registres d'application existent-ils ?",Phytosanitaire,Niveau 2,Programmes et registres d'application des pesticides,equivautA
+Florverde (FSF),7.18,Les travailleuses en situation vulnérable sont-elles écartées de la manipulation ou application de pesticides ?,Phytosanitaire,Niveau 1 (majeur),Minimisation du risque chimique lié aux pesticides et bio-intrants,rapprocheDe
+Florverde (FSF),7.19,Le personnel manipulant les pesticides a-t-il reçu une formation préalable ?,Phytosanitaire,Niveau 1 (majeur),Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+Florverde (FSF),7.20,Des contrôles médicaux sont-ils réalisés pour le personnel manipulant les pesticides ?,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+Florverde (FSF),7.21,Le personnel manipulant les pesticides est-il doté des EPI ?,Phytosanitaire,Niveau 1 (majeur),Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+Florverde (FSF),7.22,Des bandes de sécurité minimales sont-elles respectées lors des applications de pesticides ?,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,rapprocheDe
+Florverde (FSF),7.23,Les intervalles de réentrée (IRE) sont-ils respectés dans les zones traitées ?,Phytosanitaire,Niveau 1 (majeur),Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+Florverde (FSF),7.24,Des procédures et moyens d'intervention en cas d'urgence avec les pesticides existent-ils ?,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+Florverde (FSF),7.25,Le local de pesticides présente-t-il des conditions physiques adéquates ?,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+Florverde (FSF),7.26,Le stockage des pesticides est-il réalisé de manière sûre ?,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",rapprocheDe
+Florverde (FSF),7.27,Le dosage et le mélange des pesticides se font-ils avec des équipements fiables ?,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",rapprocheDe
+Florverde (FSF),7.28,Le reconditionnement des pesticides se fait-il dans des conditions adéquates ?,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+Florverde (FSF),7.29,Le transport interne des pesticides entre stockage et préparation se fait-il de manière sûre ?,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",rapprocheDe
+Florverde (FSF),7.30,Les stations fixes de préparation des mélanges présentent-elles des conditions adéquates ?,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",rapprocheDe
+Florverde (FSF),7.31,La préparation des mélanges et l'application des pesticides suivent-elles les instructions des étiquettes ?,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",rapprocheDe
+Florverde (FSF),7.32,Le calibrage et le changement des buses de pulvérisation sont-ils réalisés ?,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusLargeQue
+Florverde (FSF),7.33,Les équipements d'application des pesticides sont-ils stockés de manière sûre ?,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",equivautA
+Florverde (FSF),7.34,"Après manipulation des pesticides, les EPI sont-ils lavés dans un endroit adéquat ?",Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",rapprocheDe
+Florverde (FSF),7.35,Le personnel manipulant les pesticides se douche-t-il dans un endroit adéquat en fin de tâche ?,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",rapprocheDe
+Florverde (FSF),8.1,Les déchets produits et leurs sources de génération sont-ils identifiés ?,Déchets,Niveau 2,Prévention et réduction des déchets,rapprocheDe
+Florverde (FSF),8.2,Existe-t-il un plan de gestion intégrale pour le traitement et la réduction des déchets ?,Déchets,Niveau 2,Prévention et réduction des déchets,equivautA
+Florverde (FSF),8.3,Le personnel a-t-il reçu une formation à la gestion des déchets ?,Déchets,Niveau 2,Prévention et réduction des déchets,rapprocheDe
+Florverde (FSF),8.4,Le triple rinçage des emballages de pesticides est-il réalisé ?,Déchets,Niveau 1 (majeur),Prévention et réduction des déchets,plusStrictQue
+Florverde (FSF),8.5,Le stockage des combustibles est-il sûr ?,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+Florverde (FSF),8.6,Des sites de stockage temporaire des déchets valorisables et non valorisables existent-ils ?,Déchets,Niveau 2,Prévention et réduction des déchets,rapprocheDe
+Florverde (FSF),8.7,Un site de stockage temporaire des déchets dangereux existe-t-il ?,Déchets,Niveau 1 (majeur),Prévention et réduction des déchets,rapprocheDe
+Florverde (FSF),8.8,Les déchets végétaux du processus productif sont-ils gérés ?,Déchets,Niveau 1 (majeur),Réutilisation et recyclage,plusStrictQue
+Florverde (FSF),8.9,Les déchets solides valorisables sont-ils réutilisés et recyclés ?,Déchets,Niveau 2,Réutilisation et recyclage,equivautA
+Florverde (FSF),8.10,Des mesures de gestion des déchets liquides issus des pesticides existent-elles ?,Déchets,Niveau 2,Réutilisation et recyclage,rapprocheDe
+Florverde (FSF),8.11,Un permis de rejet de l'autorité compétente est-il détenu ?,Déchets,Niveau 1 (majeur),Traitement et élimination finale,plusStrictQue
+Florverde (FSF),8.12,Aucune eau usée non traitée n'est-elle rejetée ?,Déchets,Niveau 1 (majeur),Traitement et élimination finale,rapprocheDe
+Florverde (FSF),8.13,Les eaux usées industrielles de l'unité de production sont-elles traitées ?,Déchets,Niveau 1 (majeur),Traitement et élimination finale,rapprocheDe
+Florverde (FSF),8.14,Les eaux usées domestiques de l'unité de production sont-elles traitées ?,Déchets,Niveau 1 (majeur),Traitement et élimination finale,rapprocheDe
+Florverde (FSF),8.15,"L'enfouissement, le brûlage ou le rejet de déchets solides dans des lieux non autorisés sont-ils interdits ?",Déchets,Niveau 1 (majeur),Traitement et élimination finale,rapprocheDe
+Florverde (FSF),8.16,Une élimination finale adéquate des déchets solides non valorisables est-elle réalisée ?,Déchets,Niveau 1 (majeur),Traitement et élimination finale,equivautA
+Florverde (FSF),8.17,Une élimination finale adéquate des déchets dangereux est-elle réalisée ?,Déchets,Niveau 1 (majeur),Traitement et élimination finale,equivautA
+Florverde (FSF),9.1,L'unité de production est-elle située sur un site autorisé pour l'activité agricole ?,Biodiversité,Niveau 1 (majeur),Implantation sur des sites autorisés,equivautA
+Florverde (FSF),9.2,L'unité de production dispose-t-elle des droits d'usage et de propriété foncière ?,Biodiversité,Niveau 1 (majeur),Implantation sur des sites autorisés,rapprocheDe
+Florverde (FSF),9.3,L'unité de production est-elle située sans affecter des zones à haute valeur de conservation (HVC) ?,Biodiversité,Niveau 3 (mineur),Implantation sur des sites autorisés,rapprocheDe
+Florverde (FSF),9.4,Existe-t-il un système d'enregistrement pour chaque zone cultivée ?,Biodiversité,Niveau 1 (majeur),Gestion de l'unité de production,plusStrictQue
+Florverde (FSF),9.5,Un système d'identification visuelle existe-t-il pour toutes les zones ?,Biodiversité,Niveau 2,Gestion de l'unité de production,plusStrictQue
+Florverde (FSF),9.6,Des registres des quantités et dates de plantation existent-ils ?,Biodiversité,Niveau 2,Gestion de l'unité de production,plusStrictQue
+Florverde (FSF),9.7,Des évaluations de risque sont-elles réalisées pour toute unité enregistrée pour la première fois à la certification ?,Biodiversité,Niveau 1 (majeur),Gestion de l'unité de production,rapprocheDe
+Florverde (FSF),9.8,Existe-t-il un plan de gestion pour minimiser les risques identifiés des nouvelles unités certifiées ?,Biodiversité,Niveau 2,Gestion de l'unité de production,equivautA
+Florverde (FSF),9.9,"Si des animaux sont employés pour certaines tâches, leur bien-être est-il garanti ?",Biodiversité,Niveau 3 (mineur),Gestion de l'unité de production,rapprocheDe
+Florverde (FSF),9.10,Existe-t-il un programme de gestion environnementale du paysage et de la biodiversité ?,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",equivautA
+Florverde (FSF),9.11,Les abords des sources d'eau naturelles ou zones de conservation sont-ils reboisés avec des espèces natives ?,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",rapprocheDe
+Florverde (FSF),9.12,La déforestation est-elle empêchée sur l'unité de production ?,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+Florverde (FSF),9.13,Une bande est-elle maintenue entre les eaux naturelles et l'unité de production ?,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",rapprocheDe
+Florverde (FSF),9.14,L'extraction de flore et faune d'espèces menacées est-elle interdite ?,Biodiversité,Niveau 1 (majeur),"Paysage, biodiversité et conservation",plusStrictQue
+Florverde (FSF),9.15,Des mesures de conservation de la faune sont-elles adoptées ?,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",rapprocheDe
+Florverde (FSF),9.16,Une initiative locale d'amélioration de l'environnement du voisinage est-elle soutenue ?,Biodiversité,Niveau 3 (mineur),"Paysage, biodiversité et conservation",plusStrictQue
+Florverde (FSF),9.17,Existe-t-il un plan pour convertir des zones improductives en espaces favorables à la biodiversité ?,Biodiversité,Niveau 3 (mineur),"Paysage, biodiversité et conservation",rapprocheDe
+Florverde (FSF),9.18,Les services écosystémiques liés à l'activité productive sont-ils identifiés ?,Biodiversité,Niveau 3 (mineur),"Paysage, biodiversité et conservation",plusStrictQue
+Florverde (FSF),10.1,Les consommations d'énergie sont-elles enregistrées et analysées ?,Énergie & carbone,Niveau 1 (majeur),Efficacité énergétique,equivautA
+Florverde (FSF),10.2,Existe-t-il un programme d'efficacité énergétique en cours ?,Énergie & carbone,Niveau 2,Efficacité énergétique,equivautA
+Florverde (FSF),10.3,Des mesures ont-elles été mises en œuvre pour réduire l'usage d'énergie non renouvelable ?,Énergie & carbone,Niveau 3 (mineur),Efficacité énergétique,equivautA
+Florverde (FSF),10.4,Un entretien préventif des équipements et machines est-il réalisé ?,Énergie & carbone,Niveau 2,Maintenance,plusStrictQue
+Florverde (FSF),10.5,Les équipements de mesure sont-ils vérifiés et ajustés périodiquement ?,Énergie & carbone,Niveau 2,Maintenance,plusStrictQue
+Florverde (FSF),10.6,Les équipements de mesure sont-ils étalonnés par des organismes accrédités ?,Énergie & carbone,Niveau 3 (mineur),Maintenance,plusStrictQue
+Florverde (FSF),10.7,Les émissions de GES générées sur l'unité de production sont-elles mesurées ?,Énergie & carbone,Niveau 2,Émissions de gaz à effet de serre (GES),rapprocheDe
+Florverde (FSF),10.8,Existe-t-il un programme de réduction ou de compensation des émissions de GES ?,Énergie & carbone,Niveau 3 (mineur),Émissions de gaz à effet de serre (GES),rapprocheDe
+Florverde (FSF),10.9,Existe-t-il un plan de remplacement des équipements de réfrigération aux HCFC par des gaz réfrigérants naturels ?,Énergie & carbone,Niveau 3 (mineur),Émissions de gaz à effet de serre (GES),rapprocheDe
+Florverde (FSF),11.1,Le fournisseur du matériel végétal de propagation connaît-il et respecte-t-il les spécifications de qualité exigées ?,Origine matériel végétal,Niveau 2,Origine du matériel végétal,equivautA
+Florverde (FSF),11.2,L'unité de production vérifie-t-elle la qualité du matériel végétal reçu ?,Origine matériel végétal,Niveau 2,Origine du matériel végétal,equivautA
+Florverde (FSF),11.3,La propriété intellectuelle des obtenteurs ou le brevet des variétés cultivées est-il respecté ?,Origine matériel végétal,Niveau 1 (majeur),Origine du matériel végétal,plusStrictQue
+Florverde (FSF),11.4,Le degré de sensibilité aux ravageurs et maladies des nouvelles variétés est-il connu ?,Origine matériel végétal,Niveau 3 (mineur),Origine du matériel végétal,plusStrictQue
+Florverde (FSF),11.5,Un document garantit-il la qualité phytosanitaire du matériel végétal de propagation acquis ?,Origine matériel végétal,Niveau 2,Origine du matériel végétal,equivautA
+Florverde (FSF),11.6,L'information du fournisseur sur le traitement chimique du matériel végétal acquis est-elle disponible ?,Origine matériel végétal,Niveau 3 (mineur),Origine du matériel végétal,equivautA
+Florverde (FSF),11.7,Existe-t-il un système de contrôle de la qualité phytosanitaire pour la zone de propagation ?,Origine matériel végétal,Niveau 2,Origine du matériel végétal,plusStrictQue
+Florverde (FSF),11.8,L'unité produisant du matériel génétiquement modifié respecte-t-elle la législation nationale ?,Origine matériel végétal,Niveau 1 (majeur),Origine du matériel végétal,rapprocheDe
+Florverde (FSF),11.9,L'unité cultivant du matériel génétiquement modifié dispose-t-elle de l'information requise ?,Origine matériel végétal,Niveau 2,Origine du matériel végétal,rapprocheDe
+Florverde (FSF),11.10,L'unité informe-t-elle ses clients directs du statut du matériel génétiquement modifié ?,Origine matériel végétal,Niveau 1 (majeur),Origine du matériel végétal,rapprocheDe
+Florverde (FSF),11.11,Existe-t-il une procédure pour réduire le risque de mélange entre matériel GM et non GM ?,Origine matériel végétal,Niveau 2,Origine du matériel végétal,rapprocheDe
+Florverde (FSF),11.12,Les récoltes de matériel génétiquement modifié sont-elles stockées séparément ?,Origine matériel végétal,Niveau 1 (majeur),Origine du matériel végétal,rapprocheDe
+Florverde (FSF),12.1,Une procédure garantit-elle que la récolte se déroule dans des conditions d'hygiène ?,Qualité post-récolte,Niveau 2,Procédures de post-récolte,equivautA
+Florverde (FSF),12.2,"Les zones de tri, d'emballage et chambres froides sont-elles tenues propres et ordonnées ?",Qualité post-récolte,Niveau 2,Procédures de post-récolte,rapprocheDe
+Florverde (FSF),12.3,Une procédure garantit-elle les conditions de réfrigération lors du stockage et du transport jusqu'à la livraison ?,Qualité post-récolte,Niveau 2,Procédures de post-récolte,rapprocheDe
+Florverde (FSF),12.4,Les produits chimiques sont-ils contrôlés en post-récolte ?,Qualité post-récolte,Niveau 1 (majeur),Traitements de post-récolte,equivautA
+Florverde (FSF),12.5,Une procédure évite-t-elle la déshydratation du produit récolté jusqu'à la réfrigération ?,Qualité post-récolte,Niveau 2,Traitements de post-récolte,rapprocheDe
+Florverde (FSF),12.6,Des alternatives aux substances chimiques pour la conservation de la fleur sont-elles envisagées ?,Qualité post-récolte,Niveau 2,Traitements de post-récolte,plusStrictQue
+Florverde (FSF),12.7,"Lors de l'usage de substances chimiques, leur élimination finale est-elle clairement définie ?",Qualité post-récolte,Niveau 1 (majeur),Traitements de post-récolte,rapprocheDe
+Florverde (FSF),12.8,Des standards de qualité du produit sont-ils établis ?,Qualité post-récolte,Niveau 1 (majeur),Qualité du produit,equivautA
+Florverde (FSF),12.9,Les exigences de qualité du client sont-elles connues et leur respect vérifié ?,Qualité post-récolte,Niveau 1 (majeur),Qualité du produit,equivautA
+Florverde (FSF),12.10,Des procédures de voyage simulé et de tenue en vase sont-elles mises en œuvre pour évaluer la longévité de la fleur ?,Qualité post-récolte,Niveau 2,Qualité du produit,plusLargeQue
+Florverde (FSF),12.11,Existe-t-il une procédure de gestion des produits non conformes ?,Qualité post-récolte,Niveau 1 (majeur),Qualité du produit,equivautA
+Florverde (FSF),12.12,Aucune eau usée non traitée n'est-elle employée en post-récolte ?,Qualité post-récolte,Niveau 1 (majeur),Qualité de l'eau en post-récolte,equivautA
+Florverde (FSF),12.13,Une évaluation des risques de l'eau utilisée en post-récolte est-elle réalisée ?,Qualité post-récolte,Niveau 2,Qualité de l'eau en post-récolte,equivautA
+Florverde (FSF),12.14,Des mesures ont-elles été prises en cas de résultats défavorables de l'évaluation de l'eau en post-récolte ?,Qualité post-récolte,Niveau 2,Qualité de l'eau en post-récolte,equivautA
+Florverde (FSF),12.15,Le laboratoire d'analyse de l'eau employée en post-récolte est-il accrédité ?,Qualité post-récolte,Niveau 2,Qualité de l'eau en post-récolte,equivautA
+Florverde (FSF),13.1,Un système permettant d'identifier et de quantifier le produit certifié Florverde est-il mis en place ?,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,rapprocheDe
+Florverde (FSF),13.2,Des procédures et registres permettent-ils d'identifier les produits acquis auprès de fournisseurs de fleurs et feuillages ?,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,equivautA
+Florverde (FSF),13.3,Un système de traçabilité permet-il de suivre le produit depuis l'expédition jusqu'au client immédiat ?,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,equivautA
+Florverde (FSF),13.4,Les registres nécessaires à la conformité au standard Florverde sont-ils archivés et disponibles pendant au moins deux ans ?,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,equivautA
+Florverde (FSF),14.1,La marque de conformité Florverde Sustainable Flowers est-elle utilisée conformément au règlement général ?,Gouvernance,Niveau 1 (majeur),Statut et usage de la marque Florverde Sustainable Flowers,equivautA
+Florverde (FSF),14.2,Les clients directs sont-ils informés du bon usage de la marque de conformité Florverde Sustainable Flowers ?,Gouvernance,Niveau 1 (majeur),Statut et usage de la marque Florverde Sustainable Flowers,equivautA
+FlorEcuador,GP101,L'entreprise dispose d'un plan ou d'une carte de l'exploitation.,Biodiversité,Niveau 2,Gestion de l'unité de production,plusStrictQue
+FlorEcuador,GP102,L'entreprise dispose d'un plan de lutte intégrée contre les ravageurs (MIP).,Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),equivautA
+FlorEcuador,GP103,Une évaluation des risques inhérents à l'activité (initiale ou de l'année en cours) est disponible.,Biodiversité,Niveau 2,Gestion de l'unité de production,rapprocheDe
+FlorEcuador,GP104,Le matériel végétal de propagation provient de fournisseurs certifiés FlorEcuador.,Origine matériel végétal,Niveau 2,Origine du matériel végétal,equivautA
+FlorEcuador,GP105,"Si des paramètres de qualité du matériel végétal sont définis, l'entreprise en conserve la trace écrite.",Origine matériel végétal,Niveau 2,Origine du matériel végétal,equivautA
+FlorEcuador,GP106,Le producteur connaît le degré de sensibilité des variétés aux ravageurs et maladies.,Origine matériel végétal,Niveau 2,Origine du matériel végétal,plusStrictQue
+FlorEcuador,GP107,L'entreprise dispose d'un contrat de licence d'utilisation des variétés.,Origine matériel végétal,Niveau 2,Origine du matériel végétal,plusStrictQue
+FlorEcuador,GP108,Le nombre de plants enregistrés dans le contrat de licence correspond aux plants cultivés.,Origine matériel végétal,Niveau 2,Origine du matériel végétal,rapprocheDe
+FlorEcuador,GP109,"Les semis, regarnissages et changements de variétés sont enregistrés.",Origine matériel végétal,Niveau 2,Origine du matériel végétal,plusStrictQue
+FlorEcuador,GP110,L'entreprise a informé son obtenteur de l'augmentation de l'usage de matériel végétal.,Origine matériel végétal,Niveau 2,Origine du matériel végétal,equivautA
+FlorEcuador,GP111,"Si l'entreprise dispose d'une zone de propagation, elle dispose d'un contrôle qualité.",Origine matériel végétal,Niveau 2,Origine du matériel végétal,rapprocheDe
+FlorEcuador,GP112,L'entreprise dispose de mesures de contrôle de la faune nuisible.,Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+FlorEcuador,GP113,Le responsable du MIP dispose de la compétence technique requise.,Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+FlorEcuador,GP114,Des suivis sont réalisés pour identifier l'incidence et la sévérité des ravageurs et maladies.,Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+FlorEcuador,GP115,"Lors de l'application de produits chimiques pour le MIP, une rotation est faite pour éviter la résistance.",Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),rapprocheDe
+FlorEcuador,FR201,"Les fertilisants liquides, y compris les acides concentrés, sont stockés séparément des autres matériaux.",Sols & fertilisation,Niveau 2,Manipulation sûre des fertilisants,rapprocheDe
+FlorEcuador,FR202,Les fertilisants solides sont stockés de manière sûre.,Sols & fertilisation,Niveau 2,Manipulation sûre des fertilisants,equivautA
+FlorEcuador,FR203,Les fertilisants organiques sont stockés de manière sûre.,Sols & fertilisation,Niveau 2,Manipulation sûre des fertilisants,equivautA
+FlorEcuador,FR204,Les travailleurs chargés de la fertilisation et de la manipulation des fertilisants sont formés.,Sols & fertilisation,Niveau 2,Manipulation sûre des fertilisants,equivautA
+FlorEcuador,FR205,L'entreprise dispose d'un plan de soin de la culture ou du sol pour minimiser les pertes de nutriments.,Sols & fertilisation,Niveau 2,Suivi des besoins nutritionnels,rapprocheDe
+FlorEcuador,FR206,L'entreprise tient des registres d'application des fertilisants et autres substances.,Sols & fertilisation,Niveau 2,Programmes et registres d'application des fertilisants,equivautA
+FlorEcuador,FR207,L'entreprise contrôle sa fertilisation par des suivis.,Sols & fertilisation,Niveau 2,Suivi des besoins nutritionnels,rapprocheDe
+FlorEcuador,UA301,L'entrepôt d'agrochimiques présente des conditions physiques adéquates.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA302,L'entrepôt d'agrochimiques dispose d'extincteurs à jour.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA303,Les agrochimiques sont classés sur les étagères selon leur dangerosité.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA304,Les étagères ne sont pas en matériau absorbant ou inflammable.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA305,Les étagères de l'entrepôt ne sont pas en matériau absorbant ou inflammable.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA306,La table de pesée des produits est en bon état.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA307,Les équipements et ustensiles de pesée et de préparation des mélanges sont en bon état.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA308,L'entreprise fournit des EPI adaptés aux personnes entrant dans l'entrepôt.,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+FlorEcuador,UA309,Aucun EPI n'est conservé en permanence dans l'entrepôt d'agrochimiques.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA310,L'opérateur manipulant les pesticides dans l'entrepôt utilise les EPI.,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+FlorEcuador,UA311,Le responsable de l'entrepôt dispose des fiches de sécurité et fiches techniques.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA312,"Le personnel des pesticides est formé à l'usage sûr, aux risques et aux précautions.",Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,rapprocheDe
+FlorEcuador,UA313,L'entreprise dispose d'un kit anti-fuite de base dans l'entrepôt pour gérer les déversements.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",rapprocheDe
+FlorEcuador,UA314,L'entreprise garantit la rotation des produits chimiques.,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,plusStrictQue
+FlorEcuador,UA315,"Si l'entreprise produit d'autres cultures hors périmètre FlorEcuador, la conformité est assurée.",Phytosanitaire,Niveau 2,Contrôle phytosanitaire,rapprocheDe
+FlorEcuador,UA316,Les pesticides sont séparés des autres produits et matériaux dans l'entrepôt.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA317,Tous les produits chimiques de culture et post-récolte sont enregistrés auprès de l'autorité.,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,rapprocheDe
+FlorEcuador,UA318,Les produits de la ferme sont exempts de restriction ou d'interdiction par l'autorité.,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,plusStrictQue
+FlorEcuador,UA319,La ferme ne détient aucun produit périmé.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA320,Les produits chimiques/agrochimiques sont conservés dans leurs contenants d'origine.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA321,Les produits destinés aux essais sont stockés dans une zone dédiée et étiquetés.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA322,"La ferme n'utilise que des produits de catégorie IV, III et II, évitant la catégorie I.",Phytosanitaire,Niveau 2,Contrôle phytosanitaire,plusStrictQue
+FlorEcuador,UA323,Le dosage des agrochimiques est réalisé dans l'entrepôt selon la procédure.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA324,Les quantités de produits chimiques remises au responsable de fumigation correspondent au besoin.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",rapprocheDe
+FlorEcuador,UA325,Les produits sont conditionnés et livrés dans des emballages adaptés.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA326,"Les pesticides ne sont pas transportés avec aliments, boissons, vêtements ou EPI.",Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA327,Une signalisation d'information et de prévention est présente dans les zones fumigées.,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+FlorEcuador,UA328,Le personnel de fumigation utilise les EPI adaptés à l'activité.,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+FlorEcuador,UA329,Le personnel préparant les pesticides au champ respecte les instructions.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA330,"Les équipements de fumigation sont en bon état, sans fuites.",Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA331,Les pompes fixes d'application des agrochimiques respectent des conditions sûres et adéquates.,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",rapprocheDe
+FlorEcuador,UA332,Les travailleurs respectent les délais de réentrée selon la catégorie toxicologique du pesticide.,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,rapprocheDe
+FlorEcuador,UA333,"Après l'application, l'applicateur se douche et change de vêtements.",Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA334,"Après l'activité, les équipements de fumigation sont lavés dans des lieux adaptés.",Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+FlorEcuador,UA335,"Après application, les équipements de pulvérisation sont stockés de manière sûre.",Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",rapprocheDe
+FlorEcuador,UA336,L'entreprise fournit des boissons aux applicateurs après l'application.,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+FlorEcuador,UA337,Les applicateurs alternent périodiquement et n'appliquent pas plus de 4 heures continues par jour.,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,rapprocheDe
+FlorEcuador,UA338,Le personnel de fumigation et de manipulation de substances dangereuses fait l'objet d'un suivi médical.,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,rapprocheDe
+FlorEcuador,UA339,Le personnel vulnérable ne doit pas être en contact direct avec les agrochimiques.,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+FlorEcuador,UA340,Le traitement phytosanitaire en post-récolte ne présente pas de risque pour la santé des travailleurs.,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,rapprocheDe
+FlorEcuador,UA341,Les applications d'agrochimiques sont justifiées et autorisées par le responsable agricole.,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,plusStrictQue
+FlorEcuador,UA342,"En cas de restrictions d'usage par les clients, l'entreprise s'y conforme.",Phytosanitaire,Niveau 2,Contrôle phytosanitaire,plusStrictQue
+FlorEcuador,UA343,Une procédure et des moyens existent pour la prise en charge des urgences liées aux pesticides.,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,rapprocheDe
+FlorEcuador,CP401,L'entreprise dispose d'une procédure d'hygiène et de nettoyage pour toutes les activités et zones post-récolte.,Qualité post-récolte,Niveau 2,Procédures de post-récolte,equivautA
+FlorEcuador,CP402,L'entreprise dispose d'une procédure de contrôle de la chaîne du froid pour son produit.,Qualité post-récolte,Niveau 2,Procédures de post-récolte,rapprocheDe
+FlorEcuador,CP403,L'entreprise dispose d'une procédure d'hydratation de la fleur de la coupe au traitement.,Qualité post-récolte,Niveau 2,Procédures de post-récolte,rapprocheDe
+FlorEcuador,CP404,Tous les registres de traitement post-récolte sont tenus et incluent les critères minimaux.,Qualité post-récolte,Niveau 2,Traitements de post-récolte,equivautA
+FlorEcuador,CP405,"En post-récolte, le détail de tous les produits chimiques utilisés est disponible.",Qualité post-récolte,Niveau 2,Traitements de post-récolte,equivautA
+FlorEcuador,CP406,L'entreprise a défini des paramètres de qualité pour ses produits.,Qualité post-récolte,Niveau 2,Qualité du produit,equivautA
+FlorEcuador,CP407,Une procédure de simulation de tenue en vase est disponible.,Qualité post-récolte,Niveau 2,Qualité du produit,plusStrictQue
+FlorEcuador,CP408,"Si l'eau d'hydratation en post-récolte n'est pas potable, une analyse est réalisée.",Qualité post-récolte,Niveau 2,Qualité de l'eau en post-récolte,equivautA
+FlorEcuador,GA501,L'entreprise réalise l'analyse des eaux usées selon les paramètres établis.,Déchets,Niveau 2,Traitement et élimination finale,rapprocheDe
+FlorEcuador,GA502,Les résultats d'analyse de l'eau ne dépassent pas les limites admissibles locales.,Déchets,Niveau 2,Traitement et élimination finale,plusStrictQue
+FlorEcuador,GA503,"Les eaux usées sont recirculées ou réutilisées en interne, sinon traitées.",Déchets,Niveau 2,Traitement et élimination finale,rapprocheDe
+FlorEcuador,GA504,Les volumes d'eau utilisés en production sont estimés techniquement.,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+FlorEcuador,GA505,L'entreprise utilise des systèmes d'irrigation efficients.,Eau,Niveau 2,Usage efficient et économie de l'eau,rapprocheDe
+FlorEcuador,GA506,Une analyse physico-chimique de l'eau d'irrigation est réalisée pour évaluer les risques.,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+FlorEcuador,GA507,Le triple rinçage des contenants ayant été en contact avec des pesticides est réalisé.,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+FlorEcuador,GA508,Les zones de stockage ou d'usage d'hydrocarbures sont pavées ou étanches.,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+FlorEcuador,GA509,Le sol de la zone de compostage/lombriculture est confiné pour recueillir les lixiviats.,Déchets,Niveau 2,Réutilisation et recyclage,plusStrictQue
+FlorEcuador,GA510,L'entreprise tient un registre des sources d'eau avec leurs autorisations.,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+FlorEcuador,GA511,L'entreprise analyse l'eau de consommation selon son origine.,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+FlorEcuador,GA512,Aucun gaspillage ni mauvais usage de l'eau n'est constaté.,Eau,Niveau 2,Usage efficient et économie de l'eau,rapprocheDe
+FlorEcuador,GA513,Les types de sol de la culture sont identifiés.,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+FlorEcuador,GA514,L'entreprise dispose d'une justification technique écrite pour la désinfection chimique du sol.,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+FlorEcuador,GA515,L'entreprise respecte le délai de sécurité avant plantation après désinfection.,Sols & fertilisation,Niveau 2,Gestion du sol,rapprocheDe
+FlorEcuador,GA516,"Dans les cultures annuelles, des rotations sont réalisées lorsque c'est faisable.",Sols & fertilisation,Niveau 3 (mineur),Gestion du sol,plusStrictQue
+FlorEcuador,GA517,Le producteur pratique le recyclage des substrats.,Sols & fertilisation,Niveau 2,Usage des substrats,equivautA
+FlorEcuador,GA518,"Si la stérilisation des substrats utilise des produits chimiques plutôt que la vapeur, le lieu est adapté.",Sols & fertilisation,Niveau 2,Usage des substrats,equivautA
+FlorEcuador,GA519,"Pour les substrats naturels, le producteur démontre qu'ils ne proviennent pas de zones protégées.",Sols & fertilisation,Niveau 2,Usage des substrats,equivautA
+FlorEcuador,GA520,L'entreprise dispose d'un plan de gestion intégrale des déchets.,Déchets,Niveau 2,Prévention et réduction des déchets,rapprocheDe
+FlorEcuador,GA521,L'entreprise tient un registre consolidé et historique de la génération et du stockage des déchets.,Déchets,Niveau 2,Prévention et réduction des déchets,rapprocheDe
+FlorEcuador,GA522,L'entreprise trie et réutilise/recycle les déchets de bois.,Déchets,Niveau 2,Réutilisation et recyclage,equivautA
+FlorEcuador,GA523,L'entreprise trie et réutilise/recycle les déchets métalliques vers un gestionnaire autorisé.,Déchets,Niveau 2,Réutilisation et recyclage,equivautA
+FlorEcuador,GA524,L'entreprise trie et réutilise/recycle les déchets de papier et carton.,Déchets,Niveau 2,Réutilisation et recyclage,equivautA
+FlorEcuador,GA525,L'entreprise trie et réutilise/recycle les déchets plastiques non spéciaux.,Déchets,Niveau 2,Réutilisation et recyclage,equivautA
+FlorEcuador,GA526,"Le personnel chargé de la gestion des déchets courants, spéciaux et dangereux est formé.",Déchets,Niveau 2,Prévention et réduction des déchets,rapprocheDe
+FlorEcuador,GA527,Le personnel chargé des déchets dispose des équipements nécessaires.,Déchets,Niveau 2,Prévention et réduction des déchets,rapprocheDe
+FlorEcuador,GA528,"Les déchets solides ne sont pas abandonnés dans les cours, locaux, logements ou voies publiques.",Déchets,Niveau 2,Traitement et élimination finale,rapprocheDe
+FlorEcuador,GA529,Le brûlage des déchets végétaux et domestiques est évité.,Déchets,Niveau 2,Traitement et élimination finale,plusStrictQue
+FlorEcuador,GA530,Les contenants vides de pesticides sont retournés au fournisseur ou gestionnaire.,Déchets,Niveau 2,Traitement et élimination finale,plusStrictQue
+FlorEcuador,GA531,L'entreprise dispose d'un centre de collecte temporaire pour tous les déchets générés.,Déchets,Niveau 2,Prévention et réduction des déchets,rapprocheDe
+FlorEcuador,GA532,Les contenants de pesticides collectés avant remise au fournisseur sont gérés correctement.,Déchets,Niveau 2,Traitement et élimination finale,rapprocheDe
+FlorEcuador,GA533,Les contenants d'origine de pesticides sont perforés au champ ou à l'entrepôt.,Déchets,Niveau 2,Traitement et élimination finale,plusStrictQue
+FlorEcuador,GA534,L'entreprise remet les déchets plastiques de serre à des gestionnaires autorisés.,Déchets,Niveau 2,Traitement et élimination finale,plusStrictQue
+FlorEcuador,GA535,Les autres déchets ayant été en contact avec des pesticides sont gérés correctement.,Déchets,Niveau 2,Traitement et élimination finale,plusStrictQue
+FlorEcuador,GA536,L'élimination des déchets domestiques non valorisables est réalisée correctement.,Déchets,Niveau 2,Traitement et élimination finale,rapprocheDe
+FlorEcuador,GA537,"Si l'entreprise emploie des animaux, leur bien-être est garanti.",Biodiversité,Niveau 2,Gestion de l'unité de production,plusStrictQue
+FlorEcuador,GA538,L'entreprise dispose d'un programme de gestion de la biodiversité et du paysage.,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",equivautA
+FlorEcuador,GA539,L'entreprise dispose d'un programme de reboisement.,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+FlorEcuador,GA540,L'entreprise interdit l'extraction de flore et faune d'espèces menacées.,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+FlorEcuador,GB601,L'entreprise interdit le travail forcé sous toutes ses formes ; tout travail est volontaire.,Droit du travail,Niveau 1 (majeur),Travail volontaire (interdiction du travail forcé),equivautA
+FlorEcuador,GB602,La durée de travail légale et applicable au secteur est respectée.,Droit du travail,Niveau 2,Durée du travail,equivautA
+FlorEcuador,GB603,Tous les travailleurs sont enregistrés auprès du Ministère du Travail.,Droit du travail,Niveau 2,Pratiques de travail,equivautA
+FlorEcuador,GB604,Les obligations d'enregistrement pour l'embauche du personnel sont respectées.,Droit du travail,Niveau 2,Pratiques de travail,plusStrictQue
+FlorEcuador,GB605,Le nombre de personnes en période d'essai est inférieur à 15 % de l'effectif.,Droit du travail,Niveau 2,Pratiques de travail,plusStrictQue
+FlorEcuador,GB606,L'entreprise tient des dossiers individuels du personnel avec les données requises.,Droit du travail,Niveau 2,Pratiques de travail,plusStrictQue
+FlorEcuador,GB607,Tous les salariés sont affiliés à la sécurité sociale (IESS).,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+FlorEcuador,GB608,L'entreprise paie en temps voulu toutes les cotisations à l'IESS.,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+FlorEcuador,GB609,"Les déclarations relatives aux 13e, 14e et participations sont enregistrées.",Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+FlorEcuador,GB610,Le règlement intérieur de travail est diffusé à tous les travailleurs.,Droit du travail,Niveau 1 (majeur),Pratiques de travail,equivautA
+FlorEcuador,GB611,L'entreprise paie ses travailleurs selon les barèmes sectoriels.,Droit du travail,Niveau 2,Rémunération et salaires,plusStrictQue
+FlorEcuador,GB612,"Un registre des heures supplémentaires, spéciales ou majorées est tenu.",Droit du travail,Niveau 2,Durée du travail,plusStrictQue
+FlorEcuador,GB613,Les paiements d'heures supplémentaires sont autorisés et à jour.,Droit du travail,Niveau 2,Durée du travail,plusStrictQue
+FlorEcuador,GB614,L'entreprise calcule correctement la rémunération additionnelle du contrat de travail.,Droit du travail,Niveau 2,Rémunération et salaires,equivautA
+FlorEcuador,GB615,La fin de la relation de travail est formalisée conformément à la réglementation.,Droit du travail,Niveau 2,Pratiques de travail,equivautA
+FlorEcuador,GB616,Les travailleurs prennent leur période de congés.,Droit du travail,Niveau 2,Durée du travail,equivautA
+FlorEcuador,GB617,Les travailleurs connaissent leur horaire de travail et leurs roulements.,Droit du travail,Niveau 2,Durée du travail,equivautA
+FlorEcuador,GB618,L'entreprise n'a aucune pratique de maltraitance ou de discrimination envers les travailleurs.,Droit du travail,Niveau 1 (majeur),Non-discrimination et absence de maltraitance,equivautA
+FlorEcuador,GB619,L'entreprise dispose d'une procédure de gestion disciplinaire du personnel.,Droit du travail,Niveau 2,Pratiques de travail,plusStrictQue
+FlorEcuador,GB620,"Chaque année, l'entreprise fournit vêtements ou uniformes de travail à tout le personnel.",Droit du travail,Niveau 2,Rémunération et salaires,rapprocheDe
+FlorEcuador,GB621,"La ferme dispose de sanitaires, douches, lavabos et vestiaires pour les travailleurs.",Formation & bien-être,Niveau 2,Bien-être des travailleurs,rapprocheDe
+FlorEcuador,GB622,"Les sanitaires sont en bon état, désodorisés et désinfectés.",Formation & bien-être,Niveau 2,Bien-être des travailleurs,plusStrictQue
+FlorEcuador,GB623,Les lavabos sont pourvus de savon ou de solution savonneuse.,Formation & bien-être,Niveau 2,Bien-être des travailleurs,plusStrictQue
+FlorEcuador,GB624,"Les sols, murs et plafonds des vestiaires, douches et sanitaires sont entretenus.",Formation & bien-être,Niveau 2,Bien-être des travailleurs,plusStrictQue
+FlorEcuador,GB625,L'entreprise fournit des réfectoires à ses travailleurs.,Formation & bien-être,Niveau 2,Bien-être des travailleurs,rapprocheDe
+FlorEcuador,GB626,L'entreprise fournit de l'eau potable à ses travailleurs.,Formation & bien-être,Niveau 2,Bien-être des travailleurs,rapprocheDe
+FlorEcuador,GB627,"Si l'entreprise fournit un logement aux travailleurs, celui-ci est adéquat.",Formation & bien-être,Niveau 2,Bien-être des travailleurs,rapprocheDe
+FlorEcuador,GB628,L'entreprise n'entretient pas de relations de coercition avec le personnel (travail forcé).,Droit du travail,Niveau 1 (majeur),Travail volontaire (interdiction du travail forcé),equivautA
+FlorEcuador,GB629,"Pour les travailleurs adolescents de 15 à 18 ans, l'entreprise respecte la réglementation.",Droit du travail,Niveau 1 (majeur),Interdiction du travail des enfants,rapprocheDe
+FlorEcuador,GB630,L'entreprise emploie le nombre requis de personnes en situation de handicap ou substituts.,Droit du travail,Niveau 2,Non-discrimination et absence de maltraitance,rapprocheDe
+FlorEcuador,GB631,Les adaptations nécessaires des postes ont été réalisées pour l'accessibilité.,Droit du travail,Niveau 2,Non-discrimination et absence de maltraitance,plusStrictQue
+FlorEcuador,GS701,Le dispensaire médical est maintenu conformément à la loi.,Santé-sécurité,Niveau 2,Médecine préventive et du travail,plusStrictQue
+FlorEcuador,GS702,"Le dispensaire dispose de la liste minimale d'équipements, mobilier et matériel.",Santé-sécurité,Niveau 2,Médecine préventive et du travail,plusStrictQue
+FlorEcuador,GS703,Le médecin ouvre le dossier médical professionnel des travailleurs.,Santé-sécurité,Niveau 2,Médecine préventive et du travail,equivautA
+FlorEcuador,GS704,L'examen médical préventif annuel de surveillance de la santé est réalisé pour tous.,Santé-sécurité,Niveau 2,Médecine préventive et du travail,rapprocheDe
+FlorEcuador,GS705,L'entreprise réalise examens médicaux et analyses pour le personnel manipulant des pesticides.,Santé-sécurité,Niveau 2,Médecine préventive et du travail,rapprocheDe
+FlorEcuador,GS706,L'entreprise dispose d'un diagnostic de l'état de santé des travailleurs.,Santé-sécurité,Niveau 2,Évaluation des conditions de santé et de travail,equivautA
+FlorEcuador,GS707,Le médecin conduit des programmes de surveillance des facteurs de risque professionnels.,Santé-sécurité,Niveau 2,Médecine préventive et du travail,rapprocheDe
+FlorEcuador,GS708,Les infirmiers travaillent à temps plein et couvrent tous les postes de la ferme.,Santé-sécurité,Niveau 2,Médecine préventive et du travail,rapprocheDe
+FlorEcuador,GS709,Le médecin respecte l'horaire prévu par la loi.,Santé-sécurité,Niveau 2,Médecine préventive et du travail,rapprocheDe
+FlorEcuador,GS710,Le médecin de l'entreprise participe au comité d'hygiène et sécurité et le conseille.,Santé-sécurité,Niveau 2,Organisation du système de santé et sécurité au travail,plusStrictQue
+FlorEcuador,GS711,L'entreprise dispose de la politique de santé et sécurité au travail.,Santé-sécurité,Niveau 2,Politique et objectifs de santé et sécurité au travail,equivautA
+FlorEcuador,GS712,L'entreprise dispose d'un règlement de sécurité et d'hygiène approuvé par le ministère.,Santé-sécurité,Niveau 1 (majeur),Politique et objectifs de santé et sécurité au travail,plusStrictQue
+FlorEcuador,GS713,L'entreprise dispose d'un comité d'hygiène et sécurité ou d'un délégué.,Santé-sécurité,Niveau 2,Organisation du système de santé et sécurité au travail,plusStrictQue
+FlorEcuador,GS714,L'entreprise dispose de la matrice d'identification des risques.,Santé-sécurité,Niveau 2,Évaluation des conditions de santé et de travail,plusStrictQue
+FlorEcuador,GS715,L'entreprise dispose d'une unité de sécurité et d'hygiène.,Santé-sécurité,Niveau 2,Organisation du système de santé et sécurité au travail,plusStrictQue
+FlorEcuador,GS716,"L'unité de sécurité tient un registre de l'absentéisme, de l'accidentologie et des statistiques.",Santé-sécurité,Niveau 2,Mesure et évaluation de la gestion SST,plusStrictQue
+FlorEcuador,GS717,L'entreprise dispose d'informations détaillées sur les risques par poste.,Santé-sécurité,Niveau 2,Évaluation des conditions de santé et de travail,plusStrictQue
+FlorEcuador,GS718,L'entreprise dispose de plans d'urgence face aux risques d'accident grave.,Santé-sécurité,Niveau 2,Mise en œuvre du système de gestion SST (SG-SST),rapprocheDe
+FlorEcuador,GS719,L'entreprise garantit les critères de droit du travail et de bien-être requis.,Santé-sécurité,Niveau 2,Mise en œuvre du système de gestion SST (SG-SST),rapprocheDe
+FlorEcuador,GS720,"Lieux de travail, installations, machines et outils sont maintenus en bon état pour la sécurité.",Santé-sécurité,Niveau 2,Mise en œuvre du système de gestion SST (SG-SST),rapprocheDe
+FlorEcuador,GS721,Les équipements de mesure de la ferme sont étalonnés.,Énergie & carbone,Niveau 2,Maintenance,plusStrictQue
+FlorEcuador,GS722,L'entreprise assure des conditions sûres dans ses bâtiments et lieux de stockage.,Santé-sécurité,Niveau 2,Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+FlorEcuador,GS723,L'entreprise dispose de la signalisation de sécurité dans toutes les zones de travail.,Santé-sécurité,Niveau 2,Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+FlorEcuador,GS724,Les travailleurs disposent et utilisent les EPI adaptés à leur activité.,Santé-sécurité,Niveau 2,Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+FlorEcuador,GS725,Les générateurs et autres équipements bruyants sont isolés.,Santé-sécurité,Niveau 2,Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+FlorEcuador,GS726,L'entreprise dispose d'un plan annuel de formation à la santé et sécurité.,Santé-sécurité,Niveau 2,Programme de formation et d'accueil en SST,rapprocheDe
+FlorEcuador,GS727,Des normes de santé et sécurité couvrent tout le processus et sont diffusées.,Santé-sécurité,Niveau 2,Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+FlorEcuador,GS728,Un mécanisme de sécurité contrôle l'entrée de tout le personnel dans l'entreprise.,Santé-sécurité,Niveau 2,Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+FlorEcuador,MR801,"L'entreprise tient des registres sur ses travailleurs (effectifs, etc.).",Traçabilité,Niveau 2,Traçabilité et registres,equivautA
+FlorEcuador,MR802,L'entreprise enregistre la consommation de carburant et autres hydrocarbures.,Énergie & carbone,Niveau 2,Efficacité énergétique,plusStrictQue
+FlorEcuador,MR803,L'entreprise enregistre la consommation d'électricité.,Énergie & carbone,Niveau 2,Efficacité énergétique,plusStrictQue
+FlorEcuador,MR804,L'entreprise dispose d'indicateurs historiques de consommation d'eau de ses procédés.,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+FlorEcuador,MR805,L'entreprise gère des registres de consommation de fertilisants chimiques et organiques.,Sols & fertilisation,Niveau 2,Programmes et registres d'application des fertilisants,equivautA
+FlorEcuador,MR806,L'entreprise tient des registres de consommation de produits chimiques.,Phytosanitaire,Niveau 2,Programmes et registres d'application des pesticides,plusStrictQue
+FlorEcuador,MR807,L'entreprise mesure la génération de gaz à effet de serre dans l'indicateur FlorEcuador.,Énergie & carbone,Niveau 2,Émissions de gaz à effet de serre (GES),equivautA
+FlorEcuador,FE901,"L'entreprise est à jour de ses obligations, procédures et exigences.",Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+FlorEcuador,FE902,"L'entreprise dispose de la licence, du registre ou de la fiche environnementale applicable.",Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,plusStrictQue
+FlorEcuador,FE903,L'entreprise dispose du registre de générateur de déchets dangereux.,Déchets,Niveau 2,Traitement et élimination finale,plusStrictQue
+FlorEcuador,FE904,L'entreprise dispose du permis sanitaire d'exploitation à jour.,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+FlorEcuador,FE905,L'entreprise dispose du permis d'exploitation des pompiers.,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+FlorEcuador,FE906,L'entreprise dispose de l'enregistrement de producteur auprès d'Agrocalidad (à jour).,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,plusStrictQue
+FlorEcuador,FE907,L'entreprise dispose de la réglementation phytosanitaire applicable et à jour.,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,equivautA
+FlorEcuador,FE908,Les produits restreints par le SETED disposent de l'autorisation d'usage requise.,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,plusStrictQue
+FlorEcuador,FE909,L'entreprise utilise le logo et la marque de certification conformément à la réglementation.,Gouvernance,Niveau 2,Statut et usage de la marque Florverde Sustainable Flowers,plusStrictQue
+FlorEcuador,FE910,L'entreprise dispose de l'accord d'usage de la marque avec le gestionnaire du schéma.,Gouvernance,Niveau 2,Statut et usage de la marque Florverde Sustainable Flowers,rapprocheDe
+FlorEcuador,FE911,L'entreprise sensibilise ses travailleurs au concept de la certification FlorEcuador.,Gouvernance,Niveau 2,Statut et usage de la marque Florverde Sustainable Flowers,plusStrictQue
+FlorEcuador,FE912,L'entreprise réalise au moins un audit interne FlorEcuador par ferme et par an.,Gouvernance,Niveau 2,Inspection et audit interne,equivautA
+FlorEcuador,FE913,L'auditeur interne est formé.,Gouvernance,Niveau 2,Inspection et audit interne,equivautA
+FlorEcuador,FE914,L'entreprise dispose des registres nécessaires pour étayer la conformité FlorEcuador.,Traçabilité,Niveau 2,Traçabilité et registres,equivautA
+FlorEcuador,FE915,Une procédure documentée existe pour identifier et quantifier le produit certifié FlorEcuador.,Traçabilité,Niveau 2,Traçabilité et registres,rapprocheDe
+FlorEcuador,FE916,L'entreprise dispose de procédures et registres des produits acquis auprès de tiers.,Traçabilité,Niveau 2,Traçabilité et registres,equivautA
+Rainforest Alliance,1.1.1,La direction du groupe montre son engagement en faveur d’une agriculture durable en consacrant suffisamment de ressources et de personnel à la mise en œuvre de la Norme pour l’Agriculture Durable de R,Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,equivautA
+Rainforest Alliance,1.2.1,"La direction et les agriculteurs se mettent en conformité avec les lois applicables pertinentes par rapport au champ d’application de la Norme de Rainforest Alliance. Y compris, mais sans s’y limiter ",Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,rapprocheDe
+Rainforest Alliance,1.2.2,"Il existe une liste exhaustive des prestataires de services, fournisseurs, intermédiaires et sous-traitants. Des mécanismes, dont des contrats, sont mis en place pour veiller à ce que ces entités soie",Droit du travail,Niveau 1 (majeur),Sous-traitance,equivautA
+Rainforest Alliance,1.2.3,Un registre des membres du groupe est tenu à jour. Les informations obligatoires pour chaque membre sont recueillies à l’aide du formulaire de Registre des Membres du Groupe transmis par Rainforest Al,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,equivautA
+Rainforest Alliance,1.2.4,"Une liste à jour des travailleurs temporaires et permanents est conservée, contenant pour chaque travailleur : Pour les travailleurs auxquels le logement est fourni, le registre contient en plus : Pou",Droit du travail,Niveau 1 (majeur),Pratiques de travail,equivautA
+Rainforest Alliance,1.2.5,"Une liste à jour des travailleurs permanents est conservée, contenant pour chaque travailleur : En ce qui concerne les travailleurs temporaires, seul le nombre de travailleurs est demandé. Les membres",Droit du travail,Niveau 1 (majeur),Pratiques de travail,equivautA
+Rainforest Alliance,1.2.6,"Dès lors que la Norme de Rainforest Alliance requiert d'informer les travailleurs ou les membres du groupe, la direction s’assure que les informations sont données dans les langues prédominantes des t",Droit du travail,Niveau 1 (majeur),Pratiques de travail,equivautA
+Rainforest Alliance,1.2.7,"Un accord a été conclu entre la direction du groupe et chaque membre du groupe, signé par les deux parties. Une empreinte digitale ou marque identifiable peut être utilisée à la place d’une signature.",Droit du travail,Niveau 1 (majeur),Pratiques de travail,plusLargeQue
+Rainforest Alliance,1.2.8,Les dossiers concernant la certification et la conformité sont conservés pour une durée minimale de 5 ans.,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+Rainforest Alliance,1.2.9,Une carte actualisée de la zone de l’exploitation est disponible et doit inclure : La carte inclut également les zones à risques identifiées dans l’Évaluation des Risques (voir 1.3.1). La date de la d,Biodiversité,Niveau 1 (majeur),Gestion de l'unité de production,plusLargeQue
+Rainforest Alliance,1.3.1,"La direction effectue une évaluation des risques relatifs aux exigences de la norme, en utilisant l'Outil d'évaluation des risques et ce, au moins tous les trois ans. En cas de nécessité, l’évaluation",Biodiversité,Niveau 1 (majeur),Gestion de l'unité de production,plusLargeQue
+Rainforest Alliance,1.3.2,"La direction élabore un Plan de gestion assorti des actions et buts à atteindre et qui se base sur l’Évaluation des risques (1.3.1) et l’auto-évaluation (1.4.2). Concernant les groupes, le plan de ges",Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,rapprocheDe
+Rainforest Alliance,1.3.3,"La direction fournit aux membres du groupe et aux travailleurs embauchés par le groupe des services basés sur le Plan de gestion. Les services peuvent inclure des formations, un appui technique, un ap",Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,rapprocheDe
+Rainforest Alliance,1.3.4,"La direction fournit aux travailleurs des services basés sur le plan de gestion. Les services peuvent inclure des formations, des activités de sensibilisation, etc. La direction documente les services",Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,rapprocheDe
+Rainforest Alliance,1.4.1,La direction met en place un système d’inspection interne pour évaluer annuellement la conformité de tous les acteurs dans le champ d’application de la certification. Le système contient : stockage et,Gouvernance,Niveau 1 (majeur),Inspection et audit interne,equivautA
+Rainforest Alliance,1.4.2,La direction réalise tous les ans une auto-évaluation de sa propre conformité et de celle de tous les acteurs de son champ d’application de la certification par rapport aux exigences pertinentes de la,Gouvernance,Niveau 1 (majeur),Inspection et audit interne,plusLargeQue
+Rainforest Alliance,1.4.3,Un système d'approbation et de sanctions est en place pour garantir la conformité des membres du groupe avec la Norme pour l'Agriculture Durable de Rainforest Alliance. Le système contient : rapport f,Gouvernance,Niveau 1 (majeur),Traitement des non-conformités et des plaintes,rapprocheDe
+Rainforest Alliance,1.5.1,"Le Mécanisme de Réclamation mis en place permet aux individus, travailleurs, communautés, et/ou membres de la société civile, y compris les lanceurs d’alerte, de formuler une plainte concernant les ac",Gouvernance,Niveau 1 (majeur),Traitement des non-conformités et des plaintes,rapprocheDe
+Rainforest Alliance,1.6.1,La direction s’engage à promouvoir l’égalité des genres par : promeuvent l’égalité des genres et l’autonomisation des femmes. une personne de chaque sexe. ces questions plutôt qu’un comité. Voir SA-G-,Droit du travail,Niveau 1 (majeur),Non-discrimination et absence de maltraitance,plusLargeQue
+Rainforest Alliance,1.6.2,La personne/le comité responsable : mesures dans le Plan de gestion une fois par an Protocole de Remédiation A-1-S-B-F V1.4FR Rainforest Alliance | Agriculture durable – Exigences pour les exploitatio,Droit du travail,Niveau 1 (majeur),Non-discrimination et absence de maltraitance,plusStrictQue
+Rainforest Alliance,1.7.1,"La direction recueille des données précises sur les indicateurs pertinents pour la Norme de Rainforest Alliance, et les enregistre dans la Plateforme de Certification de Rainforest Alliance (RACP). A-",Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusLargeQue
+Rainforest Alliance,2.1.1,La production totale certifiée et la production certifiée de chaque agriculteur (en kg ou en tiges pour les fleurs) sont calculées une fois par an. Les calculs s’appuient sur une méthodologie fiable d,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusLargeQue
+Rainforest Alliance,2.1.2,"La direction fait annuellement le bilan de : Si la différence entre la production estimée et la production réalisée est >15%, une justification raisonnable doit être donnée et des mesures doivent être",Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusLargeQue
+Rainforest Alliance,2.1.3,"Les produits certifiés selon la Norme Rainforest Alliance doivent être visuellement séparés des produits non certifiés, mais aussi séparés les uns des autres à chaque étape, y compris leur transport, ",Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+Rainforest Alliance,2.1.4,"La Direction a cartographié le parcours des produits jusqu’à la destination finale du champ d'application du certificat, y compris tous les intermédiaires (points de collecte, transport, unités de tra",Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+Rainforest Alliance,2.1.5,La traçabilité des produits certifiés peut remonter jusqu’à l’exploitation certifiée où ils ont été produits. La direction conserve les preuves d’achats et de ventes concernant les livraisons physique,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,equivautA
+Rainforest Alliance,2.1.6,"Les livraisons de produits certifiés ne dépassent pas la production totale (pour les exploitations agricoles), les achats de produits certifiés plus les stocks restants de l’année précédente.",Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+Rainforest Alliance,2.1.7,"Il n'y a pas de double vente des volumes. Dès qu'un volume est vendu sous la norme Rainforest Alliance, une norme conventionnelle, ou tout autre programme ou initiative de durabilité, il ne peut plus ",Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+Rainforest Alliance,2.1.8,"Les membres du groupe conservent les reçus des ventes (électronique ou physique), y compris le nom du membre du groupe, le numéro d'identification du membre, la date, le type de produit et le volume.",Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusLargeQue
+Rainforest Alliance,2.1.9,La méthodologie correcte utilisée pour le calcul des facteurs de conversion est démontrée et documentée pour chaque produit certifié et rapportée en conséquence dans la plateforme de traçabilité. S’ap,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,equivautA
+Rainforest Alliance,2.2.1,"Toute activité liée au volume certifié (comme l’échange, le retrait, la vente, l’achat, la confirmation, etc.) doit être enregistrée sur la Plateforme de traçabilité de Rainforest Alliance dans les de",Traçabilité,Niveau 1 (majeur),Traçabilité et registres,equivautA
+Rainforest Alliance,2.2.3,L'approbation est obtenue avant l'utilisation de revendications destinées au public sur les emballages et hors emballages. Il existe des preuves que toute Revendication de produit certifié Rainforest ,Gouvernance,Niveau 1 (majeur),Statut et usage de la marque Florverde Sustainable Flowers,plusLargeQue
+Rainforest Alliance,2.2.4,"La Redevance est versée en totalité, sans aucune retenue fiscale, selon les modalités de paiement définies dans le Contrat de licence, les Termes et Conditions et/ou la Facture. A-1-S-B-F V1.4FR Rainf",Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,plusLargeQue
+Rainforest Alliance,2.3.1,Les volumes sont uniquement convertis pour des processus qui peuvent avoir réellement lieu. La conversion d’un produit ne peut pas revenir au produit initial. 2.3.2 Les volumes vendus en bilan massiqu,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+Rainforest Alliance,3.1.1,"Le versement de la Prime doit être enregistré sur la Plateforme de traçabilité. Pour les cultures avec un minimum prescrit, le paiement doit atteindre au moins le minimum requis.",Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Rainforest Alliance,3.1.2,"Les Titulaires de Certificat responsables doivent disposer de contrats ou d'accords signés précisant les montants à payer, ainsi que les modalités de paiement par période/cycle. La Prime ne peut pas ê",Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Rainforest Alliance,3.1.3,"La Direction du groupe verse dûment et en temps opportun au moins 40 % de la prime en espèces ou via d’autres moyens de paiements monétaires aux membres du groupe, et ce avant la prochaine saison de r",Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusLargeQue
+Rainforest Alliance,3.1.4,Toute prime versée doit être dépensée au bénéfice de l’agriculteur ou des travailleurs. La direction doit rendre compte : bénéficie au producteur ou aux travailleurs. A-1-S-B-F V1.4FR Rainforest Allia,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Rainforest Alliance,4.1.1,"Les variétés de plantes pour les plantations, le greffage et la rénovation sont sélectionnées en fonction de la qualité, de la productivité, de la résistance aux ravageurs et aux maladies et de leur a",Origine matériel végétal,Niveau 1 (majeur),Origine du matériel végétal,plusLargeQue
+Rainforest Alliance,4.1.2,"Pour les nouvelles plantations, les agriculteurs utilisent un système de culture éprouvé qui tient compte de plusieurs facteurs, notamment : à améliorer leur qualité et leur santé. N° Exigence d'améli",Sols & fertilisation,Niveau 1 (majeur),Gestion du sol,plusLargeQue
+Rainforest Alliance,4.1.3,"S’appuyant sur la stratégie de LIR, les agriculteurs mettent en œuvre des mesures pour préserver les cultures des ravageurs et des maladies et pour casser leurs cycles biologiques, pour renforcer la s",Phytosanitaire,Niveau 1 (majeur),Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+Rainforest Alliance,4.2.1,"Les agriculteurs mettent en place un cycle de taille pour la formation, l’entretien et le rajeunissement des cultures en fonction de leurs besoins, des conditions agroécologiques et des directives app",Sols & fertilisation,Niveau 1 (majeur),Gestion du sol,plusLargeQue
+Rainforest Alliance,4.3.1,La culture certifiée n’est pas génétiquement modifiée (OGM).,Origine matériel végétal,Niveau 1 (majeur),Origine du matériel végétal,plusStrictQue
+Rainforest Alliance,4.5.1,"La direction documente et applique une stratégie de LIR élaborée par un professionnel compétent, notamment pour les installations de traitement. La stratégie englobe une prévention, un suivi, des nive",Phytosanitaire,Niveau 1 (majeur),Lutte intégrée contre les ravageurs (MIP),plusLargeQue
+Rainforest Alliance,4.6.1,Aucun produit chimique répondant aux points suivants n’est utilisé : Les producteurs doivent uniquement utiliser des produits agrochimiques vendus par des revendeurs autorisés et conditionnés dans leu,Phytosanitaire,Niveau 1 (majeur),Contrôle phytosanitaire,plusLargeQue
+Rainforest Alliance,4.7.1,"Les produits sont manipulés de façon à optimiser leur qualité et leur quantité pendant et après la récolte comme lors de leur chargement, leur transformation, leur conditionnement, leur transport et l",Qualité post-récolte,Niveau 1 (majeur),Procédures de post-récolte,rapprocheDe
+Rainforest Alliance,5.1.1,"Engagement: La direction s’engage à évaluer-et-résoudre, le travail des enfants, le travail forcé, la discrimination et la violence et le harcèlement au travail en mettant en œuvre les points suivants",Droit du travail,Niveau 1 (majeur),Non-discrimination et absence de maltraitance,rapprocheDe
+Rainforest Alliance,5.1.2,Atténuation des risques : Le comité/représentant de la direction inclut des mesures d'atténuation dans le plan de gestion. Le Titulaire de Certificat peut utiliser les mesures d'atténuation identifiée,Droit du travail,Niveau 1 (majeur),Non-discrimination et absence de maltraitance,plusStrictQue
+Rainforest Alliance,5.1.3,Suivi : Le comité/représentant de la direction discrimination et de violence et de harcèlement au travail. Fait le suivi des activités de résolution (voir 5.1.4) L’intensité du système de suivi est aj,Droit du travail,Niveau 1 (majeur),Non-discrimination et absence de maltraitance,rapprocheDe
+Rainforest Alliance,5.1.4,"Résolution : Dans le plan de gestion, le comité/représentant de la direction expose comment résoudre les cas de travail des enfants, de travail forcé, de discrimination et de violence et harcèlement a",Droit du travail,Niveau 1 (majeur),Interdiction du travail des enfants,equivautA
+Rainforest Alliance,5.1.5,"Au cours de la première année de certification, le comité/représentant de la direction : problème(s) à risque moyen/élevé L’Évaluation des risques du système d’Évaluation et Résolution est effectuée a",Droit du travail,Niveau 1 (majeur),Non-discrimination et absence de maltraitance,plusLargeQue
+Rainforest Alliance,5.1.6,"Le comité/représentant de la direction fournit des formations ou de la sensibilisation sur le travail des enfants, le travail forcé, la discrimination et la violence et le harcèlement au travail à tou",Droit du travail,Niveau 1 (majeur),Interdiction du travail des enfants,equivautA
+Rainforest Alliance,5.1.7,"La direction met en place des mesures pour garantir que les enfants du personnel (du groupe), des membres du groupe et des travailleurs aillent bien à l’école. Les exigences d’amélioration obligatoire",Formation & bien-être,Niveau 1 (majeur),Bien-être des travailleurs,equivautA
+Rainforest Alliance,5.1.8,"La direction assure bon fonctionnement du système d’Évaluation-et-Résolution. À cette fin, à partir de la première année, une évaluation annuelle du système d’Évaluation-et-Résolution pour les problèm",Droit du travail,Niveau 1 (majeur),Non-discrimination et absence de maltraitance,plusStrictQue
+Rainforest Alliance,5.2.1,"Les travailleurs peuvent créer et rejoindre les organisations syndicales ou organisations de travailleurs de leur choix, et participer aux conventions collectives sans avoir à demander l’approbation d",Droit du travail,Niveau 1 (majeur),Liberté d'association et négociation collective,plusStrictQue
+Rainforest Alliance,5.3.1,Les travailleurs employés pendant 3 mois consécutifs ou plus doivent avoir un contrat écrit signé par les deux parties. Les travailleurs employés pendant moins de 3 mois doivent avoir au minimum un co,Droit du travail,Niveau 1 (majeur),Pratiques de travail,equivautA
+Rainforest Alliance,5.3.8,"Dans les pays où il n'y a pas d'ajustements annuels du salaire minimum ou de régulations relatives aux CC, les salaires des travailleurs sont ajustés chaque année en fonction de l'inflation, suivant l",Droit du travail,Niveau 1 (majeur),Rémunération et salaires,equivautA
+Rainforest Alliance,5.5.1,Les travailleurs ne dépassent pas huit heures de travail normales par jour ni 48 heures par semaine. Ils bénéficient d'une pause de 30 minutes après six heures de travail consécutives et d'une journée,Droit du travail,Niveau 1 (majeur),Durée du travail,equivautA
+Rainforest Alliance,5.6.1,"La direction, en collaboration avec le personnel ou des experts externes disposant des compétences techniques requises, procède à une analyse des risques liés à la santé et à la sécurité au travail da",Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),plusLargeQue
+Rainforest Alliance,5.7.1,"Les travailleurs et leurs familles qui sont logés ou hébergés sur site possèdent des quartiers de vie sécurisés, propres et adéquats suivant les conditions locales. Cela comprend les éléments suivants",Formation & bien-être,Niveau 1 (majeur),Bien-être des travailleurs,rapprocheDe
+Rainforest Alliance,5.8.1,"La direction respecte les droits légaux et coutumiers des peuples autochtones et des communautés locales. Toute activité impactant leurs terres, ressources ou intérêts, y compris les Hautes Valeurs de",Droit du travail,Niveau 1 (majeur),Non-discrimination et absence de maltraitance,plusLargeQue
+Rainforest Alliance,6.1.1,"Depuis le 1er janvier 2014, les forêts naturelles et les autres écosystèmes naturels n’ont pas été convertis pour la production agricole ou pour d’autres usages des terres.",Biodiversité,Niveau 1 (majeur),"Paysage, biodiversité et conservation",plusLargeQue
+Rainforest Alliance,6.1.2,"La production ou la transformation n’a pas lieu dans les aires protégées ou leurs zones tampons désignées officiellement, sauf là où elle est conforme à la législation applicable. N° Exigence spéciali",Biodiversité,Niveau 1 (majeur),Implantation sur des sites autorisés,plusStrictQue
+Rainforest Alliance,6.1.3,Le plan de gestion inclut des mesures d'atténuation issues de l'outil d'Évaluation des Risques (1.3.1) pour les Hautes Valeurs de Conservation (1.3.2). La direction met en œuvre ces mesures. A-1-S-B-F,Biodiversité,Niveau 1 (majeur),"Paysage, biodiversité et conservation",rapprocheDe
+Rainforest Alliance,6.2.1,La direction élabore et met en œuvre un plan pour conserver les écosystèmes naturels. Le plan se base sur la carte requise dans l’exigence 1.2.9 et la section sur les écosystèmes naturels de l’Outil d,Biodiversité,Niveau 1 (majeur),"Paysage, biodiversité et conservation",rapprocheDe
+Rainforest Alliance,6.3.1,Les exploitations agricoles maintiennent les zones ripariennes tampons existantes adjacentes aux écosystèmes aquatiques. 6.3.2 Les producteurs maintiennent les dispositifs de sécurité supplémentaires ,Biodiversité,Niveau 1 (majeur),"Paysage, biodiversité et conservation",plusStrictQue
+Rainforest Alliance,6.5.1,"La direction respecte la législation applicable concernant les prélèvements d’eau de surface ou d’eau souterraine pour des raisons agricoles, domestiques ou de transformation. Si besoin, la conformité",Eau,Niveau 1 (majeur),Usage efficient et économie de l'eau,plusStrictQue
+Rainforest Alliance,6.6.1,Des tests des eaux usées issues des transformations sont réalisés à tous les points de déversements durant les périodes représentatives de l’opération et les résultats sont documentés. Pour les groupe,Déchets,Niveau 1 (majeur),Traitement et élimination finale,plusLargeQue
+Rainforest Alliance,6.7.1,"Les déchets sont gérés afin d'éviter les risques pour la santé et la sécurité. Ils sont stockés et éliminés uniquement dans des zones désignées, et non dans les écosystèmes naturels. Les déchets non o",Déchets,Niveau 1 (majeur),Traitement et élimination finale,rapprocheDe
+Rainforest Alliance,6.8.1,La direction consigne par écrit les types de sources d’énergie et l’énergie utilisée pour la production et la transformation des produits certifiés. Cette exigence s’applique à la direction du groupe ,Énergie & carbone,Niveau 1 (majeur),Efficacité énergétique,equivautA
+Fairtrade,1.1.1,Autoévaluation de la direction sur la mise en œuvre de Fairtrade,Gouvernance,Niveau 1 (majeur),Inspection et audit interne,plusStrictQue
+Fairtrade,1.2.1,Composition des bouquets et plantes finies certifiées,Qualité post-récolte,Niveau 1 (majeur),Qualité du produit,plusStrictQue
+Fairtrade,2.1.1,Autoévaluation du Comité de la Prime Fairtrade,Gouvernance,Niveau 1 (majeur),Inspection et audit interne,plusStrictQue
+Fairtrade,2.1.2,Reporting de la Prime Fairtrade,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Fairtrade,2.1.3,Fonctions définies pour la direction et les représentants syndicaux,Droit du travail,Niveau 1 (majeur),Liberté d'association et négociation collective,plusStrictQue
+Fairtrade,2.1.4,Audit financier de la Prime Fairtrade,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Fairtrade,2.1.5,Dispositions en cas de décertification ou de dissolution du comité de la Prime,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Fairtrade,2.1.6,Usage de la Prime Fairtrade,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Fairtrade,3.1.1,Pas de rupture de contrat pendant la grossesse,Droit du travail,Niveau 1 (majeur),Non-discrimination et absence de maltraitance,plusStrictQue
+Fairtrade,3.1.2,Formation contre les conduites sexuelles inappropriées,Droit du travail,Niveau 1 (majeur),Non-discrimination et absence de maltraitance,plusStrictQue
+Fairtrade,3.1.3,Signalement des conduites sexuelles inappropriées,Droit du travail,Niveau 1 (majeur),Non-discrimination et absence de maltraitance,plusStrictQue
+Fairtrade,3.2.1,Salaires de base,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,equivautA
+Fairtrade,3.2.2,Négociation des augmentations salariales avec les syndicats,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Fairtrade,3.2.3,Distribution partielle de la Prime Fairtrade en espèces,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Fairtrade,3.2.4,Information obligatoire sur les salaires,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,equivautA
+Fairtrade,3.2.5,Information des syndicats ou représentants des travailleurs,Droit du travail,Niveau 1 (majeur),Liberté d'association et négociation collective,plusStrictQue
+Fairtrade,3.4.8,Renvoi au Critère Fairtrade pour le Travail Contractuel,Droit du travail,Niveau 1 (majeur),Pratiques de travail,equivautA
+Fairtrade,3.2.6,Congés annuels rémunérés,Droit du travail,Niveau 1 (majeur),Durée du travail,plusStrictQue
+Fairtrade,3.2.7,Paiements périodiques et documentés aux travailleurs,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Fairtrade,3.2.8,Sécurité sociale,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Fairtrade,3.2.9,Logement des travailleurs,Formation & bien-être,Niveau 1 (majeur),Bien-être des travailleurs,rapprocheDe
+Fairtrade,3.3.1,Surveillance de la santé des travailleurs manipulant des matières dangereuses,Santé-sécurité,Niveau 1 (majeur),Médecine préventive et du travail,rapprocheDe
+Fairtrade,3.3.2,Surveillance de la santé d'un groupe représentatif de travailleurs,Santé-sécurité,Niveau 1 (majeur),Médecine préventive et du travail,rapprocheDe
+Fairtrade,3.3.3,Mesures pour les conditions médicales nécessitant une protection de la santé,Santé-sécurité,Niveau 1 (majeur),Médecine préventive et du travail,plusStrictQue
+Fairtrade,3.3.4,Traitement et indemnisation des travailleurs,Santé-sécurité,Niveau 1 (majeur),Médecine préventive et du travail,rapprocheDe
+Fairtrade,3.3.5,Formation à la santé et à la sécurité au travail,Santé-sécurité,Niveau 1 (majeur),Programme de formation et d'accueil en SST,rapprocheDe
+Fairtrade,3.3.6,Évacuation en cas de danger,Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+Fairtrade,3.3.7,Protection des enfants des travailleurs contre les matières dangereuses,Phytosanitaire,Niveau 1 (majeur),Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+Fairtrade,3.3.8,Fourniture d'outils adéquats aux travailleurs,Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+Fairtrade,3.3.9,Protection contre la contamination par les pesticides,Phytosanitaire,Niveau 1 (majeur),Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+Fairtrade,3.3.10,Accès à une alimentation saine en quantité suffisante,Formation & bien-être,Niveau 1 (majeur),Bien-être des travailleurs,plusStrictQue
+Fairtrade,4.1.1,Usage des traitements post-récolte et des pesticides,Phytosanitaire,Niveau 1 (majeur),Contrôle phytosanitaire,plusStrictQue
+Fairtrade,4.1.2,Protection de l'environnement,Biodiversité,Niveau 1 (majeur),"Paysage, biodiversité et conservation",plusStrictQue
+Fairtrade,4.1.3,Limitation de l'usage de la tourbe,Sols & fertilisation,Niveau 1 (majeur),Usage des substrats,equivautA
+Fairtrade,4.1.4,Gestion intégrée des ravageurs,Phytosanitaire,Niveau 1 (majeur),Lutte intégrée contre les ravageurs (MIP),equivautA
+Fairtrade,4.2.1,Respect de la liste des matières dangereuses Fairtrade,Phytosanitaire,Niveau 1 (majeur),Contrôle phytosanitaire,plusStrictQue
+Fairtrade,4.2.2,Restrictions d'usage des pesticides (4.2.2 et 4.2.3),Phytosanitaire,Niveau 1 (majeur),Contrôle phytosanitaire,plusStrictQue
+Fairtrade,4.3.1,Consultation des communautés voisines,Biodiversité,Niveau 1 (majeur),"Paysage, biodiversité et conservation",plusStrictQue
+Fairtrade,4.3.2,Plan de gestion de l'eau,Eau,Niveau 1 (majeur),Usage efficient et économie de l'eau,plusStrictQue
+Fairtrade,4.4.1,Empreinte carbone,Énergie & carbone,Niveau 1 (majeur),Émissions de gaz à effet de serre (GES),plusStrictQue
+Fairtrade,4.4.2,Résilience climatique,Énergie & carbone,Niveau 1 (majeur),Émissions de gaz à effet de serre (GES),plusStrictQue
+Fairtrade,5.1.1,Plans d'approvisionnement,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+Fairtrade,5.2.1,Contrats entre l'entreprise et le payeur Fairtrade,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+Fairtrade,5.2.2,Confirmation de l'ordre d'achat définitif,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+Fairtrade,5.4.1,Accord sur le prix de marché,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Fairtrade,5.4.2,Prix minimum et prime Fairtrade pour les produits secondaires,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Fairtrade,5.4.3,Paiement,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Fairtrade,5.4.4,Paiements ponctuels,Droit du travail,Niveau 1 (majeur),Rémunération et salaires,plusStrictQue
+Fairtrade,5.5.1,Contrats et accords d'enchères,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+Fairtrade,5.6.1,Règles de rétrocertification,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+Fairtrade,5.6.2,Limites de rétrocertification,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+Fairtrade,5.6.3,Rapports de rétrocertification,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+VivaiFiori,1.01,Tout usage de produits phytosanitaires fait l'objet d'un enregistrement et d'une documentation,Phytosanitaire,Niveau 1 (majeur),Programmes et registres d'application des pesticides,rapprocheDe
+VivaiFiori,1.02,"Tout usage de fertilisants, amendements organiques, substrats et travaux du sol est enregistré",Sols & fertilisation,Niveau 1 (majeur),Programmes et registres d'application des fertilisants,rapprocheDe
+VivaiFiori,1.03,Aucun produit phytosanitaire interdit ou non homologué en Italie n'est utilisé,Phytosanitaire,Niveau 1 (majeur),Contrôle phytosanitaire,equivautA
+VivaiFiori,1.04,Les applications de phytosanitaires en serre sont interdites en présence de personnes,Phytosanitaire,Niveau 1 (majeur),Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+VivaiFiori,1.05,Une signalisation permanente et lisible indique le stockage des produits phytosanitaires,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+VivaiFiori,1.06,"Une signalisation permanente indique les dangers (fûts, cuves, atelier, etc.)",Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+VivaiFiori,1.07,Les délais de réentrée sont respectés selon les instructions de l'étiquette,Phytosanitaire,Niveau 1 (majeur),Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+VivaiFiori,1.08,Les travailleurs disposent d'EPI marqués CE et adaptés,Phytosanitaire,Niveau 1 (majeur),Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+VivaiFiori,1.09,Les EPI sont nettoyés après chaque application et conservés dans des armoires dédiées,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+VivaiFiori,1.10,Les pulvérisateurs de produits phytosanitaires sont contrôlés et réglés,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+VivaiFiori,1.11,"Les travailleurs de culture, récolte et conditionnement reçoivent une formation",Santé-sécurité,Niveau 1 (majeur),Programme de formation et d'accueil en SST,rapprocheDe
+VivaiFiori,1.12,Les zones où il est interdit de fumer sont signalées,Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+VivaiFiori,1.13,Les fiches de sécurité des produits sont présentes et disponibles pour les utilisateurs,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+VivaiFiori,1.14,Les produits chimiques sont conservés dans leurs contenants d'origine,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+VivaiFiori,1.15,Un inventaire indique le contenu (type et quantité) du magasin de stockage,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+VivaiFiori,1.16,"Le stockage, la pesée et le mélange des phytosanitaires se font dans une zone séparée et adaptée",Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",rapprocheDe
+VivaiFiori,1.17,"Une procédure d'urgence (incendie, évacuation, déversement) est en place",Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+VivaiFiori,1.18,Les fertilisants sont conservés de façon à minimiser le risque de contamination,Sols & fertilisation,Niveau 1 (majeur),Manipulation sûre des fertilisants,rapprocheDe
+VivaiFiori,1.19,Des inventaires des fertilisants (mis à jour au moins annuellement) sont tenus,Sols & fertilisation,Niveau 1 (majeur),Programmes et registres d'application des fertilisants,plusStrictQue
+VivaiFiori,1.20,Des enregistrements prouvent l'origine des substrats utilisés,Sols & fertilisation,Niveau 1 (majeur),Usage des substrats,equivautA
+VivaiFiori,1.21,Les substrats non réutilisables (déchets) sont gérés correctement,Sols & fertilisation,Niveau 1 (majeur),Usage des substrats,equivautA
+VivaiFiori,1.22,Présence du document d'évaluation des risques (DVR) et des procédures santé-sécurité au travail,Santé-sécurité,Niveau 1 (majeur),Évaluation des conditions de santé et de travail,equivautA
+VivaiFiori,2.01,"Le contrat individuel précise la date de début, le profil et les conditions d'emploi",Droit du travail,Niveau 1 (majeur),Pratiques de travail,rapprocheDe
+VivaiFiori,3.01,Une documentation sur l'usage énergétique permet de connaître les sources utilisées,Énergie & carbone,Niveau 1 (majeur),Efficacité énergétique,equivautA
+VivaiFiori,3.02,L'irrigation utilise des méthodes et systèmes réduisant la consommation d'eau,Eau,Niveau 1 (majeur),Usage efficient et économie de l'eau,plusStrictQue
+VivaiFiori,3.03,"Dans la mesure du possible, l'eau de pluie est collectée dans des bassins adaptés",Eau,Niveau 1 (majeur),Usage efficient et économie de l'eau,plusStrictQue
+VivaiFiori,3.04,Des aires définies sont prévues pour le dépôt temporaire des déchets,Déchets,Niveau 1 (majeur),Prévention et réduction des déchets,rapprocheDe
+VivaiFiori,3.05,Les déchets de types différents sont triés et collectés séparément dans des contenants identifiés,Déchets,Niveau 1 (majeur),Réutilisation et recyclage,rapprocheDe
+VivaiFiori,3.06,"Les déchets, notamment phytosanitaires et résidus chimiques, ne sont pas jetés dans la nature",Déchets,Niveau 1 (majeur),Traitement et élimination finale,plusStrictQue
+VivaiFiori,3.07,Le mélange excédentaire et l'eau de rinçage de cuve sont éliminés correctement,Déchets,Niveau 1 (majeur),Traitement et élimination finale,rapprocheDe
+VivaiFiori,3.08,Les contenants et caisses vides de phytosanitaires sont gérés comme déchets,Déchets,Niveau 1 (majeur),Traitement et élimination finale,plusStrictQue
+VivaiFiori,3.09,Les contenants vides de phytosanitaires ne sont pas réutilisés à d'autres fins,Déchets,Niveau 1 (majeur),Traitement et élimination finale,plusStrictQue
+VivaiFiori,3.10,"L'entreprise prend des mesures pour limiter l'usage de matériel jetable (plastique, papier, carton)",Déchets,Niveau 1 (majeur),Prévention et réduction des déchets,rapprocheDe
+VivaiFiori,4.01,"Lorsqu'elle est prévue, une rotation adéquate est mise en œuvre",Sols & fertilisation,Niveau 1 (majeur),Gestion du sol,plusStrictQue
+VivaiFiori,4.02,"Des actions de sauvegarde du sol sont prévues (travail minimal, labour superficiel)",Sols & fertilisation,Niveau 1 (majeur),Gestion du sol,plusStrictQue
+VivaiFiori,4.03,Des plantes résistantes ou indemnes à une ou plusieurs phytopathologies sont produites,Origine matériel végétal,Niveau 1 (majeur),Origine du matériel végétal,plusStrictQue
+VivaiFiori,4.04,"Des mesures de traçabilité en entrée, sortie et interne sont adoptées",Traçabilité,Niveau 1 (majeur),Traçabilité et registres,equivautA
+VivaiFiori,4.05,Le développement de la plante et de la végétation est équilibré et proportionné,Qualité post-récolte,Niveau 1 (majeur),Qualité du produit,plusStrictQue
+VivaiFiori,4.06,Les résidus végétaux sont rapidement retirés des espaces de culture,Phytosanitaire,Niveau 1 (majeur),Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+VivaiFiori,4.07,Le personnel est formé à identifier les symptômes de carences physiologiques,Sols & fertilisation,Niveau 1 (majeur),Suivi des besoins nutritionnels,plusStrictQue
+VivaiFiori,4.08,Le personnel est formé à identifier les symptômes de phytopathologies,Phytosanitaire,Niveau 1 (majeur),Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+VivaiFiori,4.09,Des mesures de défense phytosanitaire avec des organismes utiles sont adoptées,Phytosanitaire,Niveau 1 (majeur),Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+VivaiFiori,4.10,L'entreprise actualise le personnel sur les normes de production et de mouvement des végétaux,Origine matériel végétal,Niveau 1 (majeur),Origine du matériel végétal,rapprocheDe
+VivaiFiori,4.11,"Mise à jour des listes d'espèces exotiques envahissantes (UE, nationales, régionales)",Biodiversité,Niveau 1 (majeur),"Paysage, biodiversité et conservation",rapprocheDe
+VivaiFiori,4.12,Systèmes d'identification botanique des espèces produites et commercialisées,Origine matériel végétal,Niveau 1 (majeur),Origine du matériel végétal,plusStrictQue
+VivaiFiori,4.13,Systèmes d'alerte et de rappel des marchandises en cas de non-conformité réglementaire,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+VivaiFiori,4.14,Systèmes d'étiquetage reportant les informations obligatoires réglementaires,Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+VivaiFiori,4.15,"Propreté, ordre et tenue des lieux de travail",Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+VivaiFiori,4.16,Enherbement des rangs,Sols & fertilisation,Niveau 1 (majeur),Gestion du sol,plusStrictQue
+VivaiFiori,4.17,Définition d'un plan de fertilisation,Sols & fertilisation,Niveau 1 (majeur),Suivi des besoins nutritionnels,plusStrictQue
+VivaiFiori,4.18,Irrigation : compteurs et vérification des données pluviométriques,Eau,Niveau 1 (majeur),Usage efficient et économie de l'eau,plusStrictQue
+VivaiFiori,4.19,Mesures pour l'économie de tourbe,Sols & fertilisation,Niveau 1 (majeur),Usage des substrats,plusStrictQue
+VivaiFiori,5.01,"Les plantes sont suivies sur tout leur cycle biologique (multiplication, élevage, exposition)",Qualité post-récolte,Niveau 3 (mineur),Qualité du produit,rapprocheDe
+VivaiFiori,5.02,Les serres d'exposition et de vente sont construites de manière adéquate,Qualité post-récolte,Niveau 3 (mineur),Qualité du produit,plusStrictQue
+VivaiFiori,5.03,Des systèmes d'irrigation et de fertirrigation automatiques sont présents,Eau,Niveau 3 (mineur),Usage efficient et économie de l'eau,plusStrictQue
+VivaiFiori,5.04,Les bancs et présentoirs sont positionnés à des distances évitant les risques sanitaires,Qualité post-récolte,Niveau 3 (mineur),Qualité du produit,plusStrictQue
+VivaiFiori,5.05,Les serres garantissent les températures optimales pour la croissance des plantes,Qualité post-récolte,Niveau 3 (mineur),Qualité du produit,plusStrictQue
+VivaiFiori,5.06,Autorisation de revente des produits phytosanitaires,Phytosanitaire,Niveau 3 (mineur),Contrôle phytosanitaire,equivautA
+VivaiFiori,6.01,"Environnement du point de vente (couverture, chauffage, éclairage, sol, présentoirs adaptés)",Qualité post-récolte,Niveau 3 (mineur),Qualité du produit,rapprocheDe
+VivaiFiori,6.02,"Propreté et hygiène des allées, présentoirs, équipements et produits",Qualité post-récolte,Niveau 3 (mineur),Qualité du produit,equivautA
+VivaiFiori,6.03,Disposition du rayon et flux de la clientèle (rayon repérable et accessible),Qualité post-récolte,Niveau 3 (mineur),Qualité du produit,plusStrictQue
+VivaiFiori,6.05,Exposition technique du produit (merchandising) et offre facilitant l'achat,Qualité post-récolte,Niveau 3 (mineur),Qualité du produit,equivautA
+VivaiFiori,6.07,Promotion et exposition émotionnelle/inspirationnelle du produit,Qualité post-récolte,Niveau 3 (mineur),Qualité du produit,equivautA
+VivaiFiori,6.08,Signalétique de rayon/catégorie/produit lisible,Qualité post-récolte,Niveau 3 (mineur),Qualité du produit,equivautA
+VivaiFiori,6.10,"Autres services (chariots, paniers, toilettes, point d'information)",Qualité post-récolte,Niveau 3 (mineur),Qualité du produit,plusStrictQue
+VivaiFiori,1.23,"Manger, boire et fumer est strictement interdit dans les zones à risque",Santé-sécurité,Niveau 1 (majeur),Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+VivaiFiori,1.24,Les produits chimiques sont conservés dans des contenants conformes,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+VivaiFiori,1.25,Un inventaire du contenu du dépôt est disponible,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+VivaiFiori,1.26,"La conservation, la pesée et le mélange des phytosanitaires se font dans une zone dédiée",Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+VivaiFiori,1.27,La préparation des mélanges phytosanitaires se fait sans risque de contamination,Phytosanitaire,Niveau 1 (majeur),"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+VivaiFiori,1.28,L'usage des produits phytosanitaires dans certaines zones est restreint,Phytosanitaire,Niveau 1 (majeur),Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+PlanetProof,0.0,Système de notation des mesures facultatives et de la compensation des,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,0.1,Check-list numérique,Traçabilité,Niveau 2,Traçabilité et registres,plusStrictQue
+PlanetProof,1.1,Registre pour le calcul des émissions de gaz à effet de serre,Énergie & carbone,Niveau 2,Émissions de gaz à effet de serre (GES),equivautA
+PlanetProof,1.2,Calcul des émissions de gaz à effet de serre,Énergie & carbone,Niveau 2,Émissions de gaz à effet de serre (GES),equivautA
+PlanetProof,1.3,Norme d’émission de gaz à effet de serre,Énergie & carbone,Niveau 2,Émissions de gaz à effet de serre (GES),equivautA
+PlanetProof,1.4,Énergie renouvelable des cultures de plein champ et des cultures en,Énergie & carbone,Niveau 2,Émissions de gaz à effet de serre (GES),plusStrictQue
+PlanetProof,1.5,Refroidissement de la chaleur,Énergie & carbone,Niveau 2,Efficacité énergétique,plusStrictQue
+PlanetProof,1.6,Économies par rapport à la norme Des émissions de gaz à effet de serre,Énergie & carbone,Niveau 2,Émissions de gaz à effet de serre (GES),equivautA
+PlanetProof,1.7,Production d’énergie renouvelable pour l’approvisionnement du réseau,Énergie & carbone,Niveau 2,Émissions de gaz à effet de serre (GES),plusStrictQue
+PlanetProof,1.8,Énergie et climat (mesure 1.8),Énergie & carbone,Niveau 2,Efficacité énergétique,equivautA
+PlanetProof,1.9,Plan d’économies d’énergie et d’émissions,Énergie & carbone,Niveau 2,Émissions de gaz à effet de serre (GES),rapprocheDe
+PlanetProof,1.10,Utilisation des énergies renouvelables,Énergie & carbone,Niveau 2,Émissions de gaz à effet de serre (GES),plusStrictQue
+PlanetProof,1.11,Éclairage intérieur et extérieur,Énergie & carbone,Niveau 2,Efficacité énergétique,plusStrictQue
+PlanetProof,1.12,Commutation de l’éclairage,Énergie & carbone,Niveau 2,Efficacité énergétique,plusStrictQue
+PlanetProof,1.13,Utilisation de technologies de refroidissement durables,Énergie & carbone,Niveau 2,Efficacité énergétique,plusStrictQue
+PlanetProof,1.14,Refroidissement avec contrôle de la pression du capteur,Énergie & carbone,Niveau 2,Efficacité énergétique,plusStrictQue
+PlanetProof,1.15,Contrôle de la fréquence,Énergie & carbone,Niveau 2,Efficacité énergétique,plusStrictQue
+PlanetProof,1.16,Recrutement de consultants en énergie,Énergie & carbone,Niveau 2,Efficacité énergétique,equivautA
+PlanetProof,1.17,Amélioration de la paroi du système,Énergie & carbone,Niveau 2,Efficacité énergétique,plusStrictQue
+PlanetProof,2.1,Plan d’action pour la lutte intégrée des cultures (LIC),Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),equivautA
+PlanetProof,2.2,Registre des produits phytosanitaires,Phytosanitaire,Niveau 2,Programmes et registres d'application des pesticides,plusStrictQue
+PlanetProof,2.3,Produits phytosanitaires et biocides autorisés,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,equivautA
+PlanetProof,2.4,Réduction des émissions,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+PlanetProof,2.5,Prévenir les émissions issues des parties bâties de l'exploitation,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+PlanetProof,2.6,Surveillance,Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+PlanetProof,2.7,Désinfection chimique du sol,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,plusStrictQue
+PlanetProof,2.8,Mise en œuvre de la lutte non chimique contre les ravageurs,Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),equivautA
+PlanetProof,2.9,Désherbage,Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+PlanetProof,2.10,Norme matière active,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,plusStrictQue
+PlanetProof,2.11,Glyphosate,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,plusStrictQue
+PlanetProof,2.12,Inspection du matériel de pulvérisation de produits phytosanitaires,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+PlanetProof,2.13,Certificat de compétence pour l’application de produits phytosanitaires,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+PlanetProof,2.14,Travaux effectués par un prestataire agricole,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+PlanetProof,2.15,Hygiène de l’entreprise,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+PlanetProof,2.16,Emballage des produits phytosanitaires,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+PlanetProof,2.17,Variétés résistantes,Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+PlanetProof,2.18,Matériel de propagation certifié,Origine matériel végétal,Niveau 2,Origine du matériel végétal,rapprocheDe
+PlanetProof,2.19,Lutte non chimique contre les maladies et ravageurs au-dessus du sol,Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),equivautA
+PlanetProof,2.20,Lutte non chimique contre les nématodes et autres ravageurs et,Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),equivautA
+PlanetProof,2.21,Mesures non chimiques pour le désherbage,Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+PlanetProof,2.22,Aucun produit phytosanitaire chimique,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,equivautA
+PlanetProof,2.23,Systèmes d’aide à la décision (OAD ou DSS),Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+PlanetProof,2.24,Logiciel d’enregistrement,Phytosanitaire,Niveau 2,Programmes et registres d'application des pesticides,plusStrictQue
+PlanetProof,2.25,Mesures de réduction des émissions,Phytosanitaire,Niveau 2,Minimisation du risque chimique lié aux pesticides et bio-intrants,plusStrictQue
+PlanetProof,2.26,Protection des cultures (mesure 2.26),Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+PlanetProof,2.27,Matières à faible risque,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,plusStrictQue
+PlanetProof,2.28,Nettoyants et désinfectants sans pictogramme de danger pour,Phytosanitaire,Niveau 2,"Installations, équipements et pratiques pour la manipulation sûre des pesticides",plusStrictQue
+PlanetProof,2.29,Utilisation réduite de matières actives,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,plusStrictQue
+PlanetProof,3.1,Cultures de plein champ : Au moins 6 points bonus seront attribués sur le thème,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",rapprocheDe
+PlanetProof,3.2,Biodiversité (mesure 3.2),Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",rapprocheDe
+PlanetProof,3.3,Biodiversité (mesure 3.3),Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",rapprocheDe
+PlanetProof,3.4,Biodiversité (mesure 3.4),Biodiversité,Niveau 3 (mineur),"Paysage, biodiversité et conservation",rapprocheDe
+PlanetProof,3.5,Protection en cas d’éclairage artificiel,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.6,Biodiversité (mesure 3.6),Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",rapprocheDe
+PlanetProof,3.7,Accord sur la gestion de la nature,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.8,Bordure d’herbe (ou de céréales) non tondue,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.9,Bordure d’herbes aromatiques et/ou de fleurs,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.10,Coin végétalisé,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.11,Jachère verte,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.12,Fauchage des bandes d’herbe en alternance,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.13,Culture en bandes,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.14,Diversité des cultures,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.15,Sites de nidification et abris,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.16,Champ non labouré,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.17,Mesures de la biodiversité,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",rapprocheDe
+PlanetProof,3.18,Gestion écologique des bords de fossés,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.19,Berge écologique,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.20,Terre de roseaux ou mare,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.21,Végétation près de la réserve d’eau,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.22,Végétation ligneuse,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.23,Haies et buissons,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,3.24,Bosquets,Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+PlanetProof,4.1,Bilan de la matière organique,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+PlanetProof,4.2,Prévention de l’érosion des sols,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+PlanetProof,4.3,Bilan positif de la matière organique,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+PlanetProof,4.4,Évaluation visuelle du sol,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+PlanetProof,4.5,Analyse de la vie du sol,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+PlanetProof,4.6,Résidus de culture et de transformation,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+PlanetProof,4.7,Fumier,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+PlanetProof,4.8,Engrais verts,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+PlanetProof,4.9,Cultures intermédiaires,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+PlanetProof,4.10,Labour superficiel,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+PlanetProof,4.11,Techniques sans labour,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+PlanetProof,4.12,Agriculture à circulation contrôlée,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+PlanetProof,4.13,Pneus à faible pression au sol,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+PlanetProof,4.14,Système d’échange d’informations sur les parcelles,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+PlanetProof,5.1,Plan de fertilisation,Sols & fertilisation,Niveau 2,Programmes et registres d'application des fertilisants,plusStrictQue
+PlanetProof,5.2,Enregistrements d’utilisation des fertilisants,Sols & fertilisation,Niveau 2,Programmes et registres d'application des fertilisants,plusStrictQue
+PlanetProof,5.3,Fertilisation à l’azote (N) et au phosphate (P) pour les cultures de plein,Sols & fertilisation,Niveau 2,Suivi des besoins nutritionnels,plusStrictQue
+PlanetProof,5.4,Fertilisation à l’azote (N) et au phosphate (P) pour les cultures,Sols & fertilisation,Niveau 2,Suivi des besoins nutritionnels,plusStrictQue
+PlanetProof,5.5,Cultures non-protégées hors sol,Sols & fertilisation,Niveau 2,Suivi des besoins nutritionnels,plusStrictQue
+PlanetProof,5.6,Ajustement de la fertilisation azotée en fonction des mesures,Sols & fertilisation,Niveau 2,Suivi des besoins nutritionnels,plusStrictQue
+PlanetProof,5.7,Inspection de l’épandeur de fertilisants,Sols & fertilisation,Niveau 2,Programmes et registres d'application des fertilisants,plusStrictQue
+PlanetProof,5.8,Teneur en cadmium des fertilisants phosphatés,Sols & fertilisation,Niveau 2,Manipulation sûre des fertilisants,rapprocheDe
+PlanetProof,5.9,Champignons,Sols & fertilisation,Niveau 2,Manipulation sûre des fertilisants,plusStrictQue
+PlanetProof,5.10,Boues,Sols & fertilisation,Niveau 2,Manipulation sûre des fertilisants,plusStrictQue
+PlanetProof,5.11,Ajustement de la fertilisation,Sols & fertilisation,Niveau 2,Suivi des besoins nutritionnels,plusStrictQue
+PlanetProof,5.12,Matériel de fertilisation de précision,Sols & fertilisation,Niveau 2,Programmes et registres d'application des fertilisants,plusStrictQue
+PlanetProof,5.13,Culture fixatrice d’azote,Sols & fertilisation,Niveau 2,Suivi des besoins nutritionnels,plusStrictQue
+PlanetProof,5.14,Cartes de rendement,Sols & fertilisation,Niveau 2,Suivi des besoins nutritionnels,plusStrictQue
+PlanetProof,5.15,Proportion d’azote provenant de fertilisant organique par rapport aux,Sols & fertilisation,Niveau 2,Suivi des besoins nutritionnels,plusStrictQue
+PlanetProof,6.1,Nombre de points bonus obligatoires par des mesures facultatives,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.3,Liste des parties prenantes (à partir du niveau de risque de pénurie d’eau,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.4,Calamités (à partir du niveau de risque de pénurie d’eau 3.1),Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.5,Législation (à partir du niveau de risque de pénurie d’eau 3.1),Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.6,Changement climatique (à partir du niveau de risque de pénurie d’eau 3.1),Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.7,Enregistrements de l’origine et de la consommation de l’eau,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.8,Rapport sur les rejets et la consommation d’eau (à partir du niveau de,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+PlanetProof,6.9,Enregistrements des rejets d’eaux usées provenant du processus,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+PlanetProof,6.10,Analyse de l’eau du puits de drainage,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+PlanetProof,6.11,Eau de condensation des bâtiments et de la face intérieure des serres,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.12,Gestion des réserves d’eau,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.13,Installations d’osmose inverse (OI),Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.14,Refroidissement,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.15,Système fermé de collecte des eaux de drainage,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.16,Réutilisation des eaux de drainage comme eau d’irrigation,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.17,Prévention des rejets de pesticides dans les eaux usées,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+PlanetProof,6.18,Norme d’émission de N,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+PlanetProof,6.19,Rejet des eaux usées provenant du nettoyage des produits et des,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+PlanetProof,6.20,Lixiviat,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+PlanetProof,6.21,Besoins en eau,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.22,Gestion de réservoir(s) d’eau,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.25,Eau de rinçage de filtres,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.26,Réutilisation de l’eau de condensation des installations techniques,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.27,Irrigation efficace dans les cultures en sol,Eau,Niveau 2,Usage efficient et économie de l'eau,rapprocheDe
+PlanetProof,6.28,Irrigation automatique,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.29,Contrôle de l’uniformité de l’irrigation,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,6.30,Prévention des rejets et des fuites,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+PlanetProof,6.31,Pas de rejet,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+PlanetProof,6.32,Actions collectives,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+PlanetProof,7.1,Déchets,Déchets,Niveau 2,Prévention et réduction des déchets,rapprocheDe
+PlanetProof,7.2,Enregistrements des flux de déchets,Déchets,Niveau 3 (mineur),Prévention et réduction des déchets,rapprocheDe
+PlanetProof,7.3,Produits de nettoyage autorisés,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.4,Utilisation de tourbe produite de manière responsable,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.5,Système de notation des mesures facultatives,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.6,L’emballage est fonctionnel,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.7,Emballage (mesure 7.7),Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.8,Emballage (mesure 7.8),Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.9,Emballage (mesure 7.9),Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.10,Utilisation de matériaux recyclés,Déchets,Niveau 2,Réutilisation et recyclage,equivautA
+PlanetProof,7.11,Métaux lourds,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.12,Matériel de culture biodégradable,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.13,Matériel recyclé ou d’occasion,Déchets,Niveau 2,Réutilisation et recyclage,equivautA
+PlanetProof,7.14,Durabilité des substrats,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.15,Remplacement de la tourbe dans les substrats organiques,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.16,Valorisation optimale des flux de déchets,Déchets,Niveau 2,Réutilisation et recyclage,plusStrictQue
+PlanetProof,7.17,Réduction des déchets éliminés,Déchets,Niveau 2,Traitement et élimination finale,rapprocheDe
+PlanetProof,7.18,Toile climatique,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.19,Alternatives au matériel de support traité chimiquement,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.20,Instructions pour la mise au rebut,Déchets,Niveau 2,Traitement et élimination finale,plusStrictQue
+PlanetProof,7.21,Exempts de métaux lourds,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.22,Matières premières renouvelables,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.23,Matériau certifié,Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.24,Mono-matériaux,Déchets,Niveau 2,Réutilisation et recyclage,plusStrictQue
+PlanetProof,7.25,Réalisation d’une analyse environnementale (LCA),Déchets,Niveau 2,Prévention et réduction des déchets,plusStrictQue
+PlanetProof,7.26,Réutilisation des emballages primaires,Déchets,Niveau 2,Réutilisation et recyclage,equivautA
+PlanetProof,7.27,Réutilisation de l’emballage secondaire,Déchets,Niveau 2,Réutilisation et recyclage,equivautA
+PlanetProof,7.28,Utilisation de plastique recyclé dans les emballages secondaires,Déchets,Niveau 2,Réutilisation et recyclage,equivautA
+PlanetProof,7.29,Les emballages en plastique souple sont recyclables,Déchets,Niveau 2,Réutilisation et recyclage,equivautA
+PlanetProof,7.30,Les emballages en papier et carton sont recyclables,Déchets,Niveau 2,Réutilisation et recyclage,equivautA
+PlanetProof,7.31,Les emballages en verre sont recyclables,Déchets,Niveau 2,Réutilisation et recyclage,equivautA
+PlanetProof,7.32,Utilisation de plastique recyclé dans les emballages primaires,Déchets,Niveau 2,Réutilisation et recyclage,equivautA
+PlanetProof,8.0,Exigences générales de certification,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.1,Se conformer aux exigences légales et extralégales,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.2,Certification au niveau de la culture/du produit,Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.3,Culture de plein champ ou protégée,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.4,Matériel de propagation pour les fleurs à bulbe et les endives,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.5,Données de récolte,Traçabilité,Niveau 3 (mineur),Traçabilité et registres,plusStrictQue
+PlanetProof,8.6,Teinture,Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.7,Culture contractuelle,Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.8,Notification des écarts temporaires,Gouvernance,Niveau 1 (majeur),Traitement des non-conformités et des plaintes,plusStrictQue
+PlanetProof,8.9,Calamités,Gouvernance,Niveau 2,Traitement des non-conformités et des plaintes,plusStrictQue
+PlanetProof,8.10,Procédure de réclamation,Gouvernance,Niveau 3 (mineur),Traitement des non-conformités et des plaintes,plusStrictQue
+PlanetProof,8.11,Achats complémentaires,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.12,Procédure de ségrégation en cas de certification d’une partie de la production d'une culture,Traçabilité,Niveau 2,Traçabilité et registres,plusStrictQue
+PlanetProof,8.13,Prestataires de services,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.14,Période minimale de culture pour les produits achetés,Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.15,Identification,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.16,Produits composites avec le logo On the way PlanetProof,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.17,Communication On the way to PlanetProof,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.18,Communication,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.19,Communication,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.20,Communication,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.21,Communication produits « Groenkeur »,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.22,La direction/l’administration du gestionnaire de chaîne nomme un responsable chargé d’exécuter les,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,equivautA
+PlanetProof,8.23,Le gestionnaire de chaîne conclut avec les partenaires un contrat décrivant les tâches et les,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.24,Le gestionnaire de chaîne fournit une déclaration selon laquelle l’entreprise en question participe à sa,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,rapprocheDe
+PlanetProof,8.25,Le gestionnaire de chaîne fournit au participant toutes les informations nécessaires pour participer à la,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,rapprocheDe
+PlanetProof,8.26,Contrôles par le gestionnaire de chaîne,Gouvernance,Niveau 2,Inspection et audit interne,plusStrictQue
+PlanetProof,8.27,"Le gestionnaire de chaîne doit tenir une liste complète et à jour reprenant au moins, pour chaque",Traçabilité,Niveau 2,Traçabilité et registres,rapprocheDe
+PlanetProof,8.28,Écarts temporaires de participants de la Gestion de la chaîne d’approvisionnement,Gouvernance,Niveau 2,Traitement des non-conformités et des plaintes,plusStrictQue
+PlanetProof,8.29,Les inspections auprès d’un titulaire de label indépendant disposant de partenaires sont en principe,Gouvernance,Niveau 2,Inspection et audit interne,rapprocheDe
+PlanetProof,8.30,Utilisation de la mention On the way to PlanetProof (logo) par les participants à la chaîne,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+PlanetProof,8.31,Achat et vente de produits On the way to PlanetProof au sein de la gestion de la chaîne,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+Plante Bleue,3,Biodiversité (items du référentiel HVE),Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",rapprocheDe
+Plante Bleue,4,Stratégie phytosanitaire (items du référentiel HVE),Phytosanitaire,Niveau 2,Lutte intégrée contre les ravageurs (MIP),plusStrictQue
+Plante Bleue,5,Gestion de la fertilisation (items du référentiel HVE),Sols & fertilisation,Niveau 2,Suivi des besoins nutritionnels,plusStrictQue
+Plante Bleue,6,Gestion de l'irrigation (items du référentiel HVE),Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+Plante Bleue,7.1,Approvisionnement limitant la génération de déchets,Déchets,Niveau 2,Prévention et réduction des déchets,rapprocheDe
+Plante Bleue,7.2,Zones de stockage des déchets,Déchets,Niveau 2,Prévention et réduction des déchets,rapprocheDe
+Plante Bleue,7.3,Conditions de stockage des déchets,Déchets,Niveau 2,Prévention et réduction des déchets,rapprocheDe
+Plante Bleue,7.4,Tri des déchets,Déchets,Niveau 2,Réutilisation et recyclage,plusStrictQue
+Plante Bleue,7.6,Valorisation des déchets,Déchets,Niveau 2,Réutilisation et recyclage,plusStrictQue
+Plante Bleue,7.6.1,Respect des obligations légales sur les déchets,Déchets,Niveau 2,Traitement et élimination finale,plusStrictQue
+Plante Bleue,7.6.2,Déchets hors filière REP agréée : valorisation,Déchets,Niveau 2,Réutilisation et recyclage,plusStrictQue
+Plante Bleue,7.6.3,Déchets hors filière REP agréée : traçabilité,Déchets,Niveau 2,Traitement et élimination finale,plusStrictQue
+Plante Bleue,7.7,Valorisation des biodéchets en entreprise,Déchets,Niveau 2,Réutilisation et recyclage,plusStrictQue
+Plante Bleue,8.1,Quantités d'énergie consommées,Énergie & carbone,Niveau 2,Efficacité énergétique,equivautA
+Plante Bleue,8.2,Outil d'aide à la décision énergétique,Énergie & carbone,Niveau 2,Efficacité énergétique,equivautA
+Plante Bleue,8.3,Equipements d'économie d'énergie (abris),Énergie & carbone,Niveau 2,Efficacité énergétique,equivautA
+Plante Bleue,8.4,Audit énergétique,Énergie & carbone,Niveau 2,Efficacité énergétique,equivautA
+Plante Bleue,8.5,Pratiques économes en énergie,Énergie & carbone,Niveau 2,Efficacité énergétique,equivautA
+Plante Bleue,8.6,Amélioration des rendements de production de chaleur,Énergie & carbone,Niveau 2,Efficacité énergétique,plusStrictQue
+Plante Bleue,8.7,Part des énergies renouvelables,Énergie & carbone,Niveau 2,Émissions de gaz à effet de serre (GES),plusStrictQue
+Plante Bleue,9.1,Les ressources humaines,Droit du travail,Niveau 2,Pratiques de travail,plusStrictQue
+Plante Bleue,9.2,Les bonnes pratiques sociétales,Formation & bien-être,Niveau 2,Bien-être des travailleurs,plusStrictQue
+Plante Bleue,9.3,Bilan social,Traçabilité,Niveau 2,Traçabilité et registres,plusStrictQue
+Charte Qualité Fleurs,CSC,Obligations des structures collectives (organisation de l'agrément),Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+Charte Qualité Fleurs,1,Obligations et engagements sociaux et environnementaux (prise de connaissance),Gouvernance,Niveau 1 (majeur),Responsabilité et engagement de la direction,plusLargeQue
+Charte Qualité Fleurs,2,"Origine des productions (France, liste des parcelles)",Traçabilité,Niveau 1 (majeur),Traçabilité et registres,plusStrictQue
+Charte Qualité Fleurs,3,"Qualité, calibrage, présentation et marquage des fleurs et feuillages coupés",Qualité post-récolte,Niveau 1 (majeur),Qualité du produit,equivautA
+Charte Qualité Fleurs,4,Tenue en vase des fleurs et feuillages coupés frais,Qualité post-récolte,Niveau 1 (majeur),Qualité du produit,plusStrictQue
+Charte Qualité Fleurs,A2-1,Document unique d'évaluation des risques professionnels (DUERP),Santé-sécurité,Niveau 2,Évaluation des conditions de santé et de travail,plusStrictQue
+Charte Qualité Fleurs,A2-2,Plan de prévention et protocole de sécurité (chargement-déchargement),Santé-sécurité,Niveau 2,Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+Charte Qualité Fleurs,A2-3,Fourniture d'équipements de protection individuelle (EPI) adéquats,Santé-sécurité,Niveau 2,Mise en œuvre du système de gestion SST (SG-SST),plusStrictQue
+Charte Qualité Fleurs,A2-4,Suivi médical des salariés (médecine du travail),Santé-sécurité,Niveau 2,Médecine préventive et du travail,equivautA
+Charte Qualité Fleurs,A2-5,Registre médical et registre des accidents du travail,Santé-sécurité,Niveau 2,"Signalement et investigation des incidents, accidents et maladies professionnelles",plusStrictQue
+Charte Qualité Fleurs,A2-6,Liberté syndicale et droit à la négociation collective,Droit du travail,Niveau 2,Liberté d'association et négociation collective,equivautA
+Charte Qualité Fleurs,A2-7,Élimination de la discrimination en matière d'emploi,Droit du travail,Niveau 2,Non-discrimination et absence de maltraitance,rapprocheDe
+Charte Qualité Fleurs,A2-8,Droit à la formation professionnelle,Formation & bien-être,Niveau 2,Formation et entraînement,equivautA
+Charte Qualité Fleurs,A2-9,Durée du travail et temps de repos,Droit du travail,Niveau 2,Durée du travail,equivautA
+Charte Qualité Fleurs,A2-10,Rémunération et salaire minimum légal,Droit du travail,Niveau 2,Rémunération et salaires,equivautA
+Charte Qualité Fleurs,A2-11,Représentation du personnel et dialogue social,Droit du travail,Niveau 2,Liberté d'association et négociation collective,plusStrictQue
+Charte Qualité Fleurs,A3-1,"Obligations et engagements environnementaux (limiter les impacts, prévenir les risques)",Biodiversité,Niveau 2,Gestion de l'unité de production,plusLargeQue
+MPS-ABC,1.1,Exemplaire signé du contrat de participation,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue
+MPS-ABC,1.3,Numéro MPS pour chaque comptabilité séparée,Traçabilité,Niveau 2,Traçabilité et registres,plusStrictQue
+MPS-ABC,1.4,Comptabilité originale et complète,Traçabilité,Niveau 2,Traçabilité et registres,plusStrictQue
+MPS-ABC,1.5,Revente autorisée sous certaines conditions,Traçabilité,Niveau 2,Traçabilité et registres,plusStrictQue
+MPS-ABC,1.6,Enregistrement et mise à jour des données,Traçabilité,Niveau 2,Traçabilité et registres,plusStrictQue
+MPS-ABC,1.9,Enregistrement des produits phytosanitaires utilisés,Phytosanitaire,Niveau 2,Programmes et registres d'application des pesticides,plusStrictQue
+MPS-ABC,1.10,Exactitude des données fournies,Traçabilité,Niveau 2,Traçabilité et registres,plusStrictQue
+MPS-ABC,1.11,Collecte de produits issus de la nature (autorisation officielle),Biodiversité,Niveau 2,"Paysage, biodiversité et conservation",plusStrictQue
+MPS-ABC,2.1,Données sur l'entreprise (questionnaire général),Traçabilité,Niveau 2,Traçabilité et registres,plusStrictQue
+MPS-ABC,2.2,"MPS-MIND : indicateurs environnementaux du site (eau de surface, sol, climat)",Biodiversité,Niveau 2,Gestion de l'unité de production,plusLargeQue
+MPS-ABC,2.2.1,Distance des parcelles à l'eau de surface,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+MPS-ABC,2.2.5,Recirculation de l'eau,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+MPS-ABC,2.2.7,Teneur en matière organique du sol,Sols & fertilisation,Niveau 2,Gestion du sol,plusStrictQue
+MPS-ABC,2.3,"MPS-OEX : mesures d'économie d'énergie sous serre (écrans, CO2, lampes, verre diffus)",Énergie & carbone,Niveau 2,Efficacité énergétique,equivautA
+MPS-ABC,2.4,"Enregistrement des produits phytosanitaires (codes MPS, quantités)",Phytosanitaire,Niveau 2,Programmes et registres d'application des pesticides,plusStrictQue
+MPS-ABC,2.4.3,Interdiction des substances actives non autorisées,Phytosanitaire,Niveau 2,Contrôle phytosanitaire,plusStrictQue
+MPS-ABC,2.5,"Enregistrement des engrais utilisés (codes MPS, quantités)",Sols & fertilisation,Niveau 2,Programmes et registres d'application des fertilisants,plusStrictQue
+MPS-ABC,2.6,Enregistrement de la consommation d'énergie,Énergie & carbone,Niveau 2,Efficacité énergétique,equivautA
+MPS-ABC,2.7.1,Déchets organiques (tri et valorisation),Déchets,Niveau 2,Réutilisation et recyclage,plusStrictQue
+MPS-ABC,2.7.2,Papier et carton,Déchets,Niveau 2,Réutilisation et recyclage,plusStrictQue
+MPS-ABC,2.7.3,Matières plastiques,Déchets,Niveau 2,Réutilisation et recyclage,plusStrictQue
+MPS-ABC,2.7.4,Déchets chimiques,Déchets,Niveau 2,Traitement et élimination finale,plusStrictQue
+MPS-ABC,2.8.1,Recueil de l'eau de pluie,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+MPS-ABC,2.8.3,Enregistrement de la consommation d'eau,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+MPS-ABC,2.8.4,Irrigation goutte à goutte ou recirculation,Eau,Niveau 2,Usage efficient et économie de l'eau,plusStrictQue
+MPS-ABC,2.8.7,Eau évacuée / drainage,Eau,Niveau 2,Qualité de l'eau,plusStrictQue
+MPS-ABC,2.9,Cluster environnemental (plan de mesures),Biodiversité,Niveau 2,Gestion de l'unité de production,plusStrictQue
+MPS-ABC,2.10,Matériel de base certifié dans le domaine environnemental,Origine matériel végétal,Niveau 2,Origine du matériel végétal,rapprocheDe
+MPS-ABC,2.11,Culture contractuelle,Gouvernance,Niveau 2,Responsabilité et engagement de la direction,plusStrictQue

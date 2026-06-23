@@ -1,0 +1,85 @@
+<svg viewBox="0 0 1180 860" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#9A9A9A"/></marker></defs>
+<rect x="0" y="0" width="1180" height="860" rx="0" fill="#FAF9F6" stroke="#FAF9F6" stroke-width="0"/>
+<text x="590" y="40" font-family="Helvetica,Arial,sans-serif" font-size="24" font-weight="700" fill="#2B2B2B" text-anchor="middle">Plateforme d'agrégation et d'exploitation de référentiels</text>
+<text x="590" y="64" font-family="Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#6B6B6B" text-anchor="middle">Socle Référentiels (Kosmio) , architecture cible V1</text>
+<rect x="40" y="95" width="300" height="150" rx="12" fill="#FFFFFF" stroke="#9A9A9A" stroke-width="1.4"/>
+<text x="190" y="118" font-family="Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#6B6B6B" text-anchor="middle">Sources</text>
+<rect x="60" y="132" width="260" height="34" rx="8" fill="#F4F4F2" stroke="#9A9A9A" stroke-width="1.2"/>
+<text x="190" y="154" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Checklists / labels (PDF, tableur)</text>
+<rect x="60" y="168" width="260" height="34" rx="8" fill="#F4F4F2" stroke="#9A9A9A" stroke-width="1.2"/>
+<text x="190" y="190" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Clauses normatives ISO / AFNOR</text>
+<rect x="60" y="204" width="260" height="34" rx="8" fill="#F4F4F2" stroke="#9A9A9A" stroke-width="1.2"/>
+<text x="190" y="226" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Pages web et réglementations</text>
+<rect x="40" y="275" width="300" height="330" rx="12" fill="#E8F0E3" stroke="#6E9A5A" stroke-width="1.6"/>
+<text x="190" y="300" font-family="Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#6E9A5A" text-anchor="middle">Plan d'ingestion (LLM)</text>
+<rect x="60" y="316" width="260" height="34" rx="8" fill="#FFFFFF" stroke="#6E9A5A" stroke-width="1.2"/>
+<text x="190" y="338" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">1. Extraction (par type de source)</text>
+<rect x="60" y="368" width="260" height="34" rx="8" fill="#FFFFFF" stroke="#6E9A5A" stroke-width="1.2"/>
+<text x="190" y="390" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">2. Normalisation + traduction</text>
+<rect x="60" y="420" width="260" height="34" rx="8" fill="#FFFFFF" stroke="#6E9A5A" stroke-width="1.2"/>
+<text x="190" y="442" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">3. Embeddings</text>
+<rect x="60" y="472" width="260" height="34" rx="8" fill="#FFFFFF" stroke="#6E9A5A" stroke-width="1.2"/>
+<text x="190" y="494" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">4. Rattachement proposé (LLM)</text>
+<rect x="60" y="524" width="260" height="34" rx="8" fill="#FFFFFF" stroke="#6E9A5A" stroke-width="1.2"/>
+<text x="190" y="546" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">5. Validation curateur + SHACL</text>
+<rect x="400" y="150" width="420" height="455" rx="12" fill="#E6EEF6" stroke="#3F6FA6" stroke-width="1.8"/>
+<text x="610" y="176" font-family="Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#3F6FA6" text-anchor="middle">Socle de connaissance</text>
+<text x="610" y="196" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#6B6B6B" text-anchor="middle">Postgres / Supabase + pgvector</text>
+<rect x="420" y="212" width="380" height="34" rx="8" fill="#FFFFFF" stroke="#3F6FA6" stroke-width="1.2"/>
+<text x="610" y="234" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Socle commun (catégories, thèmes, critères communs)</text>
+<rect x="420" y="262" width="380" height="34" rx="8" fill="#FFFFFF" stroke="#3F6FA6" stroke-width="1.2"/>
+<text x="610" y="284" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Référentiels et critères (9 actifs, extensible)</text>
+<rect x="420" y="312" width="380" height="34" rx="8" fill="#FFFFFF" stroke="#3F6FA6" stroke-width="1.2"/>
+<text x="610" y="334" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Rapprochements qualifiés (degré, provenance)</text>
+<rect x="420" y="362" width="380" height="34" rx="8" fill="#FFFFFF" stroke="#3F6FA6" stroke-width="1.2"/>
+<text x="610" y="384" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Embeddings vectoriels</text>
+<rect x="420" y="412" width="380" height="34" rx="8" fill="#FFFFFF" stroke="#3F6FA6" stroke-width="1.2"/>
+<text x="610" y="434" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Versions des référentiels</text>
+<rect x="420" y="462" width="380" height="34" rx="8" fill="#FFFFFF" stroke="#3F6FA6" stroke-width="1.2"/>
+<text x="610" y="484" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Droits, licences et entitlements</text>
+<rect x="420" y="512" width="380" height="34" rx="8" fill="#FFFFFF" stroke="#3F6FA6" stroke-width="1.2"/>
+<text x="610" y="534" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Auto-évaluations (par organisation)</text>
+<rect x="400" y="630" width="420" height="90" rx="12" fill="#E9E4D8" stroke="#9C8A5A" stroke-width="1.6"/>
+<text x="610" y="654" font-family="Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#9C8A5A" text-anchor="middle">Miroir sémantique (lecture)</text>
+<rect x="420" y="668" width="180" height="34" rx="8" fill="#FFFFFF" stroke="#9C8A5A" stroke-width="1.2"/>
+<text x="510" y="690" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Oxigraph / GraphDB , SPARQL</text>
+<rect x="620" y="668" width="180" height="34" rx="8" fill="#FFFFFF" stroke="#9C8A5A" stroke-width="1.2"/>
+<text x="710" y="690" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Export Turtle / JSON-LD / CSV</text>
+<rect x="880" y="150" width="260" height="250" rx="12" fill="#F3E9DC" stroke="#C08A3E" stroke-width="1.8"/>
+<text x="1010" y="176" font-family="Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#C08A3E" text-anchor="middle">Plan d'exposition</text>
+<rect x="900" y="196" width="220" height="34" rx="8" fill="#FFFFFF" stroke="#C08A3E" stroke-width="1.2"/>
+<text x="1010" y="218" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">API REST /v1 (clés, quotas)</text>
+<rect x="900" y="236" width="220" height="34" rx="8" fill="#FFFFFF" stroke="#C08A3E" stroke-width="1.2"/>
+<text x="1010" y="258" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Serveur MCP (outils agents)</text>
+<rect x="900" y="276" width="220" height="34" rx="8" fill="#FFFFFF" stroke="#C08A3E" stroke-width="1.2"/>
+<text x="1010" y="298" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Auth + droits (RLS)</text>
+<text x="1010" y="330" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="700" fill="#6B6B6B" text-anchor="middle">Services</text>
+<rect x="900" y="342" width="220" height="34" rx="8" fill="#FBF4EA" stroke="#C08A3E" stroke-width="1.2"/>
+<text x="1010" y="364" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">S1 Exigences d'un référentiel</text>
+<rect x="880" y="410" width="260" height="118" rx="12" fill="#F3E9DC" stroke="#C08A3E" stroke-width="1.2"/>
+<rect x="900" y="420" width="220" height="34" rx="8" fill="#FBF4EA" stroke="#C08A3E" stroke-width="1.2"/>
+<text x="1010" y="442" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">S2 Proximité et analyse croisée</text>
+<rect x="900" y="458" width="220" height="34" rx="8" fill="#FBF4EA" stroke="#C08A3E" stroke-width="1.2"/>
+<text x="1010" y="480" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">S3 Auto-évaluation de conformité</text>
+<rect x="900" y="496" width="220" height="34" rx="8" fill="#FBF4EA" stroke="#C08A3E" stroke-width="1.2"/>
+<text x="1010" y="518" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Recherche, export, webhooks</text>
+<rect x="880" y="560" width="260" height="200" rx="12" fill="#EFE6F0" stroke="#8A5A8F" stroke-width="1.6"/>
+<text x="1010" y="584" font-family="Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#8A5A8F" text-anchor="middle">Consommateurs</text>
+<rect x="900" y="600" width="220" height="34" rx="8" fill="#FFFFFF" stroke="#8A5A8F" stroke-width="1.2"/>
+<text x="1010" y="622" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Interface de curation</text>
+<rect x="900" y="638" width="220" height="34" rx="8" fill="#FFFFFF" stroke="#8A5A8F" stroke-width="1.2"/>
+<text x="1010" y="660" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Interface d'auto-évaluation</text>
+<rect x="900" y="676" width="220" height="34" rx="8" fill="#FFFFFF" stroke="#8A5A8F" stroke-width="1.2"/>
+<text x="1010" y="698" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Solutions tierces (API)</text>
+<rect x="900" y="714" width="220" height="34" rx="8" fill="#FFFFFF" stroke="#8A5A8F" stroke-width="1.2"/>
+<text x="1010" y="736" font-family="Helvetica,Arial,sans-serif" font-size="13" font-weight="500" fill="#2B2B2B" text-anchor="middle">Agents / Claude (MCP)</text>
+<line x1="190" y1="245" x2="190" y2="275" stroke="#9A9A9A" stroke-width="1.6" marker-end="url(#ar)"/>
+<line x1="340" y1="420" x2="400" y2="400" stroke="#6E9A5A" stroke-width="1.6" marker-end="url(#ar)"/>
+<line x1="820" y1="330" x2="880" y2="300" stroke="#3F6FA6" stroke-width="1.6" marker-end="url(#ar)"/>
+<line x1="610" y1="605" x2="610" y2="630" stroke="#9C8A5A" stroke-width="1.6" marker-end="url(#ar)"/>
+<line x1="880" y1="660" x2="820" y2="680" stroke="#9C8A5A" stroke-width="1.6" marker-end="url(#ar)"/>
+<line x1="1010" y1="528" x2="1010" y2="560" stroke="#C08A3E" stroke-width="1.6" marker-end="url(#ar)"/>
+<line x1="900" y1="612" x2="824" y2="470" stroke="#8A5A8F" stroke-width="1.4" stroke-dasharray="5,4" marker-end="url(#ar)"/>
+<text x="905" y="540" font-family="Helvetica,Arial,sans-serif" font-size="11" font-weight="400" fill="#6B6B6B" text-anchor="start">validation</text>
+</svg>
