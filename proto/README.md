@@ -49,7 +49,7 @@ proto/
     db.py               accès Postgres (+ org_scope RLS, voisinage, comparaison)
     auth.py             résolution d'organisation par jeton
     embeddings.py       service d'embedding (partagé)
-    ingest.py           CCCEV-isation : extraction + rattachement + insertion validée
+    ingest.py           Digitalisation : extraction + rattachement au socle + insertion validée
     server.py           serveur MCP fastmcp (9 outils)
   web/
     app.py              UI web Starlette (+ route /docs)
@@ -252,7 +252,7 @@ Cinq onglets :
   (`recognition_scheme` + `recognition`), distinct du rapprochement critère-par-critère ;
 - **Comparaison** (couverture chiffrée de deux référentiels) ;
 - **Auto-évaluation** (réponses par critère commun + taux de couverture) ;
-- **+ CCCEV-iser** — wizard d'ingestion générique : déposer une source (tableur/PDF), Frameko
+- **+ Digitaliser** — wizard d'ingestion générique : déposer une source (tableur/PDF), Frameko
   extrait les exigences, propose le rattachement de chacune au socle commun (candidat + degré
   + confiance), l'utilisateur valide, et le référentiel rejoint la base — immédiatement
   comparable. Indépendant du domaine (forêt-bois, agroalimentaire, numérique…).

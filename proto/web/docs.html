@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Frameko — Documentation</title>
 <style>
-  :root{--bg:#0f1419;--panel:#171d26;--line:#2a3441;--text:#e6edf3;--muted:#8b97a6;
-    --accent:#3fb984;--accent2:#5aa9e6}
+  :root{--bg:#0f1419;--panel:#171d26;--panel2:#1e2630;--line:#2a3441;--text:#e6edf3;--muted:#8b97a6;
+    --accent:#3fb984;--accent2:#5aa9e6;--warn:#e6a23c}
   *{box-sizing:border-box}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
     background:var(--bg);color:var(--text);line-height:1.65;font-size:15px}
@@ -14,7 +14,7 @@
   header a{color:var(--accent2);text-decoration:none;font-size:13px}
   .wrap{max-width:820px;margin:0 auto;padding:32px 28px 80px}
   h1{font-size:24px;margin:0 0 6px} h1 .tag{color:var(--accent);font-weight:700}
-  .lead{color:var(--muted);margin:0 0 28px}
+  .lead{color:var(--muted);margin:0 0 24px}
   h2{font-size:18px;margin:34px 0 10px;padding-top:14px;border-top:1px solid var(--line)}
   h3{font-size:15px;margin:20px 0 6px;color:var(--accent)}
   p,li{color:#cdd6e0} code{background:var(--panel);border:1px solid var(--line);
@@ -28,6 +28,9 @@
   .pill{display:inline-block;background:var(--panel);border:1px solid var(--line);
     border-radius:20px;padding:1px 9px;font-size:12px;color:var(--accent)}
   .note{background:#10331f33;border-left:3px solid var(--accent);padding:10px 14px;border-radius:6px;margin:14px 0}
+  .toc{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin:0 0 8px}
+  .toc a{color:var(--accent2);text-decoration:none;font-size:14px} .toc a:hover{text-decoration:underline}
+  .toc li{margin:3px 0;color:var(--muted)}
   footer{color:var(--muted);font-size:12px;margin-top:40px;border-top:1px solid var(--line);padding-top:14px}
 </style>
 </head>
@@ -36,14 +39,26 @@
 <div class="wrap">
 
   <h1><span class="tag">FRAMEKO</span> — Documentation utilisateur</h1>
-  <p class="lead">Frameko rapproche les référentiels de certification autour d'un <b>socle commun</b>
-  de critères. Il permet de chercher une exigence, de comparer deux labels, et de s'auto-évaluer une
-  fois pour satisfaire plusieurs référentiels à la fois.</p>
+  <p class="lead">Frameko est une plateforme d'<b>agrégation de référentiels de certification</b>. Elle
+  relie les exigences de référentiels différents à un <b>socle commun</b> pour les rendre cherchables,
+  comparables et exploitables — et permet de <b>digitaliser</b> un nouveau référentiel en quelques minutes.</p>
 
-  <h2>1. Le principe en une minute</h2>
-  <p>Neuf référentiels horticoles (Florverde, PlanetProof, Fairtrade, Plante Bleue…) décrivent souvent
-  les mêmes exigences avec des mots différents. Frameko relie chaque critère de chaque référentiel à un
-  <b>critère commun</b> (51 au total), via un <b>degré</b> de rapprochement :</p>
+  <div class="toc"><b>Sommaire</b>
+    <ul>
+      <li><a href="#principe">1. Le principe en une minute</a></li>
+      <li><a href="#deux-couches">2. Deux couches de rapprochement</a></li>
+      <li><a href="#services">3. Les services de la console</a></li>
+      <li><a href="#digitaliser">4. Digitaliser un référentiel</a></li>
+      <li><a href="#mcp">5. Utilisation via un assistant (MCP)</a></li>
+      <li><a href="#confidentialite">6. Confidentialité &amp; isolation</a></li>
+    </ul>
+  </div>
+
+  <h2 id="principe">1. Le principe en une minute</h2>
+  <p>Treize référentiels (Florverde, GLOBALG.A.P., MPS-ABC/GAP/SQ, SIZA Social, Rainforest Alliance,
+  Fairtrade, FlorEcuador, PlanetProof, VivaiFiori, Plante Bleue, Charte Qualité Fleurs) décrivent souvent
+  les <b>mêmes exigences avec des mots différents</b>. Frameko relie chaque critère de chaque référentiel
+  à un <b>critère commun</b> (51 au total, organisés en thèmes), via un <b>degré</b> de rapprochement :</p>
   <table>
     <tr><th>Degré</th><th>Signification</th></tr>
     <tr><td><span class="pill">equivautA</span></td><td>couvre la même exigence à l'identique</td></tr>
@@ -51,8 +66,26 @@
     <tr><td><span class="pill">plusLargeQue</span></td><td>l'exigence couvre un périmètre plus large</td></tr>
     <tr><td><span class="pill">rapprocheDe</span></td><td>proche, sans être équivalent ni strictement comparable</td></tr>
   </table>
+  <p>Le socle s'appuie sur le vocabulaire européen <b>CCCEV</b> (Core Criterion and Core Evidence
+  Vocabulary). Chaque référentiel garde ses libellés et sa structure d'origine : on ne réécrit rien,
+  on relie.</p>
 
-  <h2>2. Les trois services (console web)</h2>
+  <h2 id="deux-couches">2. Deux couches de rapprochement</h2>
+  <p>Frameko rapproche les référentiels à <b>deux niveaux complémentaires</b> :</p>
+  <table>
+    <tr><th>Couche</th><th>Granularité</th><th>Ce qu'elle dit</th></tr>
+    <tr><td><b>Socle commun</b><br><span class="muted">Voisinage, Comparaison</span></td>
+        <td>critère par critère</td>
+        <td>la <b>similarité sémantique réelle</b> des exigences (« ces deux labels partagent 30 critères communs »)</td></tr>
+    <tr><td><b>FSI</b><br><span class="muted">onglet FSI</span></td>
+        <td>référentiel × pilier</td>
+        <td>la <b>reconnaissance / interchangeabilité marché</b> (« ces deux labels sont reconnus équivalents par FSI sur le pilier GAP »)</td></tr>
+  </table>
+  <p>La première est calculée à partir du contenu des exigences ; la seconde reflète une décision
+  d'un organisme tiers (FSI). Les deux se recoupent souvent, mais pas toujours — et c'est précisément
+  cette mise en regard qui fait la valeur de la plateforme.</p>
+
+  <h2 id="services">3. Les services de la console</h2>
 
   <h3>Recherche sémantique</h3>
   <p>Décrivez une exigence en langage libre (ex. <i>« économie de l'eau d'irrigation »</i>). Frameko
@@ -60,9 +93,28 @@
   avec leur degré. La recherche est <b>sémantique</b> : elle trouve les formulations proches même sans
   les mêmes mots. Un filtre permet de se restreindre à un référentiel.</p>
 
+  <h3>Voisinage &amp; comparaison au niveau critère</h3>
+  <p>Choisissez un <b>référentiel pivot</b> : Frameko l'affiche au centre d'une <b>constellation</b> où
+  chaque lien mesure le nombre de critères communs partagés avec les autres référentiels (lien épais =
+  fort recouvrement). Cliquez un voisin pour <b>descendre jusqu'au critère</b> : pour chaque critère
+  commun partagé, les exigences d'origine des deux référentiels s'affichent côte à côte, avec leur degré.
+  C'est la façon la plus fine de voir où deux labels se rejoignent ou divergent.</p>
+
+  <h3>FSI — couche d'équivalence</h3>
+  <p>La <b>Floriculture Sustainability Initiative</b> n'est pas un référentiel de critères : c'est un
+  <b>« Basket of Standards »</b> qui <b>reconnaît</b> d'autres standards, pilier par pilier
+  (<b>GAP</b> bonnes pratiques agricoles, <b>Environmental</b>, <b>Social</b>). L'onglet FSI affiche ce
+  panier : les standards présents dans Frameko sont surlignés (★), les autres en grisé, et le statut
+  <i>temporaire</i> est signalé. Deux standards d'un même pilier sont considérés <b>équivalents au sens
+  du marché</b>. Cliquez un référentiel en base pour voir ses <b>équivalents FSI</b> (co-reconnus dans
+  au moins un pilier) et basculer vers son voisinage critère-par-critère.</p>
+  <div class="note">FSI est modélisé comme une <b>couche distincte</b>, au-dessus du socle commun : elle
+  exprime une équivalence de reconnaissance, pas un rapprochement de contenu. C'est volontaire — les deux
+  informations sont utiles séparément.</div>
+
   <h3>Comparaison de couverture</h3>
   <p>Choisissez deux référentiels : Frameko affiche le nombre de critères communs <b>partagés</b>, et
-  ceux propres à chacun. Utile pour estimer l'effort de passage d'un label à un autre.</p>
+  ceux propres à chacun. Vue chiffrée, utile pour estimer l'effort de passage d'un label à un autre.</p>
 
   <h3>Auto-évaluation de conformité</h3>
   <p>Choisissez un référentiel cible, puis répondez au niveau des <b>critères communs</b>
@@ -71,12 +123,30 @@
   de couverture et liste les écarts.</p>
   <div class="note">Bénéfice clé : une entreprise multi-certifiée répond une fois et voit immédiatement
   ce qui est déjà acquis pour les autres labels.</div>
-  <p><b>Confidentialité.</b> Les auto-évaluations sont <b>privées et cloisonnées par organisation</b> :
-  on s'y connecte avec un jeton d'organisation, et l'isolation est garantie au niveau de la base
-  (chaque organisation ne voit que ses propres évaluations). La recherche et la comparaison, elles,
-  portent sur des données publiques de référentiels et restent accessibles sans connexion.</p>
 
-  <h2>3. Utilisation via un assistant (MCP)</h2>
+  <h2 id="digitaliser">4. Digitaliser un référentiel</h2>
+  <p>L'onglet <b>+ Digitaliser</b> transforme un référentiel « papier » (tableur ou PDF, tous domaines)
+  en données structurées et comparables, en trois temps — <b>sans rien écrire en base avant validation</b> :</p>
+  <table>
+    <tr><th>Étape</th><th>Ce qui se passe</th></tr>
+    <tr><td><b>1 · Source</b></td><td>vous renseignez l'identifiant et le titre du référentiel, puis déposez une source (<code>.xlsx</code>, <code>.csv</code>, <code>.pdf</code>). Frameko en extrait la liste des exigences.</td></tr>
+    <tr><td><b>2 · Rattachement</b></td><td>pour chaque exigence, Frameko <b>propose</b> le critère commun le plus proche et un degré, avec un score de confiance.</td></tr>
+    <tr><td><b>3 · Validation</b></td><td>vous relisez et ajustez les rattachements dans un tableau éditable, puis insérez. Le référentiel devient aussitôt explorable dans Voisinage, Comparaison et Auto-évaluation.</td></tr>
+  </table>
+  <p>Le même pipeline existe en ligne de commande pour les imports en lot :</p>
+  <pre><code># 1. Extraire les exigences d'une source (tableur ou PDF)
+python scripts/extract_source.py --source source.xlsx --out criteria.csv
+
+# 2. Proposer le rattachement au socle commun (degré décidé par l'agent, ou --llm)
+python scripts/ingest_framework.py --csv criteria.csv --slug mon-label --title "Mon Label"
+
+# 3. Appliquer une fois validé
+python scripts/apply_ingestion.py --proposals proposals.json</code></pre>
+  <p>Astuce qualité : après import, un <b>passage assisté par IA</b> peut réviser les rattachements
+  (choix du critère commun parmi les candidats + degré le plus juste), particulièrement utile quand
+  la source est dans une autre langue que le socle.</p>
+
+  <h2 id="mcp">5. Utilisation via un assistant (MCP)</h2>
   <p>Frameko expose un <b>serveur MCP</b> : un assistant comme Claude peut interroger la base
   directement. Outils disponibles :</p>
   <table>
@@ -85,25 +155,19 @@
     <tr><td><code>search_requirements</code></td><td>recherche sémantique d'exigences</td></tr>
     <tr><td><code>nearest_requirements</code></td><td>pour un texte, le critère commun de rattachement + voisins</td></tr>
     <tr><td><code>compare_frameworks</code></td><td>recouvrement entre deux référentiels</td></tr>
-    <tr><td><code>propose_mapping</code></td><td>rattacher une exigence nouvelle au socle (ingestion assistée)</td></tr>
+    <tr><td><code>propose_mapping</code></td><td>rattacher une exigence nouvelle au socle (digitalisation assistée)</td></tr>
     <tr><td><code>start_assessment</code> / <code>answer_assessment</code> / <code>get_assessment_result</code></td><td>auto-évaluation</td></tr>
   </table>
 
-  <h2>4. Ajouter un nouveau référentiel (ingestion)</h2>
-  <p>Le pipeline se déroule en trois temps, sans écrire en base avant validation :</p>
-  <pre><code># 1. Extraire les exigences d'une source (tableur ou PDF)
-python scripts/extract_source.py --source source.xlsx --out criteria.csv
+  <h2 id="confidentialite">6. Confidentialité &amp; isolation</h2>
+  <p>La <b>recherche</b>, le <b>voisinage</b>, la <b>comparaison</b> et la <b>couche FSI</b> portent sur
+  des données publiques de référentiels et restent accessibles sans connexion.</p>
+  <p>Les <b>auto-évaluations</b>, elles, sont des données sensibles : elles sont <b>privées et cloisonnées
+  par organisation</b>. On s'y connecte avec un jeton d'organisation, et l'isolation est garantie
+  <b>au niveau de la base</b> (Row-Level Security) — chaque organisation ne voit que ses propres
+  évaluations, jamais celles des autres.</p>
 
-# 2. Proposer le rattachement au socle commun (degré décidé par l'agent, ou --llm)
-python scripts/ingest_framework.py --csv criteria.csv --slug mon-label --title "Mon Label"
-#    → produit proposals.json (à relire / compléter les degrés)
-
-# 3. Appliquer une fois validé
-python scripts/apply_ingestion.py --proposals proposals.json</code></pre>
-  <p>La <b>validation humaine</b> (ou par l'agent) entre les étapes 2 et 3 est obligatoire : l'étape
-  <code>apply</code> refuse toute proposition sans degré ou avec un critère commun inconnu.</p>
-
-  <footer>Frameko — proto V1 · Kosmio / Certifiko · documentation mise à jour avec l'application.</footer>
+  <footer>Frameko — proto · Kosmio / Certifiko · documentation mise à jour avec l'application.</footer>
 </div>
 </body>
 </html>

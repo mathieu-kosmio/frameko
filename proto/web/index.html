@@ -85,7 +85,7 @@
   .dpill{display:inline-block;padding:1px 7px;border-radius:11px;font-size:10px;font-weight:600;margin-top:4px}
   .dp-equivautA{background:#10331f;color:var(--accent)} .dp-plusStrictQue{background:#0d2233;color:var(--accent2)}
   .dp-plusLargeQue{background:#3a2f12;color:var(--warn)} .dp-rapprocheDe{background:#2a2228;color:var(--muted)}
-  /* Wizard CCCEV-isation */
+  /* Wizard Digitalisation */
   .wz-steps{display:flex;align-items:center;gap:8px;margin-bottom:16px}
   .wz-step{font-size:12px;color:var(--muted);background:var(--panel);border:1px solid var(--line);
     padding:5px 11px;border-radius:16px}
@@ -129,7 +129,7 @@
   <button data-tab="fsi">FSI</button>
   <button data-tab="compare">Comparaison</button>
   <button data-tab="assess">Auto-évaluation</button>
-  <button data-tab="ingest" style="margin-left:auto;color:var(--accent)">+ CCCEV-iser</button>
+  <button data-tab="ingest" style="margin-left:auto;color:var(--accent)">+ Digitaliser</button>
 </nav>
 <main>
 
@@ -184,12 +184,13 @@
     <div id="c-out"></div>
   </section>
 
-  <!-- ── CCCEV-iser (ingestion d'un nouveau référentiel) ── -->
+  <!-- ── Digitaliser (ingestion d'un nouveau référentiel) ── -->
   <section id="ingest">
-    <h2>CCCEV-iser un référentiel</h2>
-    <p class="hint">Pipeline générique, tous domaines. Déposez une source (tableur ou PDF) :
-      Frameko extrait les exigences, propose le rattachement de chacune au socle commun,
-      vous validez, et le référentiel rejoint la base — comparable à tous les autres.</p>
+    <h2>Digitaliser un référentiel</h2>
+    <p class="hint">Transformez un référentiel « papier » (tableur ou PDF) en données structurées et
+      comparables. Déposez une source, tous domaines : Frameko extrait les exigences, propose le
+      rattachement de chacune au socle commun, vous validez, et le référentiel rejoint la base —
+      immédiatement comparable à tous les autres.</p>
 
     <!-- Étape 1 : source + métadonnées -->
     <div class="wz-steps">
@@ -446,7 +447,7 @@ window.showEquiv=async(slug)=>{
   out.innerHTML=h; out.scrollIntoView({behavior:'smooth',block:'nearest'});
 };
 
-// ── CCCEV-iser (wizard d'ingestion) ──────────────────────────────────────────
+// ── Digitaliser (wizard d'ingestion) ───────────────────────────────────────────────────────────────────────────────
 const DEG_OPTS=[['equivautA','≡ équivaut à'],['plusStrictQue','▲ plus strict'],
   ['plusLargeQue','▽ plus large'],['rapprocheDe','≈ proche de']];
 let IZCRIT=[], IZPROPS=[];

@@ -142,7 +142,7 @@ async def api_common_criteria(request: Request) -> JSONResponse:
     return JSONResponse(rows)
 
 
-# ── Ingestion / CCCEV-isation (wizard) ──────────────────────────────────────
+# ── Ingestion / Digitalisation (wizard) ──────────────────────────────────────
 
 INGEST_LIMIT = 60  # borne de coût du proto (rattachement = 2 requêtes vectorielles / exigence)
 
