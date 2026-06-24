@@ -16,6 +16,7 @@
 services:
   mcp:
     image: ghcr.io/mathieu-kosmio/frameko:latest
+    pull_policy: always          # toujours tirer le :latest republié par la CI (sinon cache local)
     environment:
       FRAMEKO_MCP_TRANSPORT: http
       FRAMEKO_MCP_HOST: 0.0.0.0
@@ -33,6 +34,7 @@ services:
 
   web:
     image: ghcr.io/mathieu-kosmio/frameko:latest
+    pull_policy: always          # toujours tirer le :latest republié par la CI (sinon cache local)
     command: ["python", "web/app.py"]
     environment:
       FRAMEKO_WEB_HOST: 0.0.0.0
