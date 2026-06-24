@@ -34,6 +34,17 @@ def test_framework_pair_detail(db):
     assert "label" in r["a_items"][0]
 
 
+def test_framework_criteria(db):
+    """Parcours d'un référentiel : tous ses critères, avec thème et rattachement."""
+    rows = appdb.framework_criteria("charte-qualite-fleurs")
+    assert len(rows) == 17  # nb de critères de ce référentiel
+    valid = {"equivautA", "plusStrictQue", "plusLargeQue", "rapprocheDe"}
+    for r in rows:
+        assert r["label"] and r["common_code"] and r["degree"] in valid
+    # au moins un critère porte un thème (jointure catégorie/thème OK)
+    assert any(r["theme_label"] for r in rows)
+
+
 def test_ingest_propose():
     crit = [{"reference": "1.1", "criterion": "Maintien de la diversité biologique des forêts"}]
     props = ingest.propose(crit)

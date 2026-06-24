@@ -250,8 +250,11 @@ autre). Les tests se sautent proprement si `DATABASE_URL`/`APP_DATABASE_URL` son
 .venv/bin/python web/app.py               # http://127.0.0.1:8080
 ```
 
-Cinq onglets :
+Six onglets :
 - **Recherche** (sémantique) ;
+- **Référentiel** — parcourir un référentiel : tous ses critères groupés par thème, avec
+  référence d'origine, degré, niveau et rattachement au socle commun ; filtre plein texte
+  (endpoint `GET /api/framework/{slug}`) ;
 - **Voisinage** — un référentiel pivot au centre d'une constellation ; chaque lien mesure le
   nombre de critères communs partagés. Cliquer un voisin déroule la comparaison **jusqu'au
   critère** : exigences d'origine des deux référentiels, avec leur degré ;

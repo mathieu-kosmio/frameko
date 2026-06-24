@@ -164,6 +164,24 @@ def coverage(a: str, b: str) -> list[dict]:
     return query("select * from framework_coverage(%s, %s)", (a, b))
 
 
+def framework_criteria(slug: str) -> list[dict]:
+    """Tous les critères d'un référentiel, avec thème/catégorie et rattachement au
+    socle commun — pour la vue « parcourir un référentiel »."""
+    return query(
+        "select fc.reference, fc.label, fc.level, fc.degree,"
+        "       cc.code as common_code, cc.label_fr as common_label,"
+        "       t.slug as theme_slug, t.label_fr as theme_label,"
+        "       cat.label_fr as category_label"
+        " from framework_criterion fc"
+        " join common_criterion cc on cc.id = fc.common_criterion_id"
+        " left join theme t on t.slug = fc.theme_slug"
+        " left join category cat on cat.slug = t.category_slug"
+        " where fc.framework_slug = %s"
+        " order by cat.label_fr nulls last, t.label_fr nulls last, cc.code, fc.reference",
+        (slug,),
+    )
+
+
 def neighbors(slug: str) -> list[dict]:
     """Référentiels partageant des critères communs avec « slug » (voisinage)."""
     return query("select * from framework_neighbors(%s)", (slug,))

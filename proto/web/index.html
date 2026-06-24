@@ -115,6 +115,26 @@
   .fsi-chip.ext{color:var(--muted)}
   .fsi-star{color:var(--accent)} .fsi-dot{color:var(--line)}
   .fsi-temp{font-size:9px;background:#3a2f12;color:var(--warn);padding:1px 5px;border-radius:8px;margin-left:auto}
+  /* Parcourir un référentiel */
+  .b-meta{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:13px 16px;margin-bottom:6px}
+  .b-meta .t{font-size:15px;font-weight:600}
+  .b-meta .s{color:var(--muted);font-size:12px;margin-top:2px}
+  .b-stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .b-stat{background:var(--panel2);border-radius:7px;padding:5px 10px;font-size:12px}
+  .b-stat b{font-size:14px}
+  .b-grp{border:1px solid var(--line);border-radius:var(--radius);margin-bottom:8px;overflow:hidden}
+  .b-grp .gh{background:var(--panel);padding:9px 13px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:10px}
+  .b-grp .gh:hover{background:var(--panel2)}
+  .b-grp .gh .gt{font-weight:500;font-size:13px} .b-grp .gh .gc{color:var(--muted);font-size:11px}
+  .b-grp .gb{border-top:1px solid var(--line)}
+  .b-crit{padding:9px 13px;border-bottom:1px solid #1a2129}
+  .b-crit:last-child{border-bottom:none}
+  .b-crit .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+  .b-crit .ref{font-family:ui-monospace,monospace;color:var(--accent2);font-size:11px;flex-shrink:0}
+  .b-crit .lbl{font-size:13px;line-height:1.45;flex:1}
+  .b-crit .meta{display:flex;gap:6px;align-items:center;margin-top:5px;flex-wrap:wrap}
+  .b-lvl{font-size:10px;color:var(--muted);background:var(--panel2);border:1px solid var(--line);padding:1px 7px;border-radius:10px}
+  .b-cc{font-size:11px;color:var(--muted)} .b-cc .code{font-size:11px}
 </style>
 </head>
 <body>
@@ -125,6 +145,7 @@
 </header>
 <nav>
   <button data-tab="search" class="active">Recherche</button>
+  <button data-tab="browse">Référentiel</button>
   <button data-tab="neighbors">Voisinage</button>
   <button data-tab="fsi">FSI</button>
   <button data-tab="compare">Comparaison</button>
@@ -145,6 +166,19 @@
       <button class="go" id="q-go">Rechercher</button>
     </div>
     <div id="q-out"></div>
+  </section>
+
+  <!-- ── Référentiel (parcourir tous les critères) ── -->
+  <section id="browse">
+    <h2>Parcourir un référentiel</h2>
+    <p class="hint">Choisissez un référentiel : tous ses critères s'affichent, regroupés par thème,
+      avec leur référence d'origine, leur degré et le critère commun auquel ils sont rattachés.</p>
+    <div class="row">
+      <select id="b-fw" style="flex:1;min-width:240px"></select>
+      <input type="text" id="b-filter" placeholder="Filtrer les critères…" style="flex:1;min-width:180px">
+    </div>
+    <div id="b-head"></div>
+    <div id="b-out"></div>
   </section>
 
   <!-- ── Voisinage ── -->
@@ -295,6 +329,10 @@ $$('nav button').forEach(b=>b.onclick=()=>{
   $('#n-fw').innerHTML=FRAMEWORKS.map(opt).join('');
   $('#n-fw').onchange=()=>loadNeighbors($('#n-fw').value);
   loadNeighbors(FRAMEWORKS[0].slug);
+  $('#b-fw').innerHTML=FRAMEWORKS.map(opt).join('');
+  $('#b-fw').onchange=()=>loadBrowse($('#b-fw').value);
+  $('#b-filter').oninput=renderBrowse;
+  loadBrowse(FRAMEWORKS[0].slug);
   checkAuth();
 })();
 
@@ -392,6 +430,63 @@ function exigList(items){
   return (items||[]).map(it=>`<div class="exig">
     <span class="ref">${esc(it.reference||'—')}</span>${esc(it.label||'')}
     <div><span class="dpill dp-${it.degree}">${DEG_SYM[it.degree]||''} ${DEG_FR[it.degree]||it.degree}</span></div>
+  </div>`).join('');
+}
+
+// ── Parcourir un référentiel ─────────────────────────────────────────────────
+let BDATA=null;
+const DEG_LABEL={equivautA:'≡ équivaut à',plusStrictQue:'▲ plus strict',plusLargeQue:'▽ plus large',rapprocheDe:'≈ proche de'};
+
+async function loadBrowse(slug){
+  $('#b-fw').value=slug; $('#b-filter').value='';
+  $('#b-head').innerHTML=''; $('#b-out').innerHTML='<p class="spin">Chargement…</p>';
+  BDATA=await api('/api/framework/'+encodeURIComponent(slug));
+  const f=BDATA.framework, crit=BDATA.criteria;
+  const degCount={}; crit.forEach(c=>degCount[c.degree]=(degCount[c.degree]||0)+1);
+  const themes=new Set(crit.map(c=>c.theme_label).filter(Boolean));
+  const ccs=new Set(crit.map(c=>c.common_code));
+  $('#b-head').innerHTML=`<div class="b-meta">
+    <div class="t">${esc(f.title)}</div>
+    <div class="s">${[f.publisher,f.version&&'v'+f.version,f.coverage].filter(Boolean).map(esc).join(' · ')}</div>
+    <div class="b-stats">
+      <span class="b-stat"><b>${crit.length}</b> critères</span>
+      <span class="b-stat"><b>${ccs.size}</b> critères communs</span>
+      <span class="b-stat"><b>${themes.size}</b> thèmes</span>
+      ${Object.entries(degCount).map(([d,n])=>`<span class="b-stat dp-${d}" style="border:1px solid var(--line)">${DEG_SYM[d]||''} ${n}</span>`).join('')}
+    </div></div>`;
+  renderBrowse();
+}
+
+function renderBrowse(){
+  if(!BDATA)return;
+  const q=$('#b-filter').value.trim().toLowerCase();
+  const crit=BDATA.criteria.filter(c=>!q ||
+    (c.label||'').toLowerCase().includes(q) || (c.reference||'').toLowerCase().includes(q) ||
+    (c.common_label||'').toLowerCase().includes(q) || (c.theme_label||'').toLowerCase().includes(q));
+  if(!crit.length){$('#b-out').innerHTML='<p class="muted" style="padding:8px">Aucun critère ne correspond au filtre.</p>';return}
+  // regrouper par thème (en gardant l'ordre d'arrivée = catégorie ▸ thème)
+  const groups=[]; const idx={};
+  crit.forEach(c=>{
+    const key=c.theme_label||'(sans thème)';
+    if(!(key in idx)){idx[key]=groups.length;groups.push({theme:key,cat:c.category_label,items:[]})}
+    groups[idx[key]].items.push(c);
+  });
+  $('#b-out').innerHTML=groups.map((g,i)=>`<div class="b-grp">
+    <div class="gh" onclick="this.parentNode.querySelector('.gb').style.display=this.parentNode.querySelector('.gb').style.display==='none'?'block':'none'">
+      <div><span class="gt">${esc(g.theme)}</span> ${g.cat?`<span class="gc">· ${esc(g.cat)}</span>`:''}</div>
+      <span class="gc">${g.items.length} critère${g.items.length>1?'s':''}</span>
+    </div>
+    <div class="gb">${g.items.map(c=>`<div class="b-crit">
+      <div class="top">
+        <span class="lbl">${esc(c.label)}</span>
+        <span class="ref">${esc(c.reference||'—')}</span>
+      </div>
+      <div class="meta">
+        <span class="dpill dp-${c.degree}">${DEG_SYM[c.degree]||''} ${DEG_FR[c.degree]||c.degree}</span>
+        ${c.level?`<span class="b-lvl">${esc(c.level)}</span>`:''}
+        <span class="b-cc">→ <span class="code">${esc(c.common_code)}</span> ${esc(c.common_label)}</span>
+      </div>
+    </div>`).join('')}</div>
   </div>`).join('');
 }
 

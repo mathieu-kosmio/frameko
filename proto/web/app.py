@@ -76,6 +76,15 @@ async def api_compare(request: Request) -> JSONResponse:
     })
 
 
+async def api_framework_detail(request: Request) -> JSONResponse:
+    """Détail d'un référentiel : métadonnées + tous ses critères groupés par thème."""
+    slug = request.path_params["slug"]
+    fw = next((f for f in db.list_frameworks() if f["slug"] == slug), None)
+    if not fw:
+        return JSONResponse({"error": "référentiel inconnu"}, status_code=404)
+    return JSONResponse({"framework": fw, "criteria": db.framework_criteria(slug)})
+
+
 async def api_neighbors(request: Request) -> JSONResponse:
     """Voisinage d'un référentiel : ceux qui partagent des critères communs."""
     slug = request.path_params["slug"]
@@ -260,6 +269,7 @@ routes = [
     Route("/api/frameworks", api_frameworks),
     Route("/api/search", api_search, methods=["POST"]),
     Route("/api/compare", api_compare, methods=["POST"]),
+    Route("/api/framework/{slug}", api_framework_detail),
     Route("/api/neighbors/{slug}", api_neighbors),
     Route("/api/pair", api_pair),
     Route("/api/recognition/{scheme}", api_recognition),
