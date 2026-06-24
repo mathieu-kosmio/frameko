@@ -18,3 +18,10 @@ fastmcp>=2.0
 
 # Ingestion IA — optionnel (uniquement pour scripts/ingest_framework.py --llm)
 openai>=1.50
+
+# Extraction de sources (scripts/extract_source.py)
+pypdf>=5.0
+openpyxl>=3.1
+
+# Tests
+pytest>=8.0

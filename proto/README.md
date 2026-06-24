@@ -37,13 +37,18 @@ proto/
     apply_sql.py        applique un fichier .sql via DATABASE_URL
     load_data.py        charge le socle TTL + les 2 CSV
     build_embeddings.py calcule et stocke les embeddings
+    extract_source.py   ingestion étape 1 : source (tableur/PDF) → criteria.csv
+    ingest_framework.py ingestion étape 2 : rattachement → proposals.json
+    apply_ingestion.py  ingestion étape 3 : insertion du référentiel validé
   mcp_server/
     db.py               accès Postgres
     embeddings.py       service d'embedding (partagé)
-    server.py           serveur MCP fastmcp (8 outils)
+    server.py           serveur MCP fastmcp (9 outils)
   web/
-    app.py              UI web Starlette
+    app.py              UI web Starlette (+ route /docs)
     index.html          interface (recherche, comparaison, auto-évaluation)
+    docs.html           documentation utilisateur (lien discret dans la console)
+  tests/                suite pytest (RPC, MCP, ingestion, extraction)
 ```
 
 ## Installation
@@ -102,28 +107,43 @@ Contrôle attendu après l'étape 3 : 7 domaines, 7 catégories, 13 thèmes, 51 
 Outils exposés : `list_frameworks`, `get_framework`, `search_requirements`, `nearest_requirements`,
 `propose_mapping`, `compare_frameworks`, `start_assessment`, `answer_assessment`, `get_assessment_result`.
 
-## Ingestion IA (rattachement d'un nouveau référentiel)
+## Ingestion d'un nouveau référentiel (pipeline en 3 étapes)
 
-Étape « rattachement » du pipeline : pour chaque exigence d'un nouveau référentiel, proposer son
-critère commun et son degré (`equivautA`, `plusStrictQue`, `plusLargeQue`, `rapprocheDe`).
-
-**Approche recommandée — MCP-first (Claude pilote).** L'outil MCP `propose_mapping(criterion_text)`
-renvoie les critères communs candidats (par similarité) **et des précédents** (exigences proches
-déjà qualifiées, avec leur degré). Claude choisit le rattachement et le degré. Aucune clé externe.
-
-**Voie optionnelle — stack OpenAI (batch autonome).** Quand aucun agent n'est dans la boucle :
+Aucune écriture en base avant **validation** : les étapes 1-2 produisent des fichiers, l'étape 3
+insère seulement après contrôle des degrés.
 
 ```bash
-# Mode MCP-first : produit les shortlists à valider (aucune clé requise)
-.venv/bin/python scripts/ingest_framework.py --csv nouveau.csv --slug mon-label --title "Mon Label"
+# 1. EXTRACTION — source (tableur .xlsx/.csv ou PDF) → criteria.csv (Référence, Critère)
+.venv/bin/python scripts/extract_source.py --source source.xlsx --out criteria.csv
+#    PDF : heuristique de numérotation, ou --llm pour une extraction assistée OpenAI
 
-# Mode autonome : OpenAI choisit critère commun + degré + confiance + justification
-.venv/bin/python scripts/ingest_framework.py --csv nouveau.csv --slug mon-label --title "Mon Label" --llm
+# 2. RATTACHEMENT — criteria.csv → proposals.json (critère commun + degré proposés)
+.venv/bin/python scripts/ingest_framework.py --csv criteria.csv --slug mon-label --title "Mon Label"
+#    --llm : OpenAI choisit critère commun + degré + confiance + justification
+
+# 3. APPLY — insère le référentiel validé (framework + critères + mappings + embeddings)
+.venv/bin/python scripts/apply_ingestion.py --proposals proposals.json [--replace]
 ```
 
-Le script est **dry-run** : il écrit `proposals.json` (aucune écriture en base). La validation puis
-l'insertion restent une étape humaine séparée. Variables `.env` : `OPENAI_API_KEY`, `OPENAI_MODEL`
-(défaut `gpt-4o-mini`). Le CSV doit contenir au moins une colonne « Critère ».
+**Rattachement — deux voies :**
+- **MCP-first (recommandé).** L'outil MCP `propose_mapping(criterion_text)` renvoie les critères
+  communs candidats **et des précédents** (exigences proches déjà qualifiées, avec leur degré) ;
+  Claude choisit le rattachement et le degré. Aucune clé externe.
+- **OpenAI (batch autonome).** `ingest_framework.py --llm` quand aucun agent n'est dans la boucle.
+  Variables `.env` : `OPENAI_API_KEY`, `OPENAI_MODEL` (défaut `gpt-4o-mini`).
+
+**Garde-fous de `apply` :** refuse toute proposition sans degré (validation requise) ou avec un
+critère commun inconnu ; `--replace` est requis pour réinsérer un slug existant. Les degrés des
+propositions MCP-first (laissés à `null`) doivent être complétés dans `proposals.json` avant `apply`.
+
+## Tests
+
+```bash
+.venv/bin/python -m pytest tests/ -q
+```
+
+Suite d'intégration (15 tests) : fonctions RPC, 9 outils MCP, boucle d'ingestion (apply + garde-fous),
+extraction tableur. Les tests se sautent proprement si `DATABASE_URL` est absent ou la base vide.
 
 ## Lancer l'UI web
 
@@ -132,7 +152,8 @@ l'insertion restent une étape humaine séparée. Variables `.env` : `OPENAI_API
 ```
 
 Trois onglets : **Recherche** (sémantique), **Comparaison** (couverture de deux référentiels),
-**Auto-évaluation** (réponses par critère commun + taux de couverture).
+**Auto-évaluation** (réponses par critère commun + taux de couverture). Un lien discret
+**Documentation ↗** (en-tête) ouvre la doc utilisateur servie sur `/docs`.
 
 ## Trois exemples d'appels (MCP)
 

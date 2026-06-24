@@ -34,6 +34,10 @@ async def index(request: Request) -> HTMLResponse:
     return HTMLResponse((WEB / "index.html").read_text(encoding="utf-8"))
 
 
+async def docs(request: Request) -> HTMLResponse:
+    return HTMLResponse((WEB / "docs.html").read_text(encoding="utf-8"))
+
+
 async def api_frameworks(request: Request) -> JSONResponse:
     return JSONResponse(db.list_frameworks())
 
@@ -108,6 +112,7 @@ async def api_assess_result(request: Request) -> JSONResponse:
 
 routes = [
     Route("/", index),
+    Route("/docs", docs),
     Route("/api/frameworks", api_frameworks),
     Route("/api/search", api_search, methods=["POST"]),
     Route("/api/compare", api_compare, methods=["POST"]),
