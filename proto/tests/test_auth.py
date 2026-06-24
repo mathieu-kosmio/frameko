@@ -35,6 +35,18 @@ def test_resolve_org(org):
     assert auth.resolve_org("") is None
 
 
+def test_bearer_token_parsing(monkeypatch):
+    """Multi-tenant : jeton lu dans le header Authorization (HTTP), sinon repli env."""
+    from mcp_server import server
+
+    monkeypatch.setattr(server, "get_http_headers", lambda **k: {"authorization": "Bearer abc123"})
+    assert server._bearer_token() == "abc123"
+
+    monkeypatch.setattr(server, "get_http_headers", lambda **k: {})
+    monkeypatch.setenv("FRAMEKO_ORG_TOKEN", "envtok")
+    assert server._bearer_token() == "envtok"
+
+
 @pytest.mark.skipif(not os.environ.get("APP_DATABASE_URL"),
                     reason="APP_DATABASE_URL absent — exécuter scripts/setup_app_role.py")
 def test_rls_isolation(two_orgs):

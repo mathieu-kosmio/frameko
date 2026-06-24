@@ -16,6 +16,7 @@ import sys
 from pathlib import Path
 
 from fastmcp import FastMCP
+from fastmcp.server.dependencies import get_http_headers
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -147,8 +148,22 @@ def compare_frameworks(a: str, b: str) -> dict:
 # L'organisation est résolue à partir de FRAMEKO_ORG_TOKEN (jeton émis par
 # scripts/create_org.py). Les données d'évaluation sont isolées par RLS.
 
+def _bearer_token() -> str:
+    """Jeton d'organisation. En HTTP (SaaS multi-tenant) : header Authorization Bearer,
+    résolu par requête. En stdio (local) : repli sur FRAMEKO_ORG_TOKEN."""
+    try:
+        # get_http_headers strippe 'authorization' par défaut → l'inclure explicitement
+        headers = get_http_headers(include={"authorization"})
+        authz = headers.get("authorization") or headers.get("Authorization") or ""
+        if authz.lower().startswith("bearer "):
+            return authz[7:].strip()
+    except Exception:
+        pass
+    return os.environ.get("FRAMEKO_ORG_TOKEN", "")
+
+
 def _current_org() -> dict | None:
-    return auth.resolve_org(os.environ.get("FRAMEKO_ORG_TOKEN", ""))
+    return auth.resolve_org(_bearer_token())
 
 
 _NO_ORG = {"error": "Aucune organisation : définir FRAMEKO_ORG_TOKEN (voir scripts/create_org.py)."}
@@ -203,5 +218,23 @@ def get_assessment_result(assessment_id: str) -> dict:
     return res
 
 
+def run() -> None:
+    """Lance le serveur.
+
+    - stdio (défaut) : un agent local, organisation via FRAMEKO_ORG_TOKEN.
+    - http (SaaS)    : service hébergé multi-tenant, organisation par requête
+      (header Authorization: Bearer <jeton>). Activé par FRAMEKO_MCP_TRANSPORT=http.
+    """
+    transport = os.environ.get("FRAMEKO_MCP_TRANSPORT", "stdio")
+    if transport in ("http", "streamable-http", "sse"):
+        mcp.run(
+            transport=transport,
+            host=os.environ.get("FRAMEKO_MCP_HOST", "127.0.0.1"),
+            port=int(os.environ.get("FRAMEKO_MCP_PORT", "8765")),
+        )
+    else:
+        mcp.run()
+
+
 if __name__ == "__main__":
-    mcp.run()
+    run()

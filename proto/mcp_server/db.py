@@ -1,22 +1,28 @@
 """
 Accès base de données pour le serveur MCP.
 
-Connexion via DATABASE_POOLER_URL si défini (recommandé pour le runtime),
-sinon DATABASE_URL. Les identifiants sont lus depuis proto/.env.
+Deux pools de connexions (sûrs en concurrence, pour un service hébergé multi-utilisateurs) :
+- pool « admin » (DATABASE_URL) pour les lectures publiques (référentiels, critères) ;
+- pool « app » (APP_DATABASE_URL, rôle frameko_app sans BYPASSRLS) pour les
+  auto-évaluations, soumises à la RLS via SET LOCAL app.current_org_id.
+
+Les identifiants sont lus depuis proto/.env.
 """
 
+import atexit
 import os
 from contextlib import contextmanager
 from pathlib import Path
 
-import psycopg
 from psycopg.rows import dict_row
+from psycopg_pool import ConnectionPool
 from dotenv import load_dotenv
 
 PROTO = Path(__file__).resolve().parent.parent
 load_dotenv(PROTO / ".env")
 
-_CONN: psycopg.Connection | None = None
+_admin_pool: ConnectionPool | None = None
+_app_pool: ConnectionPool | None = None
 
 
 def _dsn() -> str:
@@ -30,16 +36,43 @@ def _dsn() -> str:
     return dsn
 
 
-def conn() -> psycopg.Connection:
-    """Connexion persistante, reconnectée si fermée."""
-    global _CONN
-    if _CONN is None or _CONN.closed:
-        _CONN = psycopg.connect(_dsn(), autocommit=True, row_factory=dict_row)
-    return _CONN
+def _admin() -> ConnectionPool:
+    global _admin_pool
+    if _admin_pool is None:
+        _admin_pool = ConnectionPool(
+            _dsn(), min_size=1, max_size=8, open=False,
+            kwargs={"row_factory": dict_row, "autocommit": True},
+        )
+        _admin_pool.open()
+    return _admin_pool
+
+
+def _app() -> ConnectionPool:
+    global _app_pool
+    if _app_pool is None:
+        app_url = os.environ.get("APP_DATABASE_URL")
+        if not app_url:
+            raise RuntimeError("APP_DATABASE_URL absent — exécuter scripts/setup_app_role.py")
+        _app_pool = ConnectionPool(
+            app_url, min_size=0, max_size=8, open=False,
+            kwargs={"row_factory": dict_row},  # autocommit=False → transactions (RLS)
+        )
+        _app_pool.open()
+    return _app_pool
+
+
+@atexit.register
+def _close_pools() -> None:
+    for p in (_admin_pool, _app_pool):
+        if p is not None:
+            try:
+                p.close()
+            except Exception:
+                pass
 
 
 def query(sql: str, params: tuple = ()) -> list[dict]:
-    with conn().cursor() as cur:
+    with _admin().connection() as conn, conn.cursor() as cur:
         cur.execute(sql, params)
         return cur.fetchall()
 
@@ -106,19 +139,12 @@ def common_criterion_by_label(label: str) -> dict | None:
 
 @contextmanager
 def org_scope(org_id: str):
-    app_url = os.environ.get("APP_DATABASE_URL")
-    if not app_url:
-        raise RuntimeError("APP_DATABASE_URL absent — exécuter scripts/setup_app_role.py")
-    c = psycopg.connect(app_url, row_factory=dict_row)  # autocommit=False → transaction
-    try:
+    # Connexion du pool app (rôle frameko_app). La transaction est gérée par le
+    # pool (commit en sortie normale, rollback sur exception) ; SET LOCAL scope
+    # l'org à cette transaction → pas de fuite entre requêtes.
+    with _app().connection() as c:
         c.execute("select set_config('app.current_org_id', %s, true)", (str(org_id),))
         yield c
-        c.commit()
-    except Exception:
-        c.rollback()
-        raise
-    finally:
-        c.close()
 
 
 def start_assessment(org_id: str, framework_slug: str) -> str:

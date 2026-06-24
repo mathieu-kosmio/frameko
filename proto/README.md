@@ -89,24 +89,56 @@ cp .env.example .env                  # puis renseigner les identifiants Supabas
 Contrôle attendu après l'étape 3 : 7 domaines, 7 catégories, 13 thèmes, 51 critères communs,
 9 référentiels, 876 critères, 0 orphelin. Après l'étape 4 : 0 embedding nul.
 
-## Lancer le serveur MCP
+## Serveur MCP — deux modes
+
+### A. Local (stdio, mono-organisation)
 
 ```bash
 .venv/bin/python mcp_server/server.py     # transport stdio
 ```
 
-### Configuration à coller dans Claude (`claude_desktop_config.json` ou `.mcp.json`)
+Configuration à coller dans Claude (`claude_desktop_config.json` ou `.mcp.json`).
+L'organisation (pour l'auto-évaluation) vient de `FRAMEKO_ORG_TOKEN` :
 
 ```json
 {
   "mcpServers": {
     "frameko": {
-      "command": "/Users/mathieu/Operations/Kosmio/30-Axe3-Certifiko/Developpement/Frameko/proto/.venv/bin/python",
-      "args": ["/Users/mathieu/Operations/Kosmio/30-Axe3-Certifiko/Developpement/Frameko/proto/mcp_server/server.py"]
+      "command": "/…/proto/.venv/bin/python",
+      "args": ["/…/proto/mcp_server/server.py"],
+      "env": { "FRAMEKO_ORG_TOKEN": "<jeton émis par create_org.py>" }
     }
   }
 }
 ```
+
+### B. SaaS (HTTP, hébergé, multi-organisation)
+
+Un seul serveur sert toutes les organisations ; chacune s'authentifie **par requête**
+via le header `Authorization: Bearer <jeton>`. L'isolation des données est garantie par RLS.
+
+```bash
+FRAMEKO_MCP_TRANSPORT=http FRAMEKO_MCP_HOST=0.0.0.0 FRAMEKO_MCP_PORT=8765 \
+  .venv/bin/python mcp_server/server.py     # http://<host>:8765/mcp/
+```
+
+Côté client (serveur MCP distant, un jeton par organisation) :
+
+```json
+{
+  "mcpServers": {
+    "frameko": {
+      "url": "https://<votre-hôte>/mcp/",
+      "headers": { "Authorization": "Bearer <jeton de l'organisation>" }
+    }
+  }
+}
+```
+
+Recherche et comparaison fonctionnent sans jeton (données publiques) ; l'auto-évaluation
+exige un jeton valide. Le service utilise des **pools de connexions** (concurrence
+multi-utilisateurs) ; déployer derrière HTTPS et provisionner les organisations avec
+`scripts/create_org.py`.
 
 Outils exposés : `list_frameworks`, `get_framework`, `search_requirements`, `nearest_requirements`,
 `propose_mapping`, `compare_frameworks`, `start_assessment`, `answer_assessment`, `get_assessment_result`.
