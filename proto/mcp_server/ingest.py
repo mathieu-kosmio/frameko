@@ -189,18 +189,20 @@ def llm_choose(criterion: str, candidates: list[dict], precedents: list[dict],
     return out
 
 
-def translate_texts(texts: list[str], source_hint: str = "", batch: int = 15,
+def translate_texts(texts: list[str], source_hint: str = "", batch: int = 8,
                     model: str | None = None) -> list[str]:
     """Traduit une liste de textes en français via OpenAI, en préservant termes
-    techniques, sigles, codes et unités. Retourne la liste traduite (même ordre,
-    même longueur)."""
+    techniques, sigles, codes et unités. Robuste : sur lot en échec (JSON tronqué,
+    nombre d'éléments incohérent), repli item par item ; un item irrécupérable
+    conserve son texte d'origine. Retourne la liste (même ordre, même longueur)."""
     import json
     from openai import OpenAI
 
     model = model or os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
     client = OpenAI()
 
-    def _run(chunk: list[str]) -> list[str]:
+    def _run(chunk: list[str]) -> list[str] | None:
+        """Traduit un lot ; renvoie None si la réponse est invalide ou désalignée."""
         prompt = (
             "Traduis en français chaque élément du tableau JSON ci-dessous (exigences / "
             "critères de certification" + (f", source : {source_hint}" if source_hint else "") + "). "
@@ -209,17 +211,24 @@ def translate_texts(texts: list[str], source_hint: str = "", batch: int = 15,
             'Réponds en JSON STRICT : {"t": ["...", ...]} avec EXACTEMENT le même nombre d\'éléments '
             "et le même ordre.\n\n" + json.dumps(chunk, ensure_ascii=False)
         )
-        resp = client.chat.completions.create(
-            model=model, messages=[{"role": "user", "content": prompt}],
-            response_format={"type": "json_object"}, temperature=0)
-        return json.loads(resp.choices[0].message.content).get("t", [])
+        try:
+            resp = client.chat.completions.create(
+                model=model, messages=[{"role": "user", "content": prompt}],
+                response_format={"type": "json_object"}, temperature=0, max_tokens=8000)
+            arr = json.loads(resp.choices[0].message.content).get("t", [])
+        except Exception:
+            return None
+        return arr if len(arr) == len(chunk) else None
 
     out: list[str] = []
     for i in range(0, len(texts), batch):
         chunk = texts[i:i + batch]
         arr = _run(chunk)
-        if len(arr) != len(chunk):  # repli aligné : un par un
-            arr = [(_run([t]) or [t])[0] for t in chunk]
+        if arr is None:  # repli item par item, en conservant l'original si échec
+            arr = []
+            for t in chunk:
+                one = _run([t])
+                arr.append(one[0] if one else t)
         out.extend(str(x) for x in arr)
     return out
 
