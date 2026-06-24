@@ -31,7 +31,7 @@ def test_s1_frameworks(db):
             fw = (await c.call_tool("get_framework", {"slug": "florverde"})).data
             return fws, fw
     fws, fw = _run(go())
-    assert len(fws) == 9
+    assert len(fws) >= 9  # socle initial (peut croître via CCCEV-isation)
     assert fw["title"].startswith("Florverde")
     assert len(fw["criteres"]) == 225
 

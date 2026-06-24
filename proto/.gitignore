@@ -5,3 +5,6 @@ __pycache__/
 *.pyc
 .venv/
 node_modules/
+
+# Sources de référentiels téléchargées (volumineuses, non versionnées)
+sources/

@@ -13,6 +13,7 @@ Aucune écriture en base avant apply_framework ; les étapes 1-2 sont en lecture
 
 from __future__ import annotations
 
+import os
 import re
 from pathlib import Path
 
@@ -141,6 +142,101 @@ def validate(framework: dict, proposals: list[dict]) -> list[str]:
         if sug.get("degree") not in DEGREES:
             errors.append(f"#{i} ({p.get('reference')}): degré invalide ({sug.get('degree')!r})")
     return errors
+
+
+# ── 4. Révision assistée des rattachements (LLM) ─────────────────────────────
+# Le rattachement initial prend le top candidat sémantique + le degré du précédent
+# le plus proche. Pour fiabiliser (surtout en cross-langue EN→FR), un passage LLM
+# choisit LE critère commun parmi les candidats et le degré le plus juste.
+
+def llm_choose(criterion: str, candidates: list[dict], precedents: list[dict],
+               model: str | None = None) -> dict:
+    """Demande au modèle OpenAI de choisir le critère commun (parmi les candidats)
+    et le degré. Retourne {common_code, degree, confidence, justification}."""
+    from openai import OpenAI
+
+    model = model or os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
+    client = OpenAI()
+    cand_txt = "\n".join(f"- {c['code']} : {c['label_fr']}" for c in candidates)
+    prec_txt = "\n".join(
+        f"- « {p['label'][:90]} » → {p['common_code']} (degré {p['degree']})" for p in precedents
+    )
+    prompt = (
+        "Tu rattaches une exigence d'un référentiel de certification à un socle commun.\n\n"
+        f"EXIGENCE :\n{criterion}\n\n"
+        f"CRITÈRES COMMUNS CANDIDATS :\n{cand_txt}\n\n"
+        f"PRÉCÉDENTS (exigences proches déjà qualifiées) :\n{prec_txt}\n\n"
+        "Choisis LE critère commun le plus adapté parmi les candidats (son code), et le degré "
+        f"de rapprochement parmi {DEGREES} :\n"
+        "- equivautA : couvre la même exigence à l'identique\n"
+        "- plusStrictQue : l'exigence est plus précise/exigeante que le critère commun\n"
+        "- plusLargeQue : l'exigence couvre un périmètre plus large\n"
+        "- rapprocheDe : proche mais ni équivalent ni strictement comparable\n\n"
+        'Réponds en JSON strict : {"common_code": "...", "degree": "...", "confidence": 0.0-1.0, "justification": "..."}'
+    )
+    resp = client.chat.completions.create(
+        model=model, messages=[{"role": "user", "content": prompt}],
+        response_format={"type": "json_object"}, temperature=0,
+    )
+    import json
+    out = json.loads(resp.choices[0].message.content)
+    valid = {c["code"] for c in candidates}
+    if out.get("common_code") not in valid:
+        out["common_code"] = candidates[0]["code"]
+        out["_note"] = "code hors candidats → repli sur le plus proche"
+    if out.get("degree") not in DEGREES:
+        out["degree"] = "rapprocheDe"
+    return out
+
+
+def remap_framework_llm(slug: str, workers: int = 6, model: str | None = None) -> dict:
+    """Révise les rattachements d'un référentiel déjà en base via le LLM, en UPDATE
+    (préserve les embeddings des critères). Renvoie des statistiques avant/après."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    rows = db.query(
+        "select id::text as id, label, embedding::text as emb,"
+        " common_criterion_id::text as old_cc, degree as old_deg"
+        " from framework_criterion where framework_slug = %s and embedding is not null order by reference",
+        (slug,),
+    )
+    # 1. shortlists (lectures DB séquentielles, rapides)
+    tasks = [(r, db.match_common(r["emb"], k=6), db.nearest_fc(r["emb"], k=4)) for r in rows]
+
+    # 2. choix LLM en parallèle (sans DB dans les threads)
+    def _choose(t):
+        r, cands, precs = t
+        if not cands:
+            return r, None
+        try:
+            return r, llm_choose(r["label"], cands, precs, model)
+        except Exception:
+            return r, {"common_code": cands[0]["code"], "degree": r["old_deg"], "confidence": 0.0}
+
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        results = list(ex.map(_choose, tasks))
+
+    # 3. application en transaction
+    cc = {row["code"]: (row["id"], row["theme_slug"])
+          for row in db.query("select code, id, theme_slug from common_criterion")}
+    updates, reassigned, redegreed = [], 0, 0
+    for r, choice in results:
+        if not choice or choice["common_code"] not in cc:
+            continue
+        cid, theme = cc[choice["common_code"]]
+        if str(cid) != str(r["old_cc"]):  # old_cc vient de ::text → comparer en texte
+            reassigned += 1
+        if choice["degree"] != r["old_deg"]:
+            redegreed += 1
+        updates.append((cid, choice["degree"], theme, r["id"]))
+    with db._admin().connection() as conn:
+        with conn.transaction():
+            conn.cursor().executemany(
+                "update framework_criterion set common_criterion_id = %s, degree = %s, theme_slug = %s where id = %s",
+                updates,
+            )
+    return {"slug": slug, "total": len(rows), "updated": len(updates),
+            "reassigned_common": reassigned, "changed_degree": redegreed}
 
 
 def apply_framework(framework: dict, proposals: list[dict], replace: bool = False) -> dict:

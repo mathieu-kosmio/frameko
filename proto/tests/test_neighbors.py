@@ -9,10 +9,12 @@ from mcp_server import ingest
 
 def test_framework_neighbors(db):
     with db.cursor() as cur:
+        cur.execute("select count(*) as n from framework")
+        total = cur.fetchone()["n"]
         cur.execute("select * from framework_neighbors('florverde')")
         rows = cur.fetchall()
-    # tous les autres référentiels, triés par nb de critères communs partagés
-    assert len(rows) == 8
+    # tous les autres référentiels (total - le pivot), triés par nb partagé
+    assert len(rows) == total - 1
     shared = [r["n_shared"] for r in rows]
     assert shared == sorted(shared, reverse=True)
     # florecuador est le plus proche de florverde
