@@ -101,6 +101,35 @@ async def api_pair(request: Request) -> JSONResponse:
     })
 
 
+async def api_recognition(request: Request) -> JSONResponse:
+    """Couche d'équivalence : panier d'un schéma de reconnaissance (ex. FSI),
+    groupé par pilier, avec le nombre de référentiels présents dans notre base."""
+    scheme = request.path_params["scheme"]
+    info = db.recognition_scheme(scheme)
+    if not info:
+        return JSONResponse({"error": "schéma inconnu"}, status_code=404)
+    rows = db.recognitions(scheme)
+    pillars: dict[str, list] = {}
+    for r in rows:
+        pillars.setdefault(r["pillar"], []).append(r)
+    by_pillar = [
+        {"pillar": p, "standards": items,
+         "in_base": sum(1 for i in items if i["framework_slug"])}
+        for p, items in pillars.items()
+    ]
+    return JSONResponse({"scheme": info, "pillars": by_pillar,
+                         "total": len(rows),
+                         "in_base": sum(1 for r in rows if r["framework_slug"])})
+
+
+async def api_equivalences(request: Request) -> JSONResponse:
+    """Référentiels équivalents (co-reconnus FSI) à un référentiel donné."""
+    slug = request.path_params["slug"]
+    if not db.framework_exists(slug):
+        return JSONResponse({"error": "référentiel inconnu"}, status_code=404)
+    return JSONResponse({"focal": slug, "equivalences": db.framework_equivalences(slug)})
+
+
 async def api_common_criteria(request: Request) -> JSONResponse:
     """Critères communs couverts par un référentiel (pour l'auto-évaluation)."""
     slug = request.query_params.get("framework")
@@ -233,6 +262,8 @@ routes = [
     Route("/api/compare", api_compare, methods=["POST"]),
     Route("/api/neighbors/{slug}", api_neighbors),
     Route("/api/pair", api_pair),
+    Route("/api/recognition/{scheme}", api_recognition),
+    Route("/api/equivalences/{slug}", api_equivalences),
     Route("/api/ingest/extract", api_ingest_extract, methods=["POST"]),
     Route("/api/ingest/propose", api_ingest_propose, methods=["POST"]),
     Route("/api/ingest/apply", api_ingest_apply, methods=["POST"]),

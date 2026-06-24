@@ -130,6 +130,29 @@ def pair_detail(a: str, b: str) -> list[dict]:
     return query("select * from framework_pair_detail(%s, %s)", (a, b))
 
 
+# ── Couche de reconnaissance / équivalence (FSI) ────────────────────────────
+
+def recognitions(scheme: str) -> list[dict]:
+    """Standards reconnus par un schéma (ex. FSI), avec le titre du référentiel
+    quand il est présent dans notre base."""
+    return query(
+        "select r.pillar, r.framework_label, r.framework_slug, r.status, f.title as framework_title"
+        " from recognition r left join framework f on f.slug = r.framework_slug"
+        " where r.scheme_slug = %s order by r.pillar, r.framework_label",
+        (scheme,),
+    )
+
+
+def recognition_scheme(scheme: str) -> dict | None:
+    return query_one("select slug, name, description, url from recognition_scheme where slug = %s", (scheme,))
+
+
+def framework_equivalences(slug: str) -> list[dict]:
+    """Référentiels (en base) co-reconnus avec « slug » dans au moins un pilier
+    commun — donc équivalents au sens du marché."""
+    return query("select * from framework_equivalences(%s)", (slug,))
+
+
 # ── Auto-évaluation (S3) ────────────────────────────────────────────────────
 
 def framework_exists(slug: str) -> bool:

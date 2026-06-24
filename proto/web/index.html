@@ -102,6 +102,19 @@
   .conf-b i{display:block;height:100%;background:var(--accent)}
   .msg-ok{background:#10331f;color:var(--accent);padding:9px 12px;border-radius:8px;font-size:13px;margin:8px 0}
   .msg-err{background:#3a1717;color:var(--bad);padding:9px 12px;border-radius:8px;font-size:13px;margin:8px 0}
+  /* FSI — couche d'équivalence */
+  .fsi-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:720px){.fsi-cols{grid-template-columns:1fr}}
+  .fsi-col{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:12px 13px}
+  .fsi-col h3{font-size:13px;margin:0 0 1px}
+  .fsi-pil-sub{font-size:11px;color:var(--muted);margin-bottom:10px}
+  .fsi-chip{display:flex;align-items:center;gap:6px;padding:6px 9px;border-radius:7px;font-size:12px;
+    margin-bottom:5px;border:1px solid transparent}
+  .fsi-chip.base{background:#13201a;border-color:#1f3d2c;color:var(--text);cursor:pointer}
+  .fsi-chip.base:hover{border-color:var(--accent)}
+  .fsi-chip.ext{color:var(--muted)}
+  .fsi-star{color:var(--accent)} .fsi-dot{color:var(--line)}
+  .fsi-temp{font-size:9px;background:#3a2f12;color:var(--warn);padding:1px 5px;border-radius:8px;margin-left:auto}
 </style>
 </head>
 <body>
@@ -113,6 +126,7 @@
 <nav>
   <button data-tab="search" class="active">Recherche</button>
   <button data-tab="neighbors">Voisinage</button>
+  <button data-tab="fsi">FSI</button>
   <button data-tab="compare">Comparaison</button>
   <button data-tab="assess">Auto-évaluation</button>
   <button data-tab="ingest" style="margin-left:auto;color:var(--accent)">+ CCCEV-iser</button>
@@ -144,6 +158,17 @@
     </div>
     <div id="n-graph" class="graph-wrap"></div>
     <div id="n-detail"></div>
+  </section>
+
+  <!-- ── FSI — couche d'équivalence ── -->
+  <section id="fsi">
+    <h2>FSI — couche d'équivalence</h2>
+    <p class="hint">La <b>Floriculture Sustainability Initiative</b> ne définit pas de critères : elle
+      <b>reconnaît</b> d'autres standards, pilier par pilier. Deux standards d'un même pilier sont
+      considérés équivalents au sens du marché — ce qui complète le rapprochement critère-par-critère
+      du socle commun. <span class="muted">★ = présent dans Frameko (cliquez pour voir ses équivalents et son voisinage).</span></p>
+    <div id="fsi-stat" class="row"></div>
+    <div id="fsi-grid"></div>
   </section>
 
   <!-- ── Comparaison ── -->
@@ -252,6 +277,7 @@ let FRAMEWORKS=[];
 $$('nav button').forEach(b=>b.onclick=()=>{
   $$('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
   $$('section').forEach(s=>s.classList.remove('active'));$('#'+b.dataset.tab).classList.add('active');
+  if(b.dataset.tab==='fsi' && !FSILOADED){FSILOADED=true;loadFSI();}
 });
 
 // chargement référentiels
@@ -367,6 +393,58 @@ function exigList(items){
     <div><span class="dpill dp-${it.degree}">${DEG_SYM[it.degree]||''} ${DEG_FR[it.degree]||it.degree}</span></div>
   </div>`).join('');
 }
+
+// ── FSI — couche d'équivalence ───────────────────────────────────────────────
+let FSILOADED=false;
+const PILLAR_ORDER=['GAP','Environmental','Social'];
+const PILLAR_FR={GAP:'Bonnes pratiques agricoles',Environmental:'Environnement',Social:'Conditions sociales'};
+
+async function loadFSI(){
+  const grid=$('#fsi-grid'); grid.innerHTML='<p class="spin">Chargement du panier FSI…</p>';
+  const d=await api('/api/recognition/fsi');
+  $('#fsi-stat').innerHTML=`<span class="muted">${esc(d.scheme.name)} — <b style="color:var(--text)">${d.total}</b> standards reconnus,
+    dont <b style="color:var(--accent)">${d.in_base}</b> présents dans Frameko (★).</span>
+    <a class="doc" href="${esc(d.scheme.url)}" target="_blank" rel="noopener" style="margin-left:auto">Panier FSI ↗</a>`;
+  let h='<div class="fsi-cols">';
+  PILLAR_ORDER.forEach(p=>{
+    const col=d.pillars.find(x=>x.pillar===p); if(!col)return;
+    h+=`<div class="fsi-col"><h3>${p}</h3><div class="fsi-pil-sub">${esc(PILLAR_FR[p])} · ${col.standards.length} standards · ${col.in_base} en base</div>`;
+    col.standards.forEach(s=>{
+      const tmp=s.status==='temporary'?'<span class="fsi-temp">temp</span>':'';
+      if(s.framework_slug){
+        h+=`<div class="fsi-chip base" onclick="showEquiv('${s.framework_slug}')" title="${esc(s.framework_title||'')}">
+          <span class="fsi-star">★</span> ${esc(s.framework_label)}${tmp}</div>`;
+      }else{
+        h+=`<div class="fsi-chip ext"><span class="fsi-dot">·</span> ${esc(s.framework_label)}${tmp}</div>`;
+      }
+    });
+    h+='</div>';
+  });
+  h+='</div><div id="fsi-equiv"></div>';
+  grid.innerHTML=h;
+}
+
+window.showEquiv=async(slug)=>{
+  const fw=FRAMEWORKS.find(f=>f.slug===slug);
+  const out=$('#fsi-equiv'); out.innerHTML='<p class="spin">Calcul des équivalences…</p>';
+  const d=await api('/api/equivalences/'+encodeURIComponent(slug));
+  let h=`<div class="card" style="margin-top:14px">
+    <div style="font-weight:600;margin-bottom:3px">Équivalents FSI de ${esc(fw?fw.title:slug)}</div>
+    <div class="muted" style="font-size:12px;margin-bottom:10px">Référentiels en base co-reconnus dans au moins un pilier commun.</div>`;
+  if(!d.equivalences.length){
+    h+='<span class="muted">Aucun autre référentiel en base co-reconnu.</span>';
+  }else{
+    d.equivalences.forEach(e=>{
+      h+=`<div class="crow">
+        <span style="flex:1">${esc(e.title)}</span>
+        ${e.shared_pillars.map(p=>`<span class="dchip ds">${p}</span>`).join(' ')}
+        <a href="#" class="code" onclick="loadNeighbors('${e.slug}');$$('nav button').forEach(x=>x.classList.remove('active'));document.querySelector('nav button[data-tab=neighbors]').classList.add('active');$$('section').forEach(s=>s.classList.remove('active'));$('#neighbors').classList.add('active');return false">voisinage →</a>
+      </div>`;
+    });
+  }
+  h+='</div>';
+  out.innerHTML=h; out.scrollIntoView({behavior:'smooth',block:'nearest'});
+};
 
 // ── CCCEV-iser (wizard d'ingestion) ──────────────────────────────────────────
 const DEG_OPTS=[['equivautA','≡ équivaut à'],['plusStrictQue','▲ plus strict'],

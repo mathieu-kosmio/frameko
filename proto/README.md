@@ -34,6 +34,7 @@ proto/
     functions.sql       4 fonctions RPC (recherche, couverture, évaluation)
     03_auth_rls.sql     table org + RLS + rôle applicatif frameko_app
     04_neighbors.sql    voisinage + comparaison au niveau critère
+    05_recognition.sql  couche d'équivalence FSI (reconnaissance par pilier)
   scripts/
     test_connection.py  vérifie la connexion + l'extension vector
     apply_sql.py        applique un fichier .sql via DATABASE_URL
@@ -244,6 +245,11 @@ Cinq onglets :
 - **Voisinage** — un référentiel pivot au centre d'une constellation ; chaque lien mesure le
   nombre de critères communs partagés. Cliquer un voisin déroule la comparaison **jusqu'au
   critère** : exigences d'origine des deux référentiels, avec leur degré ;
+- **FSI** — couche d'équivalence : la *Floriculture Sustainability Initiative* ne définit pas de
+  critères, elle **reconnaît** d'autres standards pilier par pilier (GAP / Environmental / Social).
+  L'onglet affiche le *Basket of Standards* (standards en base surlignés) ; cliquer un référentiel
+  montre ses **équivalents** (co-reconnus dans un même pilier). Modélisé hors socle commun
+  (`recognition_scheme` + `recognition`), distinct du rapprochement critère-par-critère ;
 - **Comparaison** (couverture chiffrée de deux référentiels) ;
 - **Auto-évaluation** (réponses par critère commun + taux de couverture) ;
 - **+ CCCEV-iser** — wizard d'ingestion générique : déposer une source (tableur/PDF), Frameko
@@ -254,10 +260,12 @@ Cinq onglets :
 Un lien discret **Documentation ↗** (en-tête) ouvre la doc utilisateur servie sur `/docs`.
 
 **Endpoints API ajoutés** (réutilisés par l'UI) : `GET /api/neighbors/{slug}` (voisinage),
-`GET /api/pair?a=&b=` (comparaison au niveau critère), et le pipeline d'ingestion web
+`GET /api/pair?a=&b=` (comparaison au niveau critère), `GET /api/recognition/{scheme}` +
+`GET /api/equivalences/{slug}` (couche FSI), et le pipeline d'ingestion web
 `POST /api/ingest/{extract,propose,apply}`. La logique d'ingestion est centralisée dans
-`mcp_server/ingest.py` (extraction, rattachement, insertion validée) et les fonctions SQL
-de voisinage dans `db/04_neighbors.sql`.
+`mcp_server/ingest.py` (extraction, rattachement, insertion validée, révision LLM des
+rattachements), les fonctions de voisinage dans `db/04_neighbors.sql`, et la couche
+d'équivalence dans `db/05_recognition.sql`.
 
 ## Trois exemples d'appels (MCP)
 
