@@ -174,9 +174,14 @@
   .cexig .ref{font-family:ui-monospace,monospace;color:var(--accent2);font-size:11px;flex-shrink:0}
   .cexig .lbl{flex:1;min-width:0}
   .cexig .dpill{margin-left:auto;flex-shrink:0}
+  /* Voisinage : ligne ciblée depuis la comparaison */
+  .pair-cc{scroll-margin-top:70px}
+  .pair-cc.flash{animation:pairflash 1.9s ease-out}
+  @keyframes pairflash{0%{box-shadow:0 0 0 2px var(--accent)}100%{box-shadow:0 0 0 2px transparent}}
   @media(prefers-reduced-motion:reduce){
     .b-crit.flash{animation:none;background:rgba(63,185,132,.15)}
     .card.q-hit:hover{transform:none}
+    .pair-cc.flash{animation:none;box-shadow:0 0 0 2px var(--accent)}
   }
 </style>
 </head>
@@ -755,6 +760,22 @@ window.gotoCommon=async(slug,code)=>{
   highlightCommon(code);
 };
 
+// Comparaison → voisinage : détail des exigences des deux référentiels sur un critère commun.
+window.gotoPairCommon=async(a,b,code)=>{
+  $$('nav button').forEach(x=>x.classList.remove('active'));
+  document.querySelector('nav button[data-tab=neighbors]').classList.add('active');
+  $$('section').forEach(s=>s.classList.remove('active'));
+  $('#neighbors').classList.add('active');
+  if(NFOCAL!==a) await loadNeighbors(a);   // a = référentiel pivot
+  await openPair(b);                        // rend le détail a ↔ b
+  const row=$$('#n-detail .pair-cc').find(el=>el.querySelector('.code')?.textContent===code);
+  if(row){
+    row.classList.add('open');
+    row.scrollIntoView({behavior:'smooth',block:'center'});
+    row.classList.remove('flash'); void row.offsetWidth; row.classList.add('flash');
+  }
+};
+
 function highlightCriterion(ref,label){
   const el=$('#b-out .b-crit[data-key="'+CSS.escape(critKey(ref,label))+'"]');
   if(!el)return;
@@ -861,13 +882,14 @@ $('#c-go').onclick=async()=>{
     <div class="stat"><div class="n">${d.summary.communs_partages}</div><div class="l">communs partagés</div></div>
     <div class="stat"><div class="n">${d.summary.seulement_a}</div><div class="l">seulement ${esc(a)}</div></div>
     <div class="stat"><div class="n">${d.summary.seulement_b}</div><div class="l">seulement ${esc(b)}</div></div></div>`;
-  h+=`<table><thead><tr><th>Critère commun</th><th>Thème</th><th>${esc(a)}</th><th>${esc(b)}</th></tr></thead><tbody>`;
+  h+=`<table><thead><tr><th>Critère commun</th><th>Thème</th><th>${esc(a)}</th><th>${esc(b)}</th><th></th></tr></thead><tbody>`;
   d.detail.filter(r=>r.count_a>0&&r.count_b>0).sort((x,y)=>(y.count_a+y.count_b)-(x.count_a+x.count_b))
    .forEach(r=>{const cc=escA(r.common_code);
    h+=`<tr><td><span class="code">${r.common_code}</span> ${esc(r.common_label)}</td>
    <td class="theme">${esc(r.theme_slug||'')}</td>
    <td><span class="cc-link" onclick="gotoCommon('${esc(a)}','${cc}')" title="Voir dans ${esc(a)}">${r.count_a}</span></td>
-   <td><span class="cc-link" onclick="gotoCommon('${esc(b)}','${cc}')" title="Voir dans ${esc(b)}">${r.count_b}</span></td></tr>`});
+   <td><span class="cc-link" onclick="gotoCommon('${esc(b)}','${cc}')" title="Voir dans ${esc(b)}">${r.count_b}</span></td>
+   <td><span class="cc-link" onclick="gotoPairCommon('${esc(a)}','${esc(b)}','${cc}')" title="Comparer ${esc(a)} ↔ ${esc(b)} sur ce critère, exigence par exigence">↔ voisinage</span></td></tr>`});
   h+='</tbody></table>';out.innerHTML=h;
 };
 
