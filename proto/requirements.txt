@@ -1,0 +1,20 @@
+# Frameko — proto V1
+# Accès base de données Supabase / Postgres
+supabase>=2.10
+psycopg[binary]>=3.2
+
+# Configuration (lecture de .env, jamais de secret en dur)
+python-dotenv>=1.0
+
+# Chargement de l'ontologie
+rdflib>=7.1
+pandas>=2.2
+
+# Embeddings locaux (modèle multilingue 384 dim, aucune clé API externe)
+sentence-transformers>=3.0
+
+# Serveur MCP
+fastmcp>=2.0
+
+# Ingestion IA — optionnel (uniquement pour scripts/ingest_framework.py --llm)
+openai>=1.50

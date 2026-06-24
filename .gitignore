@@ -40,3 +40,8 @@ dist/
 # Logs
 *.log
 logs/
+
+# Config locale (chemins absolus machine) et sorties d'ingestion
+.claude/
+proposals.json
+*.proposals.json

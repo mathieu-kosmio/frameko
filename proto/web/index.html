@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frameko — Console référentiels</title>
+<style>
+  :root{
+    --bg:#0f1419; --panel:#171d26; --panel2:#1e2630; --line:#2a3441;
+    --text:#e6edf3; --muted:#8b97a6; --accent:#3fb984; --accent2:#5aa9e6;
+    --warn:#e6a23c; --bad:#e25c5c; --radius:10px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+  header{padding:18px 28px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:14px}
+  header h1{font-size:18px;margin:0;font-weight:600}
+  header .tag{color:var(--accent);font-weight:700;letter-spacing:.5px}
+  header .sub{color:var(--muted);font-size:13px}
+  nav{display:flex;gap:4px;padding:0 28px;border-bottom:1px solid var(--line);background:var(--panel)}
+  nav button{background:none;border:none;color:var(--muted);padding:13px 18px;cursor:pointer;
+    font-size:14px;border-bottom:2px solid transparent}
+  nav button.active{color:var(--text);border-bottom-color:var(--accent)}
+  main{max-width:1000px;margin:0 auto;padding:28px}
+  section{display:none} section.active{display:block}
+  h2{font-size:16px;font-weight:600;margin:0 0 4px}
+  p.hint{color:var(--muted);margin:0 0 18px;font-size:13px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+  input,select{background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:10px 12px;border-radius:8px;font-size:14px;outline:none}
+  input:focus,select:focus{border-color:var(--accent2)}
+  input[type=text]{flex:1;min-width:240px}
+  button.go{background:var(--accent);color:#06281c;border:none;padding:10px 18px;border-radius:8px;
+    font-weight:600;cursor:pointer;font-size:14px}
+  button.go:hover{filter:brightness(1.08)} button.go:disabled{opacity:.5;cursor:default}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:14px 16px;margin-bottom:10px}
+  .card .top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+  .code{font-family:ui-monospace,Menlo,monospace;color:var(--accent2);font-size:12px}
+  .sim{font-family:ui-monospace,monospace;font-size:12px;color:var(--muted)}
+  .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;
+    background:var(--panel2);border:1px solid var(--line)}
+  .deg-equivautA{color:var(--accent)} .deg-plusStrictQue{color:var(--accent2)}
+  .deg-plusLargeQue{color:var(--warn)} .deg-rapprocheDe{color:var(--muted)}
+  .theme{color:var(--muted);font-size:12px}
+  .muted{color:var(--muted)} .big{font-size:30px;font-weight:700}
+  table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:600}
+  .bar{height:8px;background:var(--panel2);border-radius:6px;overflow:hidden;margin-top:6px}
+  .bar > i{display:block;height:100%;background:var(--accent)}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+  .stat .n{font-size:24px;font-weight:700} .stat .l{color:var(--muted);font-size:12px}
+  .answers .card{display:flex;justify-content:space-between;gap:14px;align-items:center}
+  .answers select{padding:6px 8px}
+  .spin{color:var(--muted);font-size:13px}
+  .pill{font-size:11px;padding:2px 8px;border-radius:20px}
+  .s-conforme{background:#10331f;color:var(--accent)} .s-partiel{background:#3a2f12;color:var(--warn)}
+  .s-non_conforme{background:#3a1717;color:var(--bad)} .s-non_applicable{background:#23292f;color:var(--muted)}
+  .s-non_repondu{background:#23292f;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <h1><span class="tag">FRAMEKO</span> Console référentiels</h1>
+  <span class="sub">Socle commun · 9 référentiels · 51 critères communs · 876 critères</span>
+</header>
+<nav>
+  <button data-tab="search" class="active">Recherche</button>
+  <button data-tab="compare">Comparaison</button>
+  <button data-tab="assess">Auto-évaluation</button>
+</nav>
+<main>
+
+  <!-- ── Recherche ── -->
+  <section id="search" class="active">
+    <h2>Recherche sémantique d'exigences</h2>
+    <p class="hint">Décrivez une exigence en langage libre. Le moteur retourne les critères communs
+      les plus proches et les exigences correspondantes des référentiels (avec leur degré).</p>
+    <div class="row">
+      <input type="text" id="q" placeholder="ex. gestion et économie de l'eau d'irrigation"
+             value="gestion et économie de l'eau d'irrigation">
+      <select id="q-fw"><option value="">Tous les référentiels</option></select>
+      <button class="go" id="q-go">Rechercher</button>
+    </div>
+    <div id="q-out"></div>
+  </section>
+
+  <!-- ── Comparaison ── -->
+  <section id="compare">
+    <h2>Comparaison de couverture</h2>
+    <p class="hint">Mesure le recouvrement de deux référentiels via les critères communs partagés.</p>
+    <div class="row">
+      <select id="c-a"></select>
+      <span class="muted">vs</span>
+      <select id="c-b"></select>
+      <button class="go" id="c-go">Comparer</button>
+    </div>
+    <div id="c-out"></div>
+  </section>
+
+  <!-- ── Auto-évaluation ── -->
+  <section id="assess">
+    <h2>Auto-évaluation de conformité</h2>
+    <p class="hint">Choisissez un référentiel, répondez au niveau des critères communs : chaque réponse
+      vaut pour tous les référentiels rattachés au même critère.</p>
+    <div class="row">
+      <select id="a-fw"></select>
+      <button class="go" id="a-start">Démarrer</button>
+      <span id="a-id" class="muted"></span>
+    </div>
+    <div id="a-result"></div>
+    <div id="a-list" class="answers"></div>
+  </section>
+
+</main>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const api=async(u,o)=>{const r=await fetch(u,o);return r.json()};
+const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+let FRAMEWORKS=[];
+
+// onglets
+$$('nav button').forEach(b=>b.onclick=()=>{
+  $$('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+  $$('section').forEach(s=>s.classList.remove('active'));$('#'+b.dataset.tab).classList.add('active');
+});
+
+// chargement référentiels
+(async()=>{
+  FRAMEWORKS=await api('/api/frameworks');
+  const opt=f=>`<option value="${f.slug}">${esc(f.title)} (${f.n_criteres})</option>`;
+  $('#q-fw').innerHTML='<option value="">Tous les référentiels</option>'+FRAMEWORKS.map(opt).join('');
+  $('#c-a').innerHTML=FRAMEWORKS.map(opt).join('');
+  $('#c-b').innerHTML=FRAMEWORKS.map(opt).join('');
+  $('#c-b').selectedIndex=Math.min(5,FRAMEWORKS.length-1);
+  $('#a-fw').innerHTML=FRAMEWORKS.map(opt).join('');
+})();
+
+// recherche
+$('#q-go').onclick=async()=>{
+  const out=$('#q-out');out.innerHTML='<p class="spin">Recherche…</p>';
+  const data=await api('/api/search',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({query:$('#q').value,framework:$('#q-fw').value})});
+  if(data.error){out.innerHTML=`<p class="muted">${data.error}</p>`;return}
+  let h='<h2 style="font-size:14px;margin:18px 0 8px">Critères communs proches</h2>';
+  data.common_criteria.forEach(c=>{h+=`<div class="card"><div class="top">
+    <div><span class="code">${c.code}</span> ${esc(c.label_fr)}</div>
+    <span class="sim">${(c.similarity*100).toFixed(0)}%</span></div>
+    <div class="theme">${esc(c.theme_label||'')}</div></div>`});
+  h+='<h2 style="font-size:14px;margin:22px 0 8px">Exigences de référentiels</h2>';
+  data.framework_criteria.forEach(r=>{h+=`<div class="card"><div class="top">
+    <div><span class="badge">${esc(r.framework_slug)}</span>
+    <span class="code">${esc(r.reference||'')}</span> ${esc((r.label||'').slice(0,120))}</div>
+    <span class="sim">${(r.similarity*100).toFixed(0)}%</span></div>
+    <div><span class="deg-${r.degree}">▸ ${r.degree}</span>
+    <span class="theme">→ ${esc(r.common_label)}</span></div></div>`});
+  out.innerHTML=h;
+};
+
+// comparaison
+$('#c-go').onclick=async()=>{
+  const a=$('#c-a').value,b=$('#c-b').value,out=$('#c-out');
+  if(a===b){out.innerHTML='<p class="muted">Choisissez deux référentiels différents.</p>';return}
+  out.innerHTML='<p class="spin">Calcul…</p>';
+  const d=await api('/api/compare',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({a,b})});
+  const ta=FRAMEWORKS.find(f=>f.slug===a).title, tb=FRAMEWORKS.find(f=>f.slug===b).title;
+  let h=`<div class="grid3">
+    <div class="stat"><div class="n">${d.summary.communs_partages}</div><div class="l">communs partagés</div></div>
+    <div class="stat"><div class="n">${d.summary.seulement_a}</div><div class="l">seulement ${esc(a)}</div></div>
+    <div class="stat"><div class="n">${d.summary.seulement_b}</div><div class="l">seulement ${esc(b)}</div></div></div>`;
+  h+=`<table><thead><tr><th>Critère commun</th><th>Thème</th><th>${esc(a)}</th><th>${esc(b)}</th></tr></thead><tbody>`;
+  d.detail.filter(r=>r.count_a>0&&r.count_b>0).sort((x,y)=>(y.count_a+y.count_b)-(x.count_a+x.count_b))
+   .forEach(r=>{h+=`<tr><td><span class="code">${r.common_code}</span> ${esc(r.common_label)}</td>
+   <td class="theme">${esc(r.theme_slug||'')}</td><td>${r.count_a}</td><td>${r.count_b}</td></tr>`});
+  h+='</tbody></table>';out.innerHTML=h;
+};
+
+// auto-évaluation
+let CCLIST=[];
+$('#a-start').onclick=async()=>{
+  const slug=$('#a-fw').value;
+  const s=await api('/api/assessment/start',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({framework:slug})});
+  window.AID=s.assessment_id;$('#a-id').textContent='session '+s.assessment_id.slice(0,8)+'…';
+  CCLIST=await api('/api/common-criteria?framework='+encodeURIComponent(slug));
+  const sel=st=>['conforme','partiel','non_conforme','non_applicable']
+    .map(v=>`<option value="${v}">${v}</option>`).join('');
+  $('#a-list').innerHTML=CCLIST.map(c=>`<div class="card">
+    <div><span class="code">${c.code}</span> ${esc(c.label_fr)}</div>
+    <select data-cc="${c.id}" onchange="answer(this)"><option value="">— répondre —</option>${sel()}</select>
+    </div>`).join('');
+  $('#a-result').innerHTML='';refresh();
+};
+window.answer=async(el)=>{
+  if(!el.value)return;
+  await api('/api/assessment/answer',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({assessment_id:window.AID,common_criterion_id:el.dataset.cc,status:el.value})});
+  refresh();
+};
+async function refresh(){
+  const r=await api('/api/assessment/result?assessment_id='+window.AID);
+  const pct=(r.coverage_rate*100).toFixed(1);
+  $('#a-result').innerHTML=`<div class="card">
+    <div class="top"><div><b>Taux de couverture</b> <span class="muted">(conformes / ${r.total_common} critères communs)</span></div>
+    <div class="big" style="color:var(--accent)">${pct}%</div></div>
+    <div class="bar"><i style="width:${pct}%"></i></div>
+    <div style="margin-top:10px">
+      <span class="pill s-conforme">conforme ${r.conforme}</span>
+      <span class="pill s-partiel">partiel ${r.partiel}</span>
+      <span class="pill s-non_conforme">non conforme ${r.non_conforme}</span>
+      <span class="pill s-non_applicable">N/A ${r.non_applicable}</span>
+      <span class="pill s-non_repondu">non répondu ${r.non_repondu}</span>
+    </div></div>`;
+}
+</script>
+</body>
+</html>
