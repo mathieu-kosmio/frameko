@@ -6,6 +6,7 @@ sinon DATABASE_URL. Les identifiants sont lus depuis proto/.env.
 """
 
 import os
+from contextlib import contextmanager
 from pathlib import Path
 
 import psycopg
@@ -91,13 +92,6 @@ def framework_exists(slug: str) -> bool:
     return query_one("select 1 as ok from framework where slug = %s", (slug,)) is not None
 
 
-def start_assessment(framework_slug: str) -> str:
-    row = query_one(
-        "insert into assessment (framework_slug) values (%s) returning id", (framework_slug,)
-    )
-    return str(row["id"])
-
-
 def common_criterion_by_label(label: str) -> dict | None:
     return query_one(
         "select id, code, label_fr from common_criterion where lower(label_fr) = lower(%s)",
@@ -105,17 +99,55 @@ def common_criterion_by_label(label: str) -> dict | None:
     )
 
 
-def upsert_answer(assessment_id: str, common_criterion_id: str, status: str, note: str | None) -> None:
-    with conn().cursor() as cur:
-        cur.execute(
+# ── Isolation par organisation (RLS) ────────────────────────────────────────
+# Les opérations d'auto-évaluation passent par le rôle frameko_app (sans
+# BYPASSRLS) via APP_DATABASE_URL, dans une transaction où l'org courante est
+# fixée par SET LOCAL app.current_org_id. La RLS garantit le cloisonnement.
+
+@contextmanager
+def org_scope(org_id: str):
+    app_url = os.environ.get("APP_DATABASE_URL")
+    if not app_url:
+        raise RuntimeError("APP_DATABASE_URL absent — exécuter scripts/setup_app_role.py")
+    c = psycopg.connect(app_url, row_factory=dict_row)  # autocommit=False → transaction
+    try:
+        c.execute("select set_config('app.current_org_id', %s, true)", (str(org_id),))
+        yield c
+        c.commit()
+    except Exception:
+        c.rollback()
+        raise
+    finally:
+        c.close()
+
+
+def start_assessment(org_id: str, framework_slug: str) -> str:
+    with org_scope(org_id) as c:
+        row = c.execute(
+            "insert into assessment (org_id, framework_slug) values (%s, %s) returning id",
+            (org_id, framework_slug),
+        ).fetchone()
+    return str(row["id"])
+
+
+def upsert_answer(org_id: str, assessment_id: str, common_criterion_id: str,
+                  status: str, note: str | None) -> bool:
+    """Retourne False si l'évaluation n'appartient pas à l'org (RLS : 0 ligne touchée)."""
+    with org_scope(org_id) as c:
+        cur = c.execute(
             "insert into assessment_answer (assessment_id, common_criterion_id, status, note)"
-            " values (%s, %s, %s, %s)"
+            " select %s, %s, %s, %s where exists (select 1 from assessment where id = %s)"
             " on conflict (assessment_id, common_criterion_id)"
             " do update set status = excluded.status, note = excluded.note",
-            (assessment_id, common_criterion_id, status, note),
+            (assessment_id, common_criterion_id, status, note, assessment_id),
         )
+        return cur.rowcount > 0
 
 
-def assessment_result(assessment_id: str) -> dict | None:
-    row = query_one("select assessment_result(%s) as r", (assessment_id,))
-    return row["r"] if row else None
+def assessment_result(org_id: str, assessment_id: str) -> dict | None:
+    with org_scope(org_id) as c:
+        row = c.execute("select assessment_result(%s) as r", (assessment_id,)).fetchone()
+    # un assessment d'une autre org est invisible (RLS) → framework_slug null
+    if row and row["r"] and row["r"].get("framework_slug"):
+        return row["r"]
+    return None

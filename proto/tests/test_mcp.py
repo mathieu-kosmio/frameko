@@ -60,7 +60,18 @@ def test_s2_compare(db):
     assert cmp["summary"]["communs_partages"] >= 1
 
 
-def test_s3_assessment_cycle(db):
+def test_s3_assessment_requires_org(db, monkeypatch):
+    # sans FRAMEKO_ORG_TOKEN → refus
+    monkeypatch.delenv("FRAMEKO_ORG_TOKEN", raising=False)
+
+    async def go():
+        async with Client(mcp) as c:
+            return (await c.call_tool("start_assessment", {"framework": "florverde"})).data
+    assert "error" in _run(go())
+
+
+def test_s3_assessment_cycle(db, org, monkeypatch):
+    monkeypatch.setenv("FRAMEKO_ORG_TOKEN", org["token"])
     # libellé d'un critère commun réellement couvert par le référentiel
     with db.cursor() as cur:
         cur.execute(
@@ -82,8 +93,6 @@ def test_s3_assessment_cycle(db):
     assert ans.get("ok") is True
     assert res["conforme"] == 1
     assert res["coverage_rate"] >= 0
-    with db.cursor() as cur:
-        cur.execute("delete from assessment where id = %s", (aid,))
 
 
 def test_unknown_slug(db):

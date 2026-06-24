@@ -11,6 +11,7 @@ Lancement :
     .venv/bin/python mcp_server/server.py        # transport stdio
 """
 
+import os
 import sys
 from pathlib import Path
 
@@ -18,7 +19,7 @@ from fastmcp import FastMCP
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from mcp_server import db  # noqa: E402
+from mcp_server import auth, db  # noqa: E402
 from mcp_server.embeddings import embed_one, to_pgvector  # noqa: E402
 
 mcp = FastMCP("Frameko")
@@ -142,15 +143,29 @@ def compare_frameworks(a: str, b: str) -> dict:
     }
 
 
-# ── S3 — Auto-évaluation ────────────────────────────────────────────────────
+# ── S3 — Auto-évaluation (cloisonnée par organisation) ──────────────────────
+# L'organisation est résolue à partir de FRAMEKO_ORG_TOKEN (jeton émis par
+# scripts/create_org.py). Les données d'évaluation sont isolées par RLS.
+
+def _current_org() -> dict | None:
+    return auth.resolve_org(os.environ.get("FRAMEKO_ORG_TOKEN", ""))
+
+
+_NO_ORG = {"error": "Aucune organisation : définir FRAMEKO_ORG_TOKEN (voir scripts/create_org.py)."}
+
 
 @mcp.tool
 def start_assessment(framework: str) -> dict:
-    """Démarre une auto-évaluation pour un référentiel (slug). Retourne l'assessment_id."""
+    """Démarre une auto-évaluation pour un référentiel (slug). Retourne l'assessment_id.
+
+    Requiert FRAMEKO_ORG_TOKEN (les évaluations sont cloisonnées par organisation)."""
+    org = _current_org()
+    if not org:
+        return _NO_ORG
     if not db.framework_exists(framework):
         return {"error": f"Référentiel inconnu : {framework}"}
-    aid = db.start_assessment(framework)
-    return {"assessment_id": aid, "framework": framework}
+    aid = db.start_assessment(org["id"], framework)
+    return {"assessment_id": aid, "framework": framework, "org": org["slug"]}
 
 
 @mcp.tool
@@ -162,19 +177,27 @@ def answer_assessment(
     `status` ∈ {conforme, partiel, non_conforme, non_applicable}. La réponse vaut
     pour tous les référentiels rattachés au même critère commun.
     """
+    org = _current_org()
+    if not org:
+        return _NO_ORG
     if status not in VALID_STATUS:
         return {"error": f"status invalide : {status}. Attendu : {sorted(VALID_STATUS)}"}
     cc = db.common_criterion_by_label(common_criterion_label)
     if not cc:
         return {"error": f"Critère commun introuvable : {common_criterion_label!r}"}
-    db.upsert_answer(assessment_id, str(cc["id"]), status, note)
+    ok = db.upsert_answer(org["id"], assessment_id, str(cc["id"]), status, note)
+    if not ok:
+        return {"error": "Auto-évaluation introuvable pour cette organisation."}
     return {"ok": True, "common_code": cc["code"], "status": status}
 
 
 @mcp.tool
 def get_assessment_result(assessment_id: str) -> dict:
-    """Taux de couverture et liste des écarts d'une auto-évaluation."""
-    res = db.assessment_result(assessment_id)
+    """Taux de couverture et liste des écarts d'une auto-évaluation (de votre organisation)."""
+    org = _current_org()
+    if not org:
+        return _NO_ORG
+    res = db.assessment_result(org["id"], assessment_id)
     if not res:
         return {"error": f"Auto-évaluation introuvable : {assessment_id}"}
     return res

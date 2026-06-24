@@ -37,9 +37,12 @@ def test_framework_coverage(db):
     assert all(r["count_a"] >= 0 and r["count_b"] >= 0 for r in rows)
 
 
-def test_assessment_result(db):
+def test_assessment_result(db, org):
     with db.cursor() as cur:
-        cur.execute("insert into assessment (framework_slug) values ('vivaifiori') returning id")
+        cur.execute(
+            "insert into assessment (org_id, framework_slug) values (%s, 'vivaifiori') returning id",
+            (org["id"],),
+        )
         aid = cur.fetchone()["id"]
         cur.execute(
             """select distinct cc.id from framework_criterion fc

@@ -38,3 +38,23 @@ def load_script(name: str):
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
+
+
+@pytest.fixture
+def org(db):
+    """Crée une organisation jetable (avec jeton) et la supprime ensuite (cascade évals)."""
+    import secrets
+
+    from mcp_server.auth import hash_token
+
+    token = secrets.token_urlsafe(16)
+    slug = "pytest-org-" + secrets.token_hex(3)
+    with db.cursor() as cur:
+        cur.execute(
+            "insert into org (slug, name, token_hash) values (%s, %s, %s) returning id::text as id",
+            (slug, "Pytest Org", hash_token(token)),
+        )
+        oid = cur.fetchone()["id"]
+    yield {"id": oid, "slug": slug, "token": token}
+    with db.cursor() as cur:
+        cur.execute("delete from org where id = %s", (oid,))

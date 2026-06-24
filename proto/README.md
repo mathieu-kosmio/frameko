@@ -32,16 +32,20 @@ proto/
   db/
     schema.sql          tables + pgvector + index HNSW
     functions.sql       4 fonctions RPC (recherche, couverture, évaluation)
+    03_auth_rls.sql     table org + RLS + rôle applicatif frameko_app
   scripts/
     test_connection.py  vérifie la connexion + l'extension vector
     apply_sql.py        applique un fichier .sql via DATABASE_URL
     load_data.py        charge le socle TTL + les 2 CSV
     build_embeddings.py calcule et stocke les embeddings
+    setup_app_role.py   provisionne frameko_app (LOGIN) + APP_DATABASE_URL
+    create_org.py       crée une organisation et émet son jeton
     extract_source.py   ingestion étape 1 : source (tableur/PDF) → criteria.csv
     ingest_framework.py ingestion étape 2 : rattachement → proposals.json
     apply_ingestion.py  ingestion étape 3 : insertion du référentiel validé
   mcp_server/
-    db.py               accès Postgres
+    db.py               accès Postgres (+ org_scope RLS)
+    auth.py             résolution d'organisation par jeton
     embeddings.py       service d'embedding (partagé)
     server.py           serveur MCP fastmcp (9 outils)
   web/
@@ -136,14 +140,40 @@ insère seulement après contrôle des degrés.
 critère commun inconnu ; `--replace` est requis pour réinsérer un slug existant. Les degrés des
 propositions MCP-first (laissés à `null`) doivent être complétés dans `proposals.json` avant `apply`.
 
+## Auth & isolation des auto-évaluations (RLS multi-organisation)
+
+Les auto-évaluations sont des **données sensibles** : chaque organisation ne voit que les siennes.
+L'isolation est garantie **au niveau de la base** par Row-Level Security, pas seulement par l'app.
+
+Mise en place (après le schéma) :
+
+```bash
+.venv/bin/python scripts/apply_sql.py db/03_auth_rls.sql   # table org + RLS + rôle frameko_app
+.venv/bin/python scripts/setup_app_role.py                 # mot de passe LOGIN + APP_DATABASE_URL
+.venv/bin/python scripts/create_org.py --slug acme --name "ACME Fleurs"   # → émet un jeton (1 fois)
+```
+
+**Comment ça marche.** Le rôle Supabase `postgres` possède `BYPASSRLS` (il ignore toute policy).
+Les opérations d'évaluation passent donc par un rôle dédié **`frameko_app`** (sans ce privilège,
+`APP_DATABASE_URL`), dans une transaction où l'organisation courante est fixée par
+`SET LOCAL app.current_org_id`. La policy RLS `org_id = current_setting('app.current_org_id')`
+cloisonne lecture **et** écriture.
+
+- **Web** : onglet Auto-évaluation → se connecter avec le jeton (session signée par cookie).
+- **MCP** : exporter `FRAMEKO_ORG_TOKEN=<jeton>` avant de lancer le serveur ; les outils
+  `start_assessment` / `answer_assessment` / `get_assessment_result` refusent sans jeton valide.
+
+Recherche et comparaison restent publiques (données de référentiels, non sensibles).
+
 ## Tests
 
 ```bash
 .venv/bin/python -m pytest tests/ -q
 ```
 
-Suite d'intégration (15 tests) : fonctions RPC, 9 outils MCP, boucle d'ingestion (apply + garde-fous),
-extraction tableur. Les tests se sautent proprement si `DATABASE_URL` est absent ou la base vide.
+Suite d'intégration (18 tests) : fonctions RPC, 9 outils MCP, boucle d'ingestion (apply + garde-fous),
+extraction tableur, et **isolation RLS** (une organisation ne lit/écrit pas les évaluations d'une
+autre). Les tests se sautent proprement si `DATABASE_URL`/`APP_DATABASE_URL` sont absents ou la base vide.
 
 ## Lancer l'UI web
 

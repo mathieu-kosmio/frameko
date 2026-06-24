@@ -108,14 +108,30 @@
   <section id="assess">
     <h2>Auto-évaluation de conformité</h2>
     <p class="hint">Choisissez un référentiel, répondez au niveau des critères communs : chaque réponse
-      vaut pour tous les référentiels rattachés au même critère.</p>
-    <div class="row">
-      <select id="a-fw"></select>
-      <button class="go" id="a-start">Démarrer</button>
-      <span id="a-id" class="muted"></span>
+      vaut pour tous les référentiels rattachés au même critère. Données cloisonnées par organisation.</p>
+
+    <div id="a-login">
+      <div class="row">
+        <input type="password" id="a-token" placeholder="Jeton d'organisation" style="flex:1;min-width:240px">
+        <button class="go" id="a-login-btn">Se connecter</button>
+      </div>
+      <p class="hint">Les auto-évaluations sont privées et isolées par organisation. Créez-en une avec
+        <code>scripts/create_org.py</code> pour obtenir un jeton.</p>
     </div>
-    <div id="a-result"></div>
-    <div id="a-list" class="answers"></div>
+
+    <div id="a-authed" style="display:none">
+      <div class="row">
+        <span class="muted">Organisation : <b id="a-org"></b></span>
+        <a href="#" id="a-logout" class="doc" style="margin-left:auto">Se déconnecter</a>
+      </div>
+      <div class="row">
+        <select id="a-fw"></select>
+        <button class="go" id="a-start">Démarrer</button>
+        <span id="a-id" class="muted"></span>
+      </div>
+      <div id="a-result"></div>
+      <div id="a-list" class="answers"></div>
+    </div>
   </section>
 
 </main>
@@ -140,7 +156,27 @@ $$('nav button').forEach(b=>b.onclick=()=>{
   $('#c-b').innerHTML=FRAMEWORKS.map(opt).join('');
   $('#c-b').selectedIndex=Math.min(5,FRAMEWORKS.length-1);
   $('#a-fw').innerHTML=FRAMEWORKS.map(opt).join('');
+  checkAuth();
 })();
+
+// authentification (auto-évaluation)
+async function checkAuth(){
+  const m=await api('/api/me');
+  if(m.org){
+    $('#a-login').style.display='none'; $('#a-authed').style.display='block';
+    $('#a-org').textContent=m.org.name;
+  } else {
+    $('#a-login').style.display='block'; $('#a-authed').style.display='none';
+  }
+}
+$('#a-login-btn').onclick=async()=>{
+  const r=await api('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({token:$('#a-token').value})});
+  if(r.error){alert('Jeton invalide.');return}
+  $('#a-token').value=''; checkAuth();
+};
+$('#a-logout').onclick=async(e)=>{e.preventDefault();
+  await api('/api/logout',{method:'POST'}); checkAuth();};
 
 // recherche
 $('#q-go').onclick=async()=>{
@@ -188,6 +224,7 @@ $('#a-start').onclick=async()=>{
   const slug=$('#a-fw').value;
   const s=await api('/api/assessment/start',{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({framework:slug})});
+  if(s.error){checkAuth();return}  // session expirée → re-login
   window.AID=s.assessment_id;$('#a-id').textContent='session '+s.assessment_id.slice(0,8)+'…';
   CCLIST=await api('/api/common-criteria?framework='+encodeURIComponent(slug));
   const sel=st=>['conforme','partiel','non_conforme','non_applicable']

@@ -10,20 +10,23 @@ Lancement :
     .venv/bin/python web/app.py            # http://127.0.0.1:8080
 """
 
+import os
+import secrets
 import sys
 from pathlib import Path
 
 import uvicorn
 from starlette.applications import Starlette
+from starlette.middleware import Middleware
+from starlette.middleware.sessions import SessionMiddleware
 from starlette.requests import Request
 from starlette.responses import HTMLResponse, JSONResponse
 from starlette.routing import Route
-from starlette.staticfiles import StaticFiles
 
 PROTO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROTO))
 
-from mcp_server import db  # noqa: E402
+from mcp_server import auth, db  # noqa: E402
 from mcp_server.embeddings import embed_one, to_pgvector  # noqa: E402
 
 WEB = Path(__file__).resolve().parent
@@ -83,28 +86,65 @@ async def api_common_criteria(request: Request) -> JSONResponse:
     return JSONResponse(rows)
 
 
+# ── Authentification par jeton d'organisation ───────────────────────────────
+
+async def api_login(request: Request) -> JSONResponse:
+    body = await request.json()
+    org = auth.resolve_org(body.get("token", ""))
+    if not org:
+        return JSONResponse({"error": "Jeton invalide"}, status_code=401)
+    request.session["org_id"] = org["id"]
+    request.session["org_slug"] = org["slug"]
+    request.session["org_name"] = org["name"]
+    return JSONResponse({"org": {"slug": org["slug"], "name": org["name"]}})
+
+
+async def api_logout(request: Request) -> JSONResponse:
+    request.session.clear()
+    return JSONResponse({"ok": True})
+
+
+async def api_me(request: Request) -> JSONResponse:
+    if "org_id" in request.session:
+        return JSONResponse({"org": {"slug": request.session["org_slug"], "name": request.session["org_name"]}})
+    return JSONResponse({"org": None})
+
+
+def _org_id(request: Request) -> str | None:
+    return request.session.get("org_id")
+
+
 async def api_assess_start(request: Request) -> JSONResponse:
+    org_id = _org_id(request)
+    if not org_id:
+        return JSONResponse({"error": "authentification requise"}, status_code=401)
     body = await request.json()
     slug = body.get("framework")
     if not db.framework_exists(slug):
         return JSONResponse({"error": "référentiel inconnu"}, status_code=400)
-    return JSONResponse({"assessment_id": db.start_assessment(slug)})
+    return JSONResponse({"assessment_id": db.start_assessment(org_id, slug)})
 
 
 async def api_assess_answer(request: Request) -> JSONResponse:
+    org_id = _org_id(request)
+    if not org_id:
+        return JSONResponse({"error": "authentification requise"}, status_code=401)
     body = await request.json()
-    aid = body.get("assessment_id")
-    cc_id = body.get("common_criterion_id")
     status = body.get("status")
     if status not in VALID_STATUS:
         return JSONResponse({"error": "status invalide"}, status_code=400)
-    db.upsert_answer(aid, cc_id, status, body.get("note"))
+    ok = db.upsert_answer(org_id, body.get("assessment_id"), body.get("common_criterion_id"),
+                          status, body.get("note"))
+    if not ok:
+        return JSONResponse({"error": "évaluation introuvable pour cette organisation"}, status_code=404)
     return JSONResponse({"ok": True})
 
 
 async def api_assess_result(request: Request) -> JSONResponse:
-    aid = request.query_params.get("assessment_id")
-    res = db.assessment_result(aid)
+    org_id = _org_id(request)
+    if not org_id:
+        return JSONResponse({"error": "authentification requise"}, status_code=401)
+    res = db.assessment_result(org_id, request.query_params.get("assessment_id"))
     if not res:
         return JSONResponse({"error": "introuvable"}, status_code=404)
     return JSONResponse(res)
@@ -117,12 +157,19 @@ routes = [
     Route("/api/search", api_search, methods=["POST"]),
     Route("/api/compare", api_compare, methods=["POST"]),
     Route("/api/common-criteria", api_common_criteria),
+    Route("/api/login", api_login, methods=["POST"]),
+    Route("/api/logout", api_logout, methods=["POST"]),
+    Route("/api/me", api_me),
     Route("/api/assessment/start", api_assess_start, methods=["POST"]),
     Route("/api/assessment/answer", api_assess_answer, methods=["POST"]),
     Route("/api/assessment/result", api_assess_result),
 ]
 
-app = Starlette(routes=routes)
+# Clé de session : depuis .env si présente, sinon éphémère (sessions réinitialisées au redémarrage)
+SECRET = os.environ.get("WEB_SECRET_KEY") or secrets.token_hex(32)
+middleware = [Middleware(SessionMiddleware, secret_key=SECRET, same_site="lax", https_only=False)]
+
+app = Starlette(routes=routes, middleware=middleware)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8080, log_level="info")
