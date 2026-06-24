@@ -1,0 +1,21 @@
+# Reverse-proxy HTTPS pour le serveur MCP Frameko.
+# Caddy obtient et renouvelle automatiquement un certificat Let's Encrypt pour {$DOMAIN}.
+# Le header Authorization (jeton d'organisation) est transmis tel quel au backend.
+
+{$DOMAIN} {
+	encode gzip
+
+	# Sonde de santé publique
+	handle /health {
+		reverse_proxy mcp:8765
+	}
+
+	# Endpoint MCP (transport streamable-http)
+	handle /mcp/* {
+		reverse_proxy mcp:8765
+	}
+
+	handle {
+		respond "Frameko MCP" 200
+	}
+}

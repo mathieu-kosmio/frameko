@@ -17,6 +17,8 @@ from pathlib import Path
 
 from fastmcp import FastMCP
 from fastmcp.server.dependencies import get_http_headers
+from starlette.requests import Request
+from starlette.responses import JSONResponse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -24,6 +26,16 @@ from mcp_server import auth, db  # noqa: E402
 from mcp_server.embeddings import embed_one, to_pgvector  # noqa: E402
 
 mcp = FastMCP("Frameko")
+
+
+@mcp.custom_route("/health", methods=["GET"])
+async def health(request: Request) -> JSONResponse:
+    """Sonde de vivacité (déploiement / orchestrateur) : vérifie l'accès base."""
+    try:
+        db.query("select 1 as ok")
+        return JSONResponse({"status": "ok", "service": "frameko-mcp"})
+    except Exception as exc:
+        return JSONResponse({"status": "degraded", "error": str(exc)[:120]}, status_code=503)
 
 VALID_STATUS = {"conforme", "partiel", "non_conforme", "non_applicable"}
 

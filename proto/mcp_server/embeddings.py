@@ -24,7 +24,9 @@ BACKEND = os.environ.get("EMBEDDING_BACKEND", "fastembed")
 def _fastembed_model():
     from fastembed import TextEmbedding
 
-    return TextEmbedding(model_name=MODEL_NAME)
+    # Cache du modèle paramétrable (FRAMEKO_MODEL_CACHE) → montable en volume Docker
+    cache_dir = os.environ.get("FRAMEKO_MODEL_CACHE") or None
+    return TextEmbedding(model_name=MODEL_NAME, cache_dir=cache_dir)
 
 
 @lru_cache(maxsize=1)

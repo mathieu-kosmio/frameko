@@ -140,6 +140,25 @@ exige un jeton valide. Le service utilise des **pools de connexions** (concurren
 multi-utilisateurs) ; déployer derrière HTTPS et provisionner les organisations avec
 `scripts/create_org.py`.
 
+### Déploiement (Docker)
+
+```bash
+# Image du serveur MCP (contexte = proto/)
+docker compose up -d                # MCP HTTP en interne, modèle en volume
+
+# Avec HTTPS automatique (Let's Encrypt via Caddy)
+DOMAIN=frameko.example.org docker compose --profile https up -d
+```
+
+- `Dockerfile` : image Python 3.13, le modèle d'embedding est mis en cache dans un volume
+  (`FRAMEKO_MODEL_CACHE=/data/models`) → pas de re-téléchargement au redémarrage.
+- Secrets via `.env` (`env_file`), **jamais** copiés dans l'image (`.dockerignore`).
+- Sonde `GET /health` (vérifie l'accès base) utilisée par le `HEALTHCHECK` du conteneur.
+- `deploy/Caddyfile` termine le TLS et transmet le header `Authorization` au backend.
+
+> Le `docker build` n'a pas été exécuté dans l'environnement de développement (disque saturé) ;
+> les fichiers sont validés (`docker compose config`) et l'endpoint `/health` est testé en HTTP réel.
+
 Outils exposés : `list_frameworks`, `get_framework`, `search_requirements`, `nearest_requirements`,
 `propose_mapping`, `compare_frameworks`, `start_assessment`, `answer_assessment`, `get_assessment_result`.
 

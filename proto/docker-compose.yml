@@ -1,0 +1,45 @@
+# Frameko — déploiement SaaS (serveur MCP HTTP + reverse-proxy HTTPS)
+#
+#   docker compose up -d            # MCP seul (HTTP en interne)
+#   DOMAIN=frameko.example.org docker compose --profile https up -d   # + HTTPS auto
+#
+# Secrets lus depuis .env (non versionné) : DATABASE_URL, APP_DATABASE_URL, etc.
+
+services:
+  mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    environment:
+      FRAMEKO_MCP_TRANSPORT: http
+      FRAMEKO_MCP_HOST: 0.0.0.0
+      FRAMEKO_MCP_PORT: "8765"
+      FRAMEKO_MODEL_CACHE: /data/models
+    volumes:
+      - model-cache:/data/models
+    restart: unless-stopped
+    # exposé en interne ; en prod, laisser Caddy publier 443. Décommenter pour un accès direct :
+    # ports:
+    #   - "8765:8765"
+
+  # Reverse-proxy HTTPS (Let's Encrypt automatique). Activé via : --profile https
+  caddy:
+    image: caddy:2-alpine
+    profiles: ["https"]
+    depends_on: [mcp]
+    environment:
+      DOMAIN: ${DOMAIN:?définir DOMAIN=votre-domaine}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    restart: unless-stopped
+
+volumes:
+  model-cache:
+  caddy-data:
+  caddy-config:
