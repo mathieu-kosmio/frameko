@@ -1,0 +1,60 @@
+# Frameko — déploiement Coolify (image pré-construite par GitHub Actions → GHCR)
+#
+# Coolify TIRE l'image ghcr.io/mathieu-kosmio/frameko:latest : aucun build local.
+# - Renseigner les variables (DATABASE_URL, APP_DATABASE_URL, WEB_SECRET_KEY…)
+#   dans l'onglet « Environment Variables » de la ressource Coolify.
+# - Définir un domaine par service exposé dans Coolify : le proxy intégré
+#   (Traefik) gère le routage et le certificat HTTPS automatiquement → pas de Caddy.
+#
+# Deux services partagent la même image :
+#   • mcp  → serveur MCP HTTP multi-tenant (port 8765, /mcp/ + /health)
+#   • web  → console web de démonstration (port 8080)
+# Garder les deux, ou commenter « web » pour ne déployer que l'API MCP.
+#
+# Voir DEPLOY-COOLIFY.md pour la marche à suivre détaillée.
+
+services:
+  mcp:
+    image: ghcr.io/mathieu-kosmio/frameko:latest
+    environment:
+      FRAMEKO_MCP_TRANSPORT: http
+      FRAMEKO_MCP_HOST: 0.0.0.0
+      FRAMEKO_MCP_PORT: "8765"
+      FRAMEKO_MODEL_CACHE: /data/models
+      DATABASE_URL: ${DATABASE_URL}
+      APP_DATABASE_URL: ${APP_DATABASE_URL}
+      USE_POOLER: ${USE_POOLER:-0}
+      DATABASE_POOLER_URL: ${DATABASE_POOLER_URL:-}
+    volumes:
+      - model-cache-mcp:/data/models
+    expose:
+      - "8765"
+    restart: unless-stopped
+
+  web:
+    image: ghcr.io/mathieu-kosmio/frameko:latest
+    command: ["python", "web/app.py"]
+    environment:
+      FRAMEKO_WEB_HOST: 0.0.0.0
+      FRAMEKO_WEB_PORT: "8080"
+      FRAMEKO_MODEL_CACHE: /data/models
+      WEB_SECRET_KEY: ${WEB_SECRET_KEY}
+      DATABASE_URL: ${DATABASE_URL}
+      APP_DATABASE_URL: ${APP_DATABASE_URL}
+      USE_POOLER: ${USE_POOLER:-0}
+      DATABASE_POOLER_URL: ${DATABASE_POOLER_URL:-}
+    volumes:
+      - model-cache-web:/data/models
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8080/').status==200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      start_period: 40s
+      retries: 3
+    restart: unless-stopped
+
+volumes:
+  model-cache-mcp:
+  model-cache-web:

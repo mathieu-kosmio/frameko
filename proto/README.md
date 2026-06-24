@@ -159,6 +159,14 @@ DOMAIN=frameko.example.org docker compose --profile https up -d
 - Sonde `GET /health` (vérifie l'accès base) utilisée par le `HEALTHCHECK` du conteneur.
 - `deploy/Caddyfile` termine le TLS et transmet le header `Authorization` au backend.
 
+### Déploiement managé (Coolify + GHCR, sans build local)
+
+Le build se fait dans **GitHub Actions** (`.github/workflows/docker-publish.yml`) et publie
+l'image sur **GHCR** (`ghcr.io/<owner>/frameko:latest`) ; **Coolify tire l'image** — rien à
+builder sur la machine locale. Le compose `docker-compose.coolify.yml` déploie **deux services**
+sur la même image : `mcp` (serveur MCP 8765) et `web` (console 8080). Coolify gère le proxy et
+le HTTPS (pas de Caddy). Procédure détaillée : **[`DEPLOY-COOLIFY.md`](DEPLOY-COOLIFY.md)**.
+
 > **Prérequis réseau — connexion base depuis un conteneur.** Le endpoint *direct* Supabase
 > (`db.<ref>.supabase.co:5432`) est **IPv6-only** : il est injoignable depuis le réseau Docker
 > IPv4 par défaut (`Network is unreachable`). En conteneur, utiliser le **pooler Supavisor (IPv4)** :

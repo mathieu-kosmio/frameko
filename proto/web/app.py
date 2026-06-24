@@ -283,4 +283,8 @@ middleware = [Middleware(SessionMiddleware, secret_key=SECRET, same_site="lax", 
 app = Starlette(routes=routes, middleware=middleware)
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8080, log_level="info")
+    # En conteneur (Coolify), exposer sur 0.0.0.0 via FRAMEKO_WEB_HOST ;
+    # par défaut local (127.0.0.1:8080) pour le développement.
+    host = os.environ.get("FRAMEKO_WEB_HOST", "127.0.0.1")
+    port = int(os.environ.get("FRAMEKO_WEB_PORT", "8080"))
+    uvicorn.run(app, host=host, port=port, log_level="info")
