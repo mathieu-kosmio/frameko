@@ -11,8 +11,10 @@ python-dotenv>=1.0
 rdflib>=7.1
 pandas>=2.2
 
-# Embeddings locaux (modèle multilingue 384 dim, aucune clé API externe)
-sentence-transformers>=3.0
+# Embeddings locaux (modèle multilingue 384 dim, aucune clé API externe) via ONNX léger.
+# Backend par défaut = fastembed. Alternative sentence-transformers (tire torch, ~2 Go) :
+#   pip install "sentence-transformers>=3.0"  +  EMBEDDING_BACKEND=sentence-transformers
+fastembed>=0.4
 
 # Serveur MCP
 fastmcp>=2.0

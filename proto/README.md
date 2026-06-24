@@ -150,14 +150,19 @@ docker compose up -d                # MCP HTTP en interne, modèle en volume
 DOMAIN=frameko.example.org docker compose --profile https up -d
 ```
 
-- `Dockerfile` : image Python 3.13, le modèle d'embedding est mis en cache dans un volume
-  (`FRAMEKO_MODEL_CACHE=/data/models`) → pas de re-téléchargement au redémarrage.
+- `Dockerfile` : image Python 3.13 (~540 Mo, sans torch), le modèle d'embedding est mis en cache
+  dans un volume (`FRAMEKO_MODEL_CACHE=/data/models`) → pas de re-téléchargement au redémarrage.
 - Secrets via `.env` (`env_file`), **jamais** copiés dans l'image (`.dockerignore`).
 - Sonde `GET /health` (vérifie l'accès base) utilisée par le `HEALTHCHECK` du conteneur.
 - `deploy/Caddyfile` termine le TLS et transmet le header `Authorization` au backend.
 
-> Le `docker build` n'a pas été exécuté dans l'environnement de développement (disque saturé) ;
-> les fichiers sont validés (`docker compose config`) et l'endpoint `/health` est testé en HTTP réel.
+> **Prérequis réseau — connexion base depuis un conteneur.** Le endpoint *direct* Supabase
+> (`db.<ref>.supabase.co:5432`) est **IPv6-only** : il est injoignable depuis le réseau Docker
+> IPv4 par défaut (`Network is unreachable`). En conteneur, utiliser le **pooler Supavisor (IPv4)** :
+> renseigner `DATABASE_POOLER_URL` (Dashboard → Database → Connection pooling, **transaction**,
+> region exacte) et `USE_POOLER=1`. Prévoir aussi un `APP_DATABASE_URL` via le pooler pour le
+> rôle `frameko_app`. L'image a été construite et le serveur démarre (`/mcp/` + `/health`
+> répondent) ; le test base en conteneur reste à finaliser une fois le pooler confirmé.
 
 Outils exposés : `list_frameworks`, `get_framework`, `search_requirements`, `nearest_requirements`,
 `propose_mapping`, `compare_frameworks`, `start_assessment`, `answer_assessment`, `get_assessment_result`.

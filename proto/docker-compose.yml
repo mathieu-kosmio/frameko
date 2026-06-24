@@ -29,7 +29,8 @@ services:
     profiles: ["https"]
     depends_on: [mcp]
     environment:
-      DOMAIN: ${DOMAIN:?définir DOMAIN=votre-domaine}
+      # Pour un vrai certificat, passer DOMAIN=votre-domaine ; défaut = certificat interne local
+      DOMAIN: ${DOMAIN:-frameko.localhost}
     ports:
       - "80:80"
       - "443:443"
