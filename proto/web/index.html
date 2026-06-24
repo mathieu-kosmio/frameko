@@ -694,15 +694,19 @@ $('#a-logout').onclick=async(e)=>{e.preventDefault();
   await api('/api/logout',{method:'POST'}); checkAuth();};
 
 // recherche
-$('#q-go').onclick=async()=>{
-  const out=$('#q-out');$('#q-focus').innerHTML='';out.innerHTML='<p class="spin">Recherche…</p>';
+async function runSearch(){
+  const out=$('#q-out'), fw=$('#q-fw').value;
+  if(!$('#q').value.trim()){out.innerHTML='<p class="muted">Saisissez une requête.</p>';return}
+  $('#q-focus').innerHTML='';out.innerHTML='<p class="spin">Recherche…</p>';
   const data=await api('/api/search',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({query:$('#q').value,framework:$('#q-fw').value})});
-  if(data.error){out.innerHTML=`<p class="muted">${data.error}</p>`;return}
+    body:JSON.stringify({query:$('#q').value,framework:fw})});
+  if(data.error){out.innerHTML=`<p class="muted">${esc(data.error)}</p>`;return}
+  const fwTitle=fw ? (FRAMEWORKS.find(f=>f.slug===fw)||{}).title||fw : null;
   let h='<h2 style="font-size:14px;margin:18px 0 8px">Critères communs proches <span class="muted" style="font-weight:400;font-size:12px">— cliquez pour déplier les référentiels liés</span></h2>';
   data.common_criteria.forEach(c=>{h+=commonCardHTML(c.code,c.label_fr,c.theme_label,(c.similarity*100).toFixed(0));});
   QHITS=data.framework_criteria||[];
-  h+='<h2 style="font-size:14px;margin:22px 0 8px">Exigences de référentiels</h2>';
+  h+=`<h2 style="font-size:14px;margin:22px 0 8px">Exigences${fwTitle?` — <span style="color:var(--accent2)">${esc(fwTitle)}</span>`:' de référentiels'}</h2>`;
+  if(!QHITS.length){h+='<p class="muted">Aucune exigence pour ce filtre.</p>';}
   QHITS.forEach((r,i)=>{h+=`<div class="card q-hit" onclick="gotoCriterion(${i})"
     title="Voir ce critère dans le référentiel"><div class="top">
     <div><span class="badge">${esc(r.framework_slug)}</span>
@@ -713,7 +717,10 @@ $('#q-go').onclick=async()=>{
     <span class="theme">→ ${esc(r.common_label)}</span></div>
     <span class="q-see">voir dans le référentiel →</span></div></div>`});
   out.innerHTML=h;
-};
+}
+$('#q-go').onclick=runSearch;
+// Filtre dynamique : changer le référentiel relance la recherche (s'il y a une requête).
+$('#q-fw').onchange=()=>{ if($('#q').value.trim()) runSearch(); };
 
 // Ouvre la vue « Référentiel » sur un référentiel donné (bascule d'onglet + chargement).
 async function openBrowseFramework(slug){
@@ -777,10 +784,15 @@ function commonCardHTML(code,label,theme,simPct){
 }
 
 // Exigences liées à un critère commun, groupées par référentiel ; chacune ouvre
-// le critère dans son référentiel.
+// le critère dans son référentiel. Respecte le filtre de référentiel de la recherche.
 function renderCommonItems(d){
-  const items=d.items||[];
-  if(!items.length)return '<p class="muted" style="padding:10px 14px">Aucun référentiel rattaché.</p>';
+  const fw=$('#q-fw') ? $('#q-fw').value : '';
+  let items=d.items||[];
+  if(fw) items=items.filter(it=>it.framework_slug===fw);
+  if(!items.length){
+    const t=fw ? (FRAMEWORKS.find(f=>f.slug===fw)||{}).title||fw : null;
+    return `<p class="muted" style="padding:10px 14px">${fw?`Non couvert par ${esc(t)}.`:'Aucun référentiel rattaché.'}</p>`;
+  }
   const groups=[]; const idx={};
   items.forEach(it=>{
     if(!(it.framework_slug in idx)){idx[it.framework_slug]=groups.length;
@@ -822,6 +834,7 @@ window.openCommonInSearch=async(code)=>{
   document.querySelector('nav button[data-tab=search]').classList.add('active');
   $$('section').forEach(s=>s.classList.remove('active'));
   $('#search').classList.add('active');
+  $('#q-fw').value='';                 // exploration cross-référentiel : on lève le filtre
   const focus=$('#q-focus');
   focus.innerHTML='<p class="spin" style="padding:8px 0">Chargement du critère commun…</p>';
   const d=await api('/api/common-criterion/'+encodeURIComponent(code));
