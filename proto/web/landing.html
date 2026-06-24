@@ -509,7 +509,7 @@
 <!-- ── STATS ─────────────────────────────────────────── -->
 <div class="stats-band">
   <div class="stat-item">
-    <div class="stat-n">13</div>
+    <div class="stat-n" id="s-fw">13</div>
     <div class="stat-l">référentiels<br>intégrés</div>
   </div>
   <div class="stat-item">
@@ -517,12 +517,12 @@
     <div class="stat-l">critères communs<br>CCCEV</div>
   </div>
   <div class="stat-item">
-    <div class="stat-n">876+</div>
+    <div class="stat-n" id="s-crit">1 440</div>
     <div class="stat-l">exigences<br>indexées</div>
   </div>
   <div class="stat-item">
-    <div class="stat-n">4</div>
-    <div class="stat-l">degrés de<br>rapprochement</div>
+    <div class="stat-n">12</div>
+    <div class="stat-l">types de<br>preuves</div>
   </div>
 </div>
 
@@ -532,7 +532,7 @@
 <section class="section">
   <div class="section-eyebrow">Services</div>
   <h2 class="section-title">Tout pour naviguer entre référentiels</h2>
-  <p class="section-sub">Six outils disponibles depuis la console — pour les équipes certification, les organismes de contrôle et les intégrateurs.</p>
+  <p class="section-sub">Sept outils disponibles depuis la console — pour les équipes certification, les organismes de contrôle et les intégrateurs.</p>
 
   <div class="features-grid">
 
@@ -545,6 +545,16 @@
       </div>
       <h3>Recherche sémantique</h3>
       <p>Décrivez une exigence en langage libre. Frameko retrouve les critères proches dans tous les référentiels — même sans les mêmes mots, même dans une autre langue.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M4 4h12M4 8h12M4 12h8M4 16h6" stroke="#3fb984" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3>Parcourir un référentiel</h3>
+      <p>Tous les critères d'un référentiel, groupés par thème, avec leur degré et leur rattachement au socle — et les <strong style="color:var(--text)">types de preuves</strong> attendus (registre, certificat, analyse, constat sur site…).</p>
     </div>
 
     <div class="feature-card">
@@ -786,6 +796,16 @@
     </div>
   </div>
 </footer>
+
+<script>
+  // Chiffres tenus à jour depuis l'API (auto-actualisés quand un référentiel est ajouté).
+  fetch('/api/frameworks').then(r => r.ok ? r.json() : []).then(fw => {
+    if (!Array.isArray(fw) || !fw.length) return;
+    const crit = fw.reduce((s, f) => s + (f.n_criteres || 0), 0);
+    document.getElementById('s-fw').textContent = fw.length;
+    document.getElementById('s-crit').textContent = crit.toLocaleString('fr-FR');
+  }).catch(() => {});
+</script>
 
 </body>
 </html>

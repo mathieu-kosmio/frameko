@@ -187,6 +187,30 @@ def framework_criteria(slug: str) -> list[dict]:
     )
 
 
+def common_criterion_detail(code: str) -> dict | None:
+    """Un critère commun (par code) + toutes les exigences des référentiels qui y
+    sont rattachées, tous référentiels confondus — pour « déplier » un critère
+    commun et naviguer entre référentiels."""
+    cc = query_one(
+        "select cc.code, cc.label_fr, t.label_fr as theme_label"
+        " from common_criterion cc left join theme t on t.slug = cc.theme_slug"
+        " where cc.code = %s",
+        (code,),
+    )
+    if not cc:
+        return None
+    items = query(
+        "select fc.framework_slug, f.title as framework_title,"
+        "       fc.reference, fc.label, fc.level, fc.degree"
+        " from framework_criterion fc"
+        " join common_criterion cc on cc.id = fc.common_criterion_id"
+        " join framework f on f.slug = fc.framework_slug"
+        " where cc.code = %s order by f.title, fc.reference",
+        (code,),
+    )
+    return {"common": cc, "items": items}
+
+
 def neighbors(slug: str) -> list[dict]:
     """Référentiels partageant des critères communs avec « slug » (voisinage)."""
     return query("select * from framework_neighbors(%s)", (slug,))

@@ -143,6 +143,15 @@ async def api_equivalences(request: Request) -> JSONResponse:
     return JSONResponse({"focal": slug, "equivalences": db.framework_equivalences(slug)})
 
 
+async def api_common_criterion(request: Request) -> JSONResponse:
+    """Détail d'un critère commun : toutes les exigences des référentiels liées."""
+    code = request.path_params["code"]
+    detail = db.common_criterion_detail(code)
+    if not detail:
+        return JSONResponse({"error": "critère commun inconnu"}, status_code=404)
+    return JSONResponse(detail)
+
+
 async def api_common_criteria(request: Request) -> JSONResponse:
     """Critères communs couverts par un référentiel (pour l'auto-évaluation)."""
     slug = request.query_params.get("framework")
@@ -282,6 +291,7 @@ routes = [
     Route("/api/ingest/extract", api_ingest_extract, methods=["POST"]),
     Route("/api/ingest/propose", api_ingest_propose, methods=["POST"]),
     Route("/api/ingest/apply", api_ingest_apply, methods=["POST"]),
+    Route("/api/common-criterion/{code}", api_common_criterion),
     Route("/api/common-criteria", api_common_criteria),
     Route("/api/login", api_login, methods=["POST"]),
     Route("/api/logout", api_logout, methods=["POST"]),

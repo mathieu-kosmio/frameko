@@ -153,6 +153,27 @@
   /* Comparaison : compteur cliquable */
   .cc-link{color:var(--accent2);cursor:pointer;font-weight:600;border-bottom:1px dotted transparent;transition:border-color .12s}
   .cc-link:hover{border-bottom-color:var(--accent2)}
+  /* Référentiel : critère commun cliquable → recherche */
+  .b-cc.cc-open{cursor:pointer}
+  .b-cc.cc-open:hover{color:var(--accent2)}
+  .b-cc.cc-open:hover .code{text-decoration:underline}
+  /* Recherche : critère commun dépliable */
+  .ccard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
+  .ccard-h{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 14px;cursor:pointer}
+  .ccard-h:hover{background:var(--panel2)}
+  .ccard-meta{display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .ccard-caret{color:var(--muted);font-size:11px;transition:transform .15s}
+  .ccard.open .ccard-caret{transform:rotate(180deg)}
+  .ccard-b{display:none;border-top:1px solid var(--line)}
+  .ccard.open .ccard-b{display:block}
+  .cgrp{border-bottom:1px solid var(--line)} .cgrp:last-child{border-bottom:none}
+  .cgrp-h{padding:8px 14px;font-size:12px;font-weight:600;background:#11161d;display:flex;gap:8px;align-items:baseline}
+  .cexig{display:flex;gap:8px;align-items:baseline;padding:8px 14px 8px 22px;border-top:1px solid #1a2129;
+    font-size:12px;cursor:pointer;transition:background .12s}
+  .cexig:hover{background:rgba(90,169,230,.08)}
+  .cexig .ref{font-family:ui-monospace,monospace;color:var(--accent2);font-size:11px;flex-shrink:0}
+  .cexig .lbl{flex:1;min-width:0}
+  .cexig .dpill{margin-left:auto;flex-shrink:0}
   @media(prefers-reduced-motion:reduce){
     .b-crit.flash{animation:none;background:rgba(63,185,132,.15)}
     .card.q-hit:hover{transform:none}
@@ -188,6 +209,7 @@
       <select id="q-fw"><option value="">Tous les référentiels</option></select>
       <button class="go" id="q-go">Rechercher</button>
     </div>
+    <div id="q-focus"></div>
     <div id="q-out"></div>
   </section>
 
@@ -673,15 +695,12 @@ $('#a-logout').onclick=async(e)=>{e.preventDefault();
 
 // recherche
 $('#q-go').onclick=async()=>{
-  const out=$('#q-out');out.innerHTML='<p class="spin">Recherche…</p>';
+  const out=$('#q-out');$('#q-focus').innerHTML='';out.innerHTML='<p class="spin">Recherche…</p>';
   const data=await api('/api/search',{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({query:$('#q').value,framework:$('#q-fw').value})});
   if(data.error){out.innerHTML=`<p class="muted">${data.error}</p>`;return}
-  let h='<h2 style="font-size:14px;margin:18px 0 8px">Critères communs proches</h2>';
-  data.common_criteria.forEach(c=>{h+=`<div class="card"><div class="top">
-    <div><span class="code">${c.code}</span> ${esc(c.label_fr)}</div>
-    <span class="sim">${(c.similarity*100).toFixed(0)}%</span></div>
-    <div class="theme">${esc(c.theme_label||'')}</div></div>`});
+  let h='<h2 style="font-size:14px;margin:18px 0 8px">Critères communs proches <span class="muted" style="font-weight:400;font-size:12px">— cliquez pour déplier les référentiels liés</span></h2>';
+  data.common_criteria.forEach(c=>{h+=commonCardHTML(c.code,c.label_fr,c.theme_label,(c.similarity*100).toFixed(0));});
   QHITS=data.framework_criteria||[];
   h+='<h2 style="font-size:14px;margin:22px 0 8px">Exigences de référentiels</h2>';
   QHITS.forEach((r,i)=>{h+=`<div class="card q-hit" onclick="gotoCriterion(${i})"
