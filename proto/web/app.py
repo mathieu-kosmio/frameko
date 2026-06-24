@@ -26,8 +26,10 @@ from starlette.routing import Route
 PROTO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROTO))
 
-from mcp_server import auth, db  # noqa: E402
+from mcp_server import auth, db, ingest  # noqa: E402
 from mcp_server.embeddings import embed_one, to_pgvector  # noqa: E402
+
+import tempfile  # noqa: E402
 
 WEB = Path(__file__).resolve().parent
 VALID_STATUS = {"conforme", "partiel", "non_conforme", "non_applicable"}
@@ -74,6 +76,31 @@ async def api_compare(request: Request) -> JSONResponse:
     })
 
 
+async def api_neighbors(request: Request) -> JSONResponse:
+    """Voisinage d'un référentiel : ceux qui partagent des critères communs."""
+    slug = request.path_params["slug"]
+    if not db.framework_exists(slug):
+        return JSONResponse({"error": "référentiel inconnu"}, status_code=404)
+    return JSONResponse({"focal": slug, "neighbors": db.neighbors(slug)})
+
+
+async def api_pair(request: Request) -> JSONResponse:
+    """Comparaison détaillée (au niveau critère) de deux référentiels."""
+    a = request.query_params.get("a")
+    b = request.query_params.get("b")
+    if not db.framework_exists(a) or not db.framework_exists(b):
+        return JSONResponse({"error": "référentiel inconnu"}, status_code=400)
+    rows = db.coverage(a, b)
+    shared = [r for r in rows if r["count_a"] > 0 and r["count_b"] > 0]
+    only_a = [r for r in rows if r["count_a"] > 0 and r["count_b"] == 0]
+    only_b = [r for r in rows if r["count_b"] > 0 and r["count_a"] == 0]
+    return JSONResponse({
+        "summary": {"communs_partages": len(shared),
+                    "seulement_a": len(only_a), "seulement_b": len(only_b)},
+        "detail": db.pair_detail(a, b),
+    })
+
+
 async def api_common_criteria(request: Request) -> JSONResponse:
     """Critères communs couverts par un référentiel (pour l'auto-évaluation)."""
     slug = request.query_params.get("framework")
@@ -84,6 +111,54 @@ async def api_common_criteria(request: Request) -> JSONResponse:
         (slug,),
     )
     return JSONResponse(rows)
+
+
+# ── Ingestion / CCCEV-isation (wizard) ──────────────────────────────────────
+
+INGEST_LIMIT = 60  # borne de coût du proto (rattachement = 2 requêtes vectorielles / exigence)
+
+
+async def api_ingest_extract(request: Request) -> JSONResponse:
+    """Étape 1 : une source uploadée → liste d'exigences (lecture seule)."""
+    form = await request.form()
+    upload = form.get("file")
+    if upload is None:
+        return JSONResponse({"error": "fichier manquant"}, status_code=400)
+    suffix = Path(upload.filename).suffix.lower()
+    if suffix not in {".xlsx", ".xls", ".csv", ".tsv", ".pdf"}:
+        return JSONResponse({"error": f"format non supporté : {suffix}"}, status_code=400)
+    data = await upload.read()
+    with tempfile.NamedTemporaryFile(suffix=suffix, delete=True) as tmp:
+        tmp.write(data)
+        tmp.flush()
+        try:
+            criteria = ingest.extract_from_path(Path(tmp.name))
+        except Exception as exc:  # extraction tolérante : on remonte l'erreur lisible
+            return JSONResponse({"error": f"extraction impossible : {exc}"}, status_code=400)
+    return JSONResponse({"filename": upload.filename, "count": len(criteria), "criteria": criteria})
+
+
+async def api_ingest_propose(request: Request) -> JSONResponse:
+    """Étape 2 : rattachement au socle commun (candidats + degré suggéré)."""
+    body = await request.json()
+    criteria = body.get("criteria") or []
+    if not criteria:
+        return JSONResponse({"error": "aucune exigence"}, status_code=400)
+    proposals = ingest.propose(criteria, limit=INGEST_LIMIT)
+    return JSONResponse({"count": len(proposals), "truncated": len(criteria) > INGEST_LIMIT,
+                         "proposals": proposals})
+
+
+async def api_ingest_apply(request: Request) -> JSONResponse:
+    """Étape 3 : insertion validée du référentiel."""
+    body = await request.json()
+    framework = body.get("framework") or {}
+    proposals = body.get("proposals") or []
+    try:
+        result = ingest.apply_framework(framework, proposals, replace=bool(body.get("replace")))
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=400)
+    return JSONResponse(result)
 
 
 # ── Authentification par jeton d'organisation ───────────────────────────────
@@ -156,6 +231,11 @@ routes = [
     Route("/api/frameworks", api_frameworks),
     Route("/api/search", api_search, methods=["POST"]),
     Route("/api/compare", api_compare, methods=["POST"]),
+    Route("/api/neighbors/{slug}", api_neighbors),
+    Route("/api/pair", api_pair),
+    Route("/api/ingest/extract", api_ingest_extract, methods=["POST"]),
+    Route("/api/ingest/propose", api_ingest_propose, methods=["POST"]),
+    Route("/api/ingest/apply", api_ingest_apply, methods=["POST"]),
     Route("/api/common-criteria", api_common_criteria),
     Route("/api/login", api_login, methods=["POST"]),
     Route("/api/logout", api_logout, methods=["POST"]),

@@ -33,6 +33,7 @@ proto/
     schema.sql          tables + pgvector + index HNSW
     functions.sql       4 fonctions RPC (recherche, couverture, évaluation)
     03_auth_rls.sql     table org + RLS + rôle applicatif frameko_app
+    04_neighbors.sql    voisinage + comparaison au niveau critère
   scripts/
     test_connection.py  vérifie la connexion + l'extension vector
     apply_sql.py        applique un fichier .sql via DATABASE_URL
@@ -44,9 +45,10 @@ proto/
     ingest_framework.py ingestion étape 2 : rattachement → proposals.json
     apply_ingestion.py  ingestion étape 3 : insertion du référentiel validé
   mcp_server/
-    db.py               accès Postgres (+ org_scope RLS)
+    db.py               accès Postgres (+ org_scope RLS, voisinage, comparaison)
     auth.py             résolution d'organisation par jeton
     embeddings.py       service d'embedding (partagé)
+    ingest.py           CCCEV-isation : extraction + rattachement + insertion validée
     server.py           serveur MCP fastmcp (9 outils)
   web/
     app.py              UI web Starlette (+ route /docs)
@@ -237,9 +239,25 @@ autre). Les tests se sautent proprement si `DATABASE_URL`/`APP_DATABASE_URL` son
 .venv/bin/python web/app.py               # http://127.0.0.1:8080
 ```
 
-Trois onglets : **Recherche** (sémantique), **Comparaison** (couverture de deux référentiels),
-**Auto-évaluation** (réponses par critère commun + taux de couverture). Un lien discret
-**Documentation ↗** (en-tête) ouvre la doc utilisateur servie sur `/docs`.
+Cinq onglets :
+- **Recherche** (sémantique) ;
+- **Voisinage** — un référentiel pivot au centre d'une constellation ; chaque lien mesure le
+  nombre de critères communs partagés. Cliquer un voisin déroule la comparaison **jusqu'au
+  critère** : exigences d'origine des deux référentiels, avec leur degré ;
+- **Comparaison** (couverture chiffrée de deux référentiels) ;
+- **Auto-évaluation** (réponses par critère commun + taux de couverture) ;
+- **+ CCCEV-iser** — wizard d'ingestion générique : déposer une source (tableur/PDF), Frameko
+  extrait les exigences, propose le rattachement de chacune au socle commun (candidat + degré
+  + confiance), l'utilisateur valide, et le référentiel rejoint la base — immédiatement
+  comparable. Indépendant du domaine (forêt-bois, agroalimentaire, numérique…).
+
+Un lien discret **Documentation ↗** (en-tête) ouvre la doc utilisateur servie sur `/docs`.
+
+**Endpoints API ajoutés** (réutilisés par l'UI) : `GET /api/neighbors/{slug}` (voisinage),
+`GET /api/pair?a=&b=` (comparaison au niveau critère), et le pipeline d'ingestion web
+`POST /api/ingest/{extract,propose,apply}`. La logique d'ingestion est centralisée dans
+`mcp_server/ingest.py` (extraction, rattachement, insertion validée) et les fonctions SQL
+de voisinage dans `db/04_neighbors.sql`.
 
 ## Trois exemples d'appels (MCP)
 

@@ -62,6 +62,46 @@
   .s-conforme{background:#10331f;color:var(--accent)} .s-partiel{background:#3a2f12;color:var(--warn)}
   .s-non_conforme{background:#3a1717;color:var(--bad)} .s-non_applicable{background:#23292f;color:var(--muted)}
   .s-non_repondu{background:#23292f;color:var(--muted)}
+  /* Voisinage */
+  .graph-wrap{background:#0c1014;border:1px solid var(--line);border-radius:var(--radius);margin-bottom:6px}
+  .graph-wrap svg{width:100%;height:auto;display:block}
+  .glegend{display:flex;align-items:center;gap:16px;font-size:11px;color:var(--muted);margin-bottom:18px;flex-wrap:wrap}
+  .n-node{cursor:pointer} .n-node:hover circle{stroke-width:3}
+  .n-edge{cursor:pointer} .n-edge:hover{stroke-opacity:.95!important}
+  /* Comparaison critère */
+  .pair-head{display:flex;align-items:center;gap:10px;margin:6px 0 12px;font-size:15px;font-weight:600}
+  .pair-cc{border:1px solid var(--line);border-radius:var(--radius);margin-bottom:8px;overflow:hidden}
+  .pair-cc .cc-h{background:var(--panel);padding:10px 14px;display:flex;justify-content:space-between;
+    align-items:center;cursor:pointer;gap:10px}
+  .pair-cc .cc-h:hover{background:var(--panel2)}
+  .pair-cc .cc-b{display:none;border-top:1px solid var(--line)}
+  .pair-cc.open .cc-b{display:flex}
+  .side{flex:1;padding:11px 14px;min-width:0}
+  .side+.side{border-left:1px solid var(--line)}
+  .side .sh{font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:600;letter-spacing:.3px}
+  .exig{font-size:12px;padding:7px 0;border-bottom:1px solid #1a2129}
+  .exig:last-child{border-bottom:none}
+  .exig .ref{font-family:ui-monospace,monospace;color:var(--accent2);font-size:11px;margin-right:6px}
+  .dpill{display:inline-block;padding:1px 7px;border-radius:11px;font-size:10px;font-weight:600;margin-top:4px}
+  .dp-equivautA{background:#10331f;color:var(--accent)} .dp-plusStrictQue{background:#0d2233;color:var(--accent2)}
+  .dp-plusLargeQue{background:#3a2f12;color:var(--warn)} .dp-rapprocheDe{background:#2a2228;color:var(--muted)}
+  /* Wizard CCCEV-isation */
+  .wz-steps{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+  .wz-step{font-size:12px;color:var(--muted);background:var(--panel);border:1px solid var(--line);
+    padding:5px 11px;border-radius:16px}
+  .wz-step.on{color:#06281c;background:var(--accent);border-color:var(--accent);font-weight:600}
+  .wz-arr{color:var(--line)}
+  .drop{display:block;border:1.5px dashed var(--line);border-radius:var(--radius);padding:22px;
+    text-align:center;background:#11161d;cursor:pointer;color:var(--muted);margin-bottom:12px}
+  .drop:hover{border-color:var(--accent2);color:var(--text)}
+  #iz-table select{background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:4px 6px;border-radius:6px;font-size:12px;width:100%}
+  #iz-table td{vertical-align:top;font-size:12px}
+  #iz-table .src{font-size:12px;line-height:1.4}
+  .conf-b{display:inline-block;width:30px;height:5px;background:var(--panel2);border-radius:3px;overflow:hidden;vertical-align:middle}
+  .conf-b i{display:block;height:100%;background:var(--accent)}
+  .msg-ok{background:#10331f;color:var(--accent);padding:9px 12px;border-radius:8px;font-size:13px;margin:8px 0}
+  .msg-err{background:#3a1717;color:var(--bad);padding:9px 12px;border-radius:8px;font-size:13px;margin:8px 0}
 </style>
 </head>
 <body>
@@ -72,8 +112,10 @@
 </header>
 <nav>
   <button data-tab="search" class="active">Recherche</button>
+  <button data-tab="neighbors">Voisinage</button>
   <button data-tab="compare">Comparaison</button>
   <button data-tab="assess">Auto-évaluation</button>
+  <button data-tab="ingest" style="margin-left:auto;color:var(--accent)">+ CCCEV-iser</button>
 </nav>
 <main>
 
@@ -91,6 +133,19 @@
     <div id="q-out"></div>
   </section>
 
+  <!-- ── Voisinage ── -->
+  <section id="neighbors">
+    <h2>Voisinage d'un référentiel</h2>
+    <p class="hint">Choisissez un référentiel pivot. Frameko affiche tous les référentiels qui partagent
+      des exigences via le socle commun — l'épaisseur du lien mesure le nombre de critères communs
+      partagés. Cliquez un voisin pour comparer jusqu'au critère.</p>
+    <div class="row">
+      <select id="n-fw" style="flex:1;min-width:240px"></select>
+    </div>
+    <div id="n-graph" class="graph-wrap"></div>
+    <div id="n-detail"></div>
+  </section>
+
   <!-- ── Comparaison ── -->
   <section id="compare">
     <h2>Comparaison de couverture</h2>
@@ -102,6 +157,58 @@
       <button class="go" id="c-go">Comparer</button>
     </div>
     <div id="c-out"></div>
+  </section>
+
+  <!-- ── CCCEV-iser (ingestion d'un nouveau référentiel) ── -->
+  <section id="ingest">
+    <h2>CCCEV-iser un référentiel</h2>
+    <p class="hint">Pipeline générique, tous domaines. Déposez une source (tableur ou PDF) :
+      Frameko extrait les exigences, propose le rattachement de chacune au socle commun,
+      vous validez, et le référentiel rejoint la base — comparable à tous les autres.</p>
+
+    <!-- Étape 1 : source + métadonnées -->
+    <div class="wz-steps">
+      <span class="wz-step on" id="wz1">1 · Source</span>
+      <span class="wz-arr">›</span>
+      <span class="wz-step" id="wz2">2 · Rattachement</span>
+      <span class="wz-arr">›</span>
+      <span class="wz-step" id="wz3">3 · Validation</span>
+    </div>
+
+    <div id="iz-s1">
+      <div class="row">
+        <input type="text" id="iz-slug" placeholder="identifiant (slug) — ex. pefc-fm" style="flex:1">
+        <input type="text" id="iz-title" placeholder="Titre — ex. PEFC Gestion forestière" style="flex:2">
+      </div>
+      <div class="row">
+        <input type="text" id="iz-pub" placeholder="Éditeur (optionnel)" style="flex:1">
+        <input type="text" id="iz-ver" placeholder="Version (optionnel)" style="width:120px;flex:none">
+        <input type="text" id="iz-cov" placeholder="Portée (optionnel)" style="flex:1">
+      </div>
+      <label class="drop" id="iz-drop">
+        <input type="file" id="iz-file" accept=".xlsx,.xls,.csv,.tsv,.pdf" style="display:none">
+        <div style="font-size:26px">⬆</div>
+        <div style="font-size:13px;margin-top:4px">Déposer ou choisir une source — <span class="muted">.xlsx · .csv · .tsv · .pdf</span></div>
+        <div id="iz-fname" class="muted" style="font-size:12px;margin-top:4px"></div>
+      </label>
+      <div id="iz-extract-out"></div>
+    </div>
+
+    <!-- Étape 2-3 : propositions éditables -->
+    <div id="iz-s2" style="display:none">
+      <div class="row" style="justify-content:space-between">
+        <span class="muted" id="iz-count"></span>
+        <div>
+          <button class="doc" id="iz-back">‹ Source</button>
+          <button class="go" id="iz-apply">Valider &amp; insérer</button>
+        </div>
+      </div>
+      <div id="iz-apply-msg"></div>
+      <table id="iz-table"><thead><tr>
+        <th style="width:60px">Réf.</th><th>Exigence source</th>
+        <th style="width:230px">Critère commun</th><th style="width:130px">Degré</th><th style="width:60px">Conf.</th>
+      </tr></thead><tbody></tbody></table>
+    </div>
   </section>
 
   <!-- ── Auto-évaluation ── -->
@@ -156,8 +263,180 @@ $$('nav button').forEach(b=>b.onclick=()=>{
   $('#c-b').innerHTML=FRAMEWORKS.map(opt).join('');
   $('#c-b').selectedIndex=Math.min(5,FRAMEWORKS.length-1);
   $('#a-fw').innerHTML=FRAMEWORKS.map(opt).join('');
+  $('#n-fw').innerHTML=FRAMEWORKS.map(opt).join('');
+  $('#n-fw').onchange=()=>loadNeighbors($('#n-fw').value);
+  loadNeighbors(FRAMEWORKS[0].slug);
   checkAuth();
 })();
+
+// ── Voisinage ────────────────────────────────────────────────────────────────
+// Couleur stable par slug (teinte dérivée du nom) pour repérer chaque référentiel.
+function fwColor(slug){
+  let h=0; for(const c of slug) h=(h*31+c.charCodeAt(0))%360;
+  return `hsl(${h},55%,62%)`;
+}
+const DEG_SYM={equivautA:'≡',plusStrictQue:'▲',plusLargeQue:'▽',rapprocheDe:'≈'};
+const DEG_FR={equivautA:'équivaut à',plusStrictQue:'plus strict',plusLargeQue:'plus large',rapprocheDe:'proche de'};
+let NFOCAL=null, NDATA=[];
+
+async function loadNeighbors(slug){
+  NFOCAL=slug; $('#n-fw').value=slug;
+  $('#n-detail').innerHTML='';
+  $('#n-graph').innerHTML='<p class="spin" style="padding:20px">Calcul du voisinage…</p>';
+  const d=await api('/api/neighbors/'+encodeURIComponent(slug));
+  NDATA=d.neighbors||[];
+  drawConstellation();
+}
+
+function drawConstellation(){
+  const W=660,H=380,cx=330,cy=185,R=135;
+  const focal=FRAMEWORKS.find(f=>f.slug===NFOCAL);
+  const ns=NDATA;
+  const maxShared=Math.max(...ns.map(n=>+n.n_shared),1);
+  let edges='',nodes='';
+  const pos=ns.map((n,k)=>{
+    const ang=(k/ns.length)*Math.PI*2 - Math.PI/2;
+    return {x:cx+Math.cos(ang)*R, y:cy+Math.sin(ang)*R, n};
+  });
+  pos.forEach(p=>{
+    const v=+p.n.n_shared, w=(1+(v/maxShared)*6).toFixed(1), op=(0.16+(v/maxShared)*0.62).toFixed(2);
+    const mx=(cx+p.x)/2, my=(cy+p.y)/2;
+    edges+=`<line class="n-edge" x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}" stroke="#3fb984"
+      stroke-width="${w}" stroke-opacity="${op}" onclick="openPair('${p.n.slug}')"/>`;
+    edges+=`<g class="n-edge" onclick="openPair('${p.n.slug}')">
+      <circle cx="${mx}" cy="${my}" r="11" fill="#0c1014" stroke="#2a3441"/>
+      <text x="${mx}" y="${my+4}" text-anchor="middle" font-size="11" font-weight="700" fill="#3fb984">${v}</text></g>`;
+  });
+  pos.forEach(p=>{
+    const c=fwColor(p.n.slug), abbr=p.n.slug.slice(0,3).toUpperCase();
+    const lbl=p.n.title.length>20?p.n.title.slice(0,19)+'…':p.n.title;
+    nodes+=`<g class="n-node" onclick="openPair('${p.n.slug}')">
+      <circle cx="${p.x}" cy="${p.y}" r="20" fill="#171d26" stroke="${c}" stroke-width="1.5"/>
+      <text x="${p.x}" y="${p.y+4}" text-anchor="middle" font-size="10" font-weight="700" fill="${c}">${abbr}</text>
+      <text x="${p.x}" y="${p.y+35}" text-anchor="middle" font-size="9" fill="#8b97a6">${esc(lbl)}</text></g>`;
+  });
+  const fc=fwColor(NFOCAL), fabbr=NFOCAL.slice(0,3).toUpperCase();
+  nodes+=`<g><circle cx="${cx}" cy="${cy}" r="30" fill="${fc}" fill-opacity="0.16" stroke="${fc}" stroke-width="2"/>
+    <text x="${cx}" y="${cy}" text-anchor="middle" font-size="13" font-weight="700" fill="${fc}">${fabbr}</text>
+    <text x="${cx}" y="${cy+13}" text-anchor="middle" font-size="8" fill="#8b97a6">${focal.n_criteres} crit.</text></g>`;
+  $('#n-graph').innerHTML=`<svg viewBox="0 0 ${W} ${H}">${edges}${nodes}</svg>`
+    +`<div class="glegend" style="padding:0 14px 12px">
+        <span><b style="color:var(--text)">${esc(focal.title)}</b> · ${ns.length} référentiels voisins</span>
+        <span><span style="display:inline-block;width:18px;height:3px;background:var(--accent);vertical-align:middle;border-radius:2px"></span> beaucoup de critères communs</span>
+        <span style="color:#4a5568">Cliquez un référentiel ou un lien pour comparer</span>
+      </div>`;
+}
+
+async function openPair(slug){
+  const out=$('#n-detail');
+  const a=FRAMEWORKS.find(f=>f.slug===NFOCAL), b=FRAMEWORKS.find(f=>f.slug===slug);
+  out.innerHTML='<p class="spin">Chargement de la comparaison…</p>';
+  const d=await api(`/api/pair?a=${encodeURIComponent(NFOCAL)}&b=${encodeURIComponent(slug)}`);
+  const ca=fwColor(NFOCAL), cb=fwColor(slug);
+  let h=`<div class="pair-head">
+    <span style="color:${ca}">${esc(a.title)}</span>
+    <span class="muted" style="font-weight:400">↔</span>
+    <span style="color:${cb}">${esc(b.title)}</span></div>
+    <div class="grid3">
+      <div class="stat"><div class="n" style="color:var(--accent)">${d.summary.communs_partages}</div><div class="l">critères communs partagés</div></div>
+      <div class="stat"><div class="n">${d.summary.seulement_a}</div><div class="l">seulement ${esc(a.slug)}</div></div>
+      <div class="stat"><div class="n">${d.summary.seulement_b}</div><div class="l">seulement ${esc(b.slug)}</div></div>
+    </div>
+    <p class="hint" style="margin:14px 0 8px">Critères communs partagés — cliquez pour voir les exigences d'origine des deux côtés.</p>`;
+  d.detail.forEach((r,i)=>{
+    const na=(r.a_items||[]).length, nb=(r.b_items||[]).length;
+    h+=`<div class="pair-cc" id="pc${i}">
+      <div class="cc-h" onclick="document.getElementById('pc${i}').classList.toggle('open')">
+        <div><span class="code">${r.common_code}</span> ${esc(r.common_label)}</div>
+        <div class="muted" style="font-size:12px;flex-shrink:0">${na} ↔ ${nb} exigences ▾</div>
+      </div>
+      <div class="cc-b">
+        <div class="side"><div class="sh" style="color:${ca}">${esc(a.slug)} · ${na}</div>${exigList(r.a_items)}</div>
+        <div class="side"><div class="sh" style="color:${cb}">${esc(b.slug)} · ${nb}</div>${exigList(r.b_items)}</div>
+      </div></div>`;
+  });
+  out.innerHTML=h;
+  out.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function exigList(items){
+  return (items||[]).map(it=>`<div class="exig">
+    <span class="ref">${esc(it.reference||'—')}</span>${esc(it.label||'')}
+    <div><span class="dpill dp-${it.degree}">${DEG_SYM[it.degree]||''} ${DEG_FR[it.degree]||it.degree}</span></div>
+  </div>`).join('');
+}
+
+// ── CCCEV-iser (wizard d'ingestion) ──────────────────────────────────────────
+const DEG_OPTS=[['equivautA','≡ équivaut à'],['plusStrictQue','▲ plus strict'],
+  ['plusLargeQue','▽ plus large'],['rapprocheDe','≈ proche de']];
+let IZCRIT=[], IZPROPS=[];
+
+function izStep(n){
+  ['wz1','wz2','wz3'].forEach((id,i)=>$('#'+id).classList.toggle('on',i<n));
+  $('#iz-s1').style.display = n===1?'block':'none';
+  $('#iz-s2').style.display = n>=2?'block':'none';
+}
+
+$('#iz-file').onchange=async()=>{
+  const f=$('#iz-file').files[0]; if(!f)return;
+  $('#iz-fname').textContent='Lecture de '+f.name+'…';
+  $('#iz-extract-out').innerHTML='';
+  const fd=new FormData(); fd.append('file',f);
+  const r=await fetch('/api/ingest/extract',{method:'POST',body:fd}).then(x=>x.json());
+  if(r.error){$('#iz-extract-out').innerHTML=`<div class="msg-err">${esc(r.error)}</div>`;return}
+  IZCRIT=r.criteria;
+  $('#iz-fname').textContent=`${f.name} — ${r.count} exigences détectées`;
+  $('#iz-extract-out').innerHTML=`<div class="row" style="margin-top:6px;justify-content:space-between">
+    <span class="muted">${r.count} exigences extraites. Le rattachement au socle commun calcule un embedding par exigence.</span>
+    <button class="go" id="iz-propose">Proposer le rattachement ›</button></div>`;
+  $('#iz-propose').onclick=izPropose;
+};
+
+async function izPropose(){
+  if(!$('#iz-slug').value.trim()||!$('#iz-title').value.trim()){
+    $('#iz-extract-out').innerHTML+=`<div class="msg-err">Renseignez l'identifiant (slug) et le titre du référentiel.</div>`;return;}
+  $('#iz-extract-out').innerHTML+='<p class="spin">Rattachement en cours…</p>';
+  const r=await api('/api/ingest/propose',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({criteria:IZCRIT})});
+  IZPROPS=r.proposals;
+  $('#iz-count').textContent=`${r.proposals.length} exigences à valider${r.truncated?' (tronqué à la limite du proto)':''} · référentiel « ${$('#iz-slug').value} »`;
+  const tb=$('#iz-table tbody');
+  tb.innerHTML=IZPROPS.map((p,i)=>{
+    const cands=p.candidates.map(c=>`<option value="${c.common_code}"${c.common_code===p.suggested.common_code?' selected':''}>${c.common_code} — ${esc(c.label)} (${(c.similarity*100).toFixed(0)}%)</option>`).join('');
+    const degs=DEG_OPTS.map(([v,l])=>`<option value="${v}"${v===p.suggested.degree?' selected':''}>${l}</option>`).join('');
+    const cf=(p.suggested.confidence*100).toFixed(0);
+    return `<tr>
+      <td class="code">${esc(p.reference||'—')}</td>
+      <td class="src">${esc(p.criterion)}</td>
+      <td><select data-i="${i}" class="iz-cc">${cands}</select></td>
+      <td><select data-i="${i}" class="iz-deg">${degs}</select></td>
+      <td><span class="conf-b"><i style="width:${cf}%"></i></span> <span class="muted" style="font-size:11px">${cf}%</span></td>
+    </tr>`;
+  }).join('');
+  izStep(3);
+}
+
+$('#iz-back').onclick=()=>izStep(1);
+
+$('#iz-apply').onclick=async()=>{
+  // reconstruire les propositions depuis l'état de la table (choix de l'utilisateur)
+  $$('#iz-table .iz-cc').forEach(s=>IZPROPS[+s.dataset.i].suggested.common_code=s.value);
+  $$('#iz-table .iz-deg').forEach(s=>IZPROPS[+s.dataset.i].suggested.degree=s.value);
+  const framework={slug:$('#iz-slug').value.trim(),title:$('#iz-title').value.trim(),
+    publisher:$('#iz-pub').value.trim()||null,version:$('#iz-ver').value.trim()||null,
+    coverage:$('#iz-cov').value.trim()||null};
+  $('#iz-apply-msg').innerHTML='<p class="spin">Insertion…</p>';
+  const r=await api('/api/ingest/apply',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({framework,proposals:IZPROPS,replace:true})});
+  if(r.error){$('#iz-apply-msg').innerHTML=`<div class="msg-err">${esc(r.error)}</div>`;return}
+  $('#iz-apply-msg').innerHTML=`<div class="msg-ok">✓ Référentiel « ${esc(r.slug)} » inséré : ${r.inserted} critères rattachés au socle commun. Il est désormais comparable dans Voisinage et Comparaison.</div>`;
+  // rafraîchir la liste des référentiels partout
+  FRAMEWORKS=await api('/api/frameworks');
+  const opt=f=>`<option value="${f.slug}">${esc(f.title)} (${f.n_criteres})</option>`;
+  $('#q-fw').innerHTML='<option value="">Tous les référentiels</option>'+FRAMEWORKS.map(opt).join('');
+  $('#c-a').innerHTML=FRAMEWORKS.map(opt).join('');$('#c-b').innerHTML=FRAMEWORKS.map(opt).join('');
+  $('#a-fw').innerHTML=FRAMEWORKS.map(opt).join('');$('#n-fw').innerHTML=FRAMEWORKS.map(opt).join('');
+};
 
 // authentification (auto-évaluation)
 async function checkAuth(){

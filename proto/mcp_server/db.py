@@ -119,6 +119,17 @@ def coverage(a: str, b: str) -> list[dict]:
     return query("select * from framework_coverage(%s, %s)", (a, b))
 
 
+def neighbors(slug: str) -> list[dict]:
+    """Référentiels partageant des critères communs avec « slug » (voisinage)."""
+    return query("select * from framework_neighbors(%s)", (slug,))
+
+
+def pair_detail(a: str, b: str) -> list[dict]:
+    """Comparaison au niveau critère : exigences d'origine des deux référentiels
+    pour chaque critère commun partagé (avec degré)."""
+    return query("select * from framework_pair_detail(%s, %s)", (a, b))
+
+
 # ── Auto-évaluation (S3) ────────────────────────────────────────────────────
 
 def framework_exists(slug: str) -> bool:
