@@ -147,6 +147,12 @@
   .card.q-hit:hover{border-color:var(--accent2);transform:translateY(-1px)}
   .q-see{font-size:11px;color:var(--accent2);opacity:0;transition:opacity .15s;white-space:nowrap;flex-shrink:0}
   .card.q-hit:hover .q-see{opacity:1}
+  /* Voisinage : exigence cliquable */
+  .exig.exig-link{cursor:pointer;border-radius:6px;padding-left:6px;padding-right:6px;margin:0 -6px;transition:background .12s}
+  .exig.exig-link:hover{background:rgba(90,169,230,.09)}
+  /* Comparaison : compteur cliquable */
+  .cc-link{color:var(--accent2);cursor:pointer;font-weight:600;border-bottom:1px dotted transparent;transition:border-color .12s}
+  .cc-link:hover{border-bottom-color:var(--accent2)}
   @media(prefers-reduced-motion:reduce){
     .b-crit.flash{animation:none;background:rgba(63,185,132,.15)}
     .card.q-hit:hover{transform:none}
@@ -329,6 +335,7 @@ const escA=s=>esc(s).replace(/"/g,'&quot;');
 const critKey=(ref,label)=>((ref||'').trim() || 'lbl:'+(label||'').trim().slice(0,80));
 let FRAMEWORKS=[];
 let QHITS=[];   // dernières exigences renvoyées par la recherche (pour le clic → référentiel)
+let PEXIG=[];   // exigences affichées dans le détail Voisinage (pour le clic → référentiel)
 
 // onglets
 $$('nav button').forEach(b=>b.onclick=()=>{
@@ -431,7 +438,8 @@ async function openPair(slug){
       <div class="stat"><div class="n">${d.summary.seulement_a}</div><div class="l">seulement ${esc(a.slug)}</div></div>
       <div class="stat"><div class="n">${d.summary.seulement_b}</div><div class="l">seulement ${esc(b.slug)}</div></div>
     </div>
-    <p class="hint" style="margin:14px 0 8px">Critères communs partagés — cliquez pour voir les exigences d'origine des deux côtés.</p>`;
+    <p class="hint" style="margin:14px 0 8px">Critères communs partagés — cliquez un critère pour l'ouvrir dans son référentiel.</p>`;
+  PEXIG=[];
   d.detail.forEach((r,i)=>{
     const na=(r.a_items||[]).length, nb=(r.b_items||[]).length;
     h+=`<div class="pair-cc" id="pc${i}">
@@ -440,19 +448,21 @@ async function openPair(slug){
         <div class="muted" style="font-size:12px;flex-shrink:0">${na} ↔ ${nb} exigences ▾</div>
       </div>
       <div class="cc-b">
-        <div class="side"><div class="sh" style="color:${ca}">${esc(a.slug)} · ${na}</div>${exigList(r.a_items)}</div>
-        <div class="side"><div class="sh" style="color:${cb}">${esc(b.slug)} · ${nb}</div>${exigList(r.b_items)}</div>
+        <div class="side"><div class="sh" style="color:${ca}">${esc(a.slug)} · ${na}</div>${exigList(r.a_items,NFOCAL)}</div>
+        <div class="side"><div class="sh" style="color:${cb}">${esc(b.slug)} · ${nb}</div>${exigList(r.b_items,slug)}</div>
       </div></div>`;
   });
   out.innerHTML=h;
   out.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-function exigList(items){
-  return (items||[]).map(it=>`<div class="exig">
+function exigList(items,slug){
+  return (items||[]).map(it=>{
+    const k=PEXIG.push({slug,reference:it.reference,label:it.label})-1;
+    return `<div class="exig exig-link" onclick="gotoExigIdx(${k})" title="Voir dans le référentiel">
     <span class="ref">${esc(it.reference||'—')}</span>${esc(it.label||'')}
     <div><span class="dpill dp-${it.degree}">${DEG_SYM[it.degree]||''} ${DEG_FR[it.degree]||it.degree}</span></div>
-  </div>`).join('');
+  </div>`}).join('');
 }
 
 // ── Parcourir un référentiel ─────────────────────────────────────────────────
@@ -500,7 +510,7 @@ function renderBrowse(){
       <div><span class="gt">${esc(g.theme)}</span> ${g.cat?`<span class="gc">· ${esc(g.cat)}</span>`:''}</div>
       <span class="gc">${g.items.length} critère${g.items.length>1?'s':''}</span>
     </div>
-    <div class="gb">${g.items.map(c=>`<div class="b-crit" data-key="${escA(critKey(c.reference,c.label))}">
+    <div class="gb">${g.items.map(c=>`<div class="b-crit" data-key="${escA(critKey(c.reference,c.label))}" data-cc="${escA(c.common_code)}">
       <div class="top">
         <span class="lbl">${esc(c.label)}</span>
         <span class="ref">${esc(c.reference||'—')}</span>
@@ -686,19 +696,37 @@ $('#q-go').onclick=async()=>{
   out.innerHTML=h;
 };
 
-// Recherche → ouvre le critère dans la vue « Référentiel » (filtrée + scrollée + surlignée).
-window.gotoCriterion=async(i)=>{
-  const r=QHITS[i]; if(!r)return;
+// Ouvre la vue « Référentiel » sur un référentiel donné (bascule d'onglet + chargement).
+async function openBrowseFramework(slug){
   $$('nav button').forEach(x=>x.classList.remove('active'));
   document.querySelector('nav button[data-tab=browse]').classList.add('active');
   $$('section').forEach(s=>s.classList.remove('active'));
   $('#browse').classList.add('active');
-  if(!BDATA || BDATA.framework.slug!==r.framework_slug){
-    await loadBrowse(r.framework_slug);            // charge le bon référentiel (réinitialise le filtre)
+  if(!BDATA || BDATA.framework.slug!==slug){
+    await loadBrowse(slug);                          // charge le bon référentiel (réinitialise le filtre)
   }else{
-    $('#b-filter').value=''; renderBrowse();        // déjà chargé : on lève un éventuel filtre
+    $('#b-filter').value=''; renderBrowse();          // déjà chargé : on lève un éventuel filtre
   }
+}
+
+// Recherche → ouvre le critère exact dans la vue « Référentiel ».
+window.gotoCriterion=async(i)=>{
+  const r=QHITS[i]; if(!r)return;
+  await openBrowseFramework(r.framework_slug);
   highlightCriterion(r.reference,r.label);
+};
+
+// Voisinage → ouvre une exigence (côté A ou B) dans son référentiel.
+window.gotoExigIdx=async(k)=>{
+  const e=PEXIG[k]; if(!e)return;
+  await openBrowseFramework(e.slug);
+  highlightCriterion(e.reference,e.label);
+};
+
+// Comparaison → ouvre, dans un référentiel, tous les critères rattachés à un critère commun.
+window.gotoCommon=async(slug,code)=>{
+  await openBrowseFramework(slug);
+  highlightCommon(code);
 };
 
 function highlightCriterion(ref,label){
@@ -707,6 +735,14 @@ function highlightCriterion(ref,label){
   const gb=el.closest('.gb'); if(gb) gb.style.display='block';   // déplie le groupe si replié
   el.scrollIntoView({behavior:'smooth',block:'center'});
   el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+}
+
+function highlightCommon(code){
+  const els=$$('#b-out .b-crit[data-cc="'+CSS.escape(code)+'"]');
+  if(!els.length)return;
+  els.forEach(el=>{const gb=el.closest('.gb'); if(gb) gb.style.display='block';});
+  els[0].scrollIntoView({behavior:'smooth',block:'center'});
+  els.forEach(el=>{el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');});
 }
 
 // comparaison
@@ -723,8 +759,11 @@ $('#c-go').onclick=async()=>{
     <div class="stat"><div class="n">${d.summary.seulement_b}</div><div class="l">seulement ${esc(b)}</div></div></div>`;
   h+=`<table><thead><tr><th>Critère commun</th><th>Thème</th><th>${esc(a)}</th><th>${esc(b)}</th></tr></thead><tbody>`;
   d.detail.filter(r=>r.count_a>0&&r.count_b>0).sort((x,y)=>(y.count_a+y.count_b)-(x.count_a+x.count_b))
-   .forEach(r=>{h+=`<tr><td><span class="code">${r.common_code}</span> ${esc(r.common_label)}</td>
-   <td class="theme">${esc(r.theme_slug||'')}</td><td>${r.count_a}</td><td>${r.count_b}</td></tr>`});
+   .forEach(r=>{const cc=escA(r.common_code);
+   h+=`<tr><td><span class="code">${r.common_code}</span> ${esc(r.common_label)}</td>
+   <td class="theme">${esc(r.theme_slug||'')}</td>
+   <td><span class="cc-link" onclick="gotoCommon('${esc(a)}','${cc}')" title="Voir dans ${esc(a)}">${r.count_a}</span></td>
+   <td><span class="cc-link" onclick="gotoCommon('${esc(b)}','${cc}')" title="Voir dans ${esc(b)}">${r.count_b}</span></td></tr>`});
   h+='</tbody></table>';out.innerHTML=h;
 };
 
