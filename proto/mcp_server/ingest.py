@@ -189,6 +189,73 @@ def llm_choose(criterion: str, candidates: list[dict], precedents: list[dict],
     return out
 
 
+def translate_texts(texts: list[str], source_hint: str = "", batch: int = 15,
+                    model: str | None = None) -> list[str]:
+    """Traduit une liste de textes en français via OpenAI, en préservant termes
+    techniques, sigles, codes et unités. Retourne la liste traduite (même ordre,
+    même longueur)."""
+    import json
+    from openai import OpenAI
+
+    model = model or os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
+    client = OpenAI()
+
+    def _run(chunk: list[str]) -> list[str]:
+        prompt = (
+            "Traduis en français chaque élément du tableau JSON ci-dessous (exigences / "
+            "critères de certification" + (f", source : {source_hint}" if source_hint else "") + "). "
+            "Préserve les termes techniques, sigles, codes, références et unités ; ne reformule pas, "
+            "n'ajoute aucun commentaire. Si un élément est déjà en français, renvoie-le tel quel. "
+            'Réponds en JSON STRICT : {"t": ["...", ...]} avec EXACTEMENT le même nombre d\'éléments '
+            "et le même ordre.\n\n" + json.dumps(chunk, ensure_ascii=False)
+        )
+        resp = client.chat.completions.create(
+            model=model, messages=[{"role": "user", "content": prompt}],
+            response_format={"type": "json_object"}, temperature=0)
+        return json.loads(resp.choices[0].message.content).get("t", [])
+
+    out: list[str] = []
+    for i in range(0, len(texts), batch):
+        chunk = texts[i:i + batch]
+        arr = _run(chunk)
+        if len(arr) != len(chunk):  # repli aligné : un par un
+            arr = [(_run([t]) or [t])[0] for t in chunk]
+        out.extend(str(x) for x in arr)
+    return out
+
+
+def translate_framework_to_french(slug: str, model: str | None = None) -> dict:
+    """Traduit en français les libellés d'un référentiel (UPDATE) ET recalcule
+    leurs embeddings, pour rester cohérent avec le socle francophone."""
+    rows = db.query("select id, label from framework_criterion where framework_slug = %s order by reference", (slug,))
+    labels_fr = translate_texts([r["label"] for r in rows], source_hint=slug, model=model)
+    vectors = embed_texts(labels_fr)
+    updates = [(labels_fr[i], to_pgvector(vectors[i]), rows[i]["id"]) for i in range(len(rows))]
+    with db._admin().connection() as conn:
+        with conn.transaction():
+            conn.cursor().executemany(
+                "update framework_criterion set label = %s, embedding = %s::vector where id = %s", updates)
+    return {"slug": slug, "translated": len(updates)}
+
+
+def translate_evidence_to_french(slug: str, model: str | None = None) -> dict:
+    """Traduit en français le texte des moyens de vérification (criterion_evidence)
+    d'un référentiel."""
+    rows = db.query(
+        "select distinct ce.detail from criterion_evidence ce"
+        " join framework_criterion fc on fc.id = ce.framework_criterion_id"
+        " where fc.framework_slug = %s and ce.detail is not null and ce.detail <> ''", (slug,))
+    originals = [r["detail"] for r in rows]
+    if not originals:
+        return {"slug": slug, "translated": 0}
+    fr = translate_texts(originals, source_hint=f"moyens de vérification {slug}", model=model)
+    mapping = list(zip(fr, originals))  # (nouveau, ancien)
+    with db._admin().connection() as conn:
+        with conn.transaction():
+            conn.cursor().executemany("update criterion_evidence set detail = %s where detail = %s", mapping)
+    return {"slug": slug, "translated": len(originals)}
+
+
 def remap_framework_llm(slug: str, workers: int = 6, model: str | None = None) -> dict:
     """Révise les rattachements d'un référentiel déjà en base via le LLM, en UPDATE
     (préserve les embeddings des critères). Renvoie des statistiques avant/après."""
