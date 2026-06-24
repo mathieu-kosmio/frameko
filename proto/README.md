@@ -167,13 +167,15 @@ builder sur la machine locale. Le compose `docker-compose.coolify.yml` déploie 
 sur la même image : `mcp` (serveur MCP 8765) et `web` (console 8080). Coolify gère le proxy et
 le HTTPS (pas de Caddy). Procédure détaillée : **[`DEPLOY-COOLIFY.md`](DEPLOY-COOLIFY.md)**.
 
-> **Prérequis réseau — connexion base depuis un conteneur.** Le endpoint *direct* Supabase
-> (`db.<ref>.supabase.co:5432`) est **IPv6-only** : il est injoignable depuis le réseau Docker
-> IPv4 par défaut (`Network is unreachable`). En conteneur, utiliser le **pooler Supavisor (IPv4)** :
-> renseigner `DATABASE_POOLER_URL` (Dashboard → Database → Connection pooling, **transaction**,
-> region exacte) et `USE_POOLER=1`. Prévoir aussi un `APP_DATABASE_URL` via le pooler pour le
-> rôle `frameko_app`. L'image a été construite et le serveur démarre (`/mcp/` + `/health`
-> répondent) ; le test base en conteneur reste à finaliser une fois le pooler confirmé.
+> **Prérequis réseau — connexion base depuis un conteneur (IPv4).** Sur un hôte IPv4-only,
+> l'endpoint *direct* Supabase (`db.<ref>.supabase.co:5432`) **et** le *transaction pooler*
+> (`:6543`) sont **IPv6** → `Network is unreachable`. Utiliser le **Session pooler** (port
+> **5432** sur `aws-<n>-<region>.pooler.supabase.com`) : le mettre directement dans
+> `DATABASE_URL` et `APP_DATABASE_URL` (rôle `frameko_app`). `db.py` tolère `USE_POOLER`
+> en 1/true/yes/on, applique le pooler aux **deux** pools (`*_POOLER_URL`), logge l'hôte
+> résolu au démarrage et transforme l'erreur réseau en message explicite. Détail complet :
+> [`DEPLOY-COOLIFY.md`](DEPLOY-COOLIFY.md) §6. **Déploiement validé en production** (Coolify
+> + GHCR + Session pooler) : la console répond et charge les 13 référentiels.
 
 Outils exposés : `list_frameworks`, `get_framework`, `search_requirements`, `nearest_requirements`,
 `propose_mapping`, `compare_frameworks`, `start_assessment`, `answer_assessment`, `get_assessment_result`.

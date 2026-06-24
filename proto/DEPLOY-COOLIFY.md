@@ -68,19 +68,25 @@ inutile de déployer Caddy.
 Le header `Authorization: Bearer <jeton>` (jeton d'organisation) est transmis tel quel
 au backend MCP.
 
-## 6. Réseau base de données (important)
+## 6. Réseau base de données (le piège à éviter)
 
-Le endpoint **direct** Supabase (`db.<ref>.supabase.co:5432`) est **IPv6-only** et
-souvent injoignable depuis un hôte/conteneur IPv4. En production Coolify, utiliser le
-**pooler Supavisor (IPv4)** :
+Sur un VPS Coolify **IPv4-only**, **deux** des trois endpoints Supabase sont injoignables :
+le **direct** (`db.<ref>.supabase.co:5432`) ET le **transaction pooler** (`:6543`) sont
+**IPv6 par défaut** → `Network is unreachable`. Le seul endpoint IPv4 (hors add-on payant)
+est le **Session pooler** (port **5432** sur l'hôte `…pooler.supabase.com`).
+
+Dans Supabase : bouton **Connect** (en haut) → **Session pooler** → copier l'URI. Puis :
 
 ```
-USE_POOLER=1
-DATABASE_POOLER_URL=postgresql://...@aws-0-<region>.pooler.supabase.com:6543/postgres   # mode transaction
-APP_DATABASE_URL=postgresql://frameko_app:...@aws-0-<region>.pooler.supabase.com:6543/postgres
+DATABASE_URL=postgresql://postgres.<ref>:<password>@aws-<n>-<region>.pooler.supabase.com:5432/postgres
+APP_DATABASE_URL=postgresql://frameko_app.<ref>:<password>@aws-<n>-<region>.pooler.supabase.com:5432/postgres
+# Optionnel (équivalent, si on préfère garder DATABASE_URL en direct pour le local) :
+# USE_POOLER=1 + DATABASE_POOLER_URL / APP_DATABASE_POOLER_URL sur le Session pooler
 ```
 
-(Dashboard Supabase → Database → Connection pooling → **Transaction** → région exacte.)
+> Mettre directement `DATABASE_URL` (et `APP_DATABASE_URL`) sur le Session pooler est le
+> plus simple : ça marche quel que soit `USE_POOLER`. Au démarrage, le conteneur logge
+> l'hôte réellement utilisé (`[frameko/db] pool 'admin' → …`) — pratique pour vérifier.
 
 ## 7. Déployer & vérifier
 

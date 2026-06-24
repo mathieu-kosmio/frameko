@@ -11,8 +11,10 @@ Les identifiants sont lus depuis proto/.env.
 
 import atexit
 import os
+import sys
 from contextlib import contextmanager
 from pathlib import Path
+from urllib.parse import urlsplit
 
 from psycopg.rows import dict_row
 from psycopg_pool import ConnectionPool
@@ -25,39 +27,82 @@ _admin_pool: ConnectionPool | None = None
 _app_pool: ConnectionPool | None = None
 
 
-def _dsn() -> str:
-    # Connexion directe par défaut (fiable). Le pooler Supabase n'est utilisé que
-    # si USE_POOLER=1 ET sa région est confirmée dans DATABASE_POOLER_URL.
-    if os.environ.get("USE_POOLER") == "1" and os.environ.get("DATABASE_POOLER_URL"):
-        return os.environ["DATABASE_POOLER_URL"]
-    dsn = os.environ.get("DATABASE_URL")
-    if not dsn:
-        raise RuntimeError("DATABASE_URL absent de .env")
-    return dsn
+# ── Résolution de la chaîne de connexion ────────────────────────────────────
+# Piège connu (hébergement) : l'endpoint Supabase *direct* (db.<ref>.supabase.co)
+# et le *transaction pooler* (port 6543) sont en IPv6 par défaut → injoignables
+# depuis un hôte IPv4-only (« Network is unreachable »). Sur IPv4, utiliser le
+# *Session pooler* (aws-<n>-<region>.pooler.supabase.com:5432) et le passer
+# directement dans DATABASE_URL / APP_DATABASE_URL, ou via les variables _POOLER
+# avec USE_POOLER activé.
+
+def _truthy(value: str | None) -> bool:
+    return (value or "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _use_pooler() -> bool:
+    return _truthy(os.environ.get("USE_POOLER"))
+
+
+def _resolve_dsn(direct_var: str, pooler_var: str, *, required: bool = True) -> str:
+    """Préfère l'URL du pooler quand le pooling est activé et qu'une URL pooler
+    est fournie ; sinon l'URL directe. Tolérant sur la valeur de USE_POOLER."""
+    if _use_pooler() and os.environ.get(pooler_var):
+        return os.environ[pooler_var]
+    dsn = os.environ.get(direct_var)
+    if not dsn and required:
+        raise RuntimeError(f"{direct_var} absent de l'environnement (.env ou variables du conteneur)")
+    return dsn or ""
+
+
+def _host_hint(dsn: str) -> str:
+    """host:port/dbname sans identifiants — pour un log de démarrage lisible."""
+    try:
+        u = urlsplit(dsn)
+        return f"{u.hostname}:{u.port or 5432}{u.path or ''}"
+    except Exception:
+        return "?"
+
+
+def _open_pool(label: str, dsn: str, *, autocommit: bool, min_size: int) -> ConnectionPool:
+    """Ouvre un pool en journalisant l'hôte (sans secret) et en transformant
+    l'erreur réseau IPv6/pooler en message actionnable."""
+    print(f"[frameko/db] pool '{label}' → {_host_hint(dsn)} (pooler={'on' if _use_pooler() else 'off'})",
+          file=sys.stderr, flush=True)
+    pool = ConnectionPool(dsn, min_size=min_size, max_size=8, open=False,
+                          kwargs={"row_factory": dict_row, "autocommit": autocommit})
+    try:
+        pool.open(wait=True, timeout=15)
+    except Exception as exc:
+        msg = str(exc)
+        if "unreachable" in msg.lower() or "could not translate" in msg.lower():
+            raise RuntimeError(
+                f"Connexion base impossible pour le pool '{label}' ({_host_hint(dsn)}). "
+                "Sur un hôte IPv4-only (VPS, conteneur), l'endpoint direct et le transaction "
+                "pooler Supabase sont en IPv6 : utiliser le Session pooler "
+                "(aws-<n>-<region>.pooler.supabase.com:5432). Détail : " + msg
+            ) from exc
+        raise
+    return pool
 
 
 def _admin() -> ConnectionPool:
     global _admin_pool
     if _admin_pool is None:
-        _admin_pool = ConnectionPool(
-            _dsn(), min_size=1, max_size=8, open=False,
-            kwargs={"row_factory": dict_row, "autocommit": True},
-        )
-        _admin_pool.open()
+        _admin_pool = _open_pool("admin", _resolve_dsn("DATABASE_URL", "DATABASE_POOLER_URL"),
+                                 autocommit=True, min_size=1)
     return _admin_pool
 
 
 def _app() -> ConnectionPool:
     global _app_pool
     if _app_pool is None:
-        app_url = os.environ.get("APP_DATABASE_URL")
+        # autocommit=False → transactions (RLS via SET LOCAL). Le pool « app »
+        # respecte aussi le pooler (APP_DATABASE_POOLER_URL) pour rester joignable
+        # en IPv4, exactement comme le pool admin.
+        app_url = _resolve_dsn("APP_DATABASE_URL", "APP_DATABASE_POOLER_URL", required=False)
         if not app_url:
             raise RuntimeError("APP_DATABASE_URL absent — exécuter scripts/setup_app_role.py")
-        _app_pool = ConnectionPool(
-            app_url, min_size=0, max_size=8, open=False,
-            kwargs={"row_factory": dict_row},  # autocommit=False → transactions (RLS)
-        )
-        _app_pool.open()
+        _app_pool = _open_pool("app", app_url, autocommit=False, min_size=0)
     return _app_pool
 
 
