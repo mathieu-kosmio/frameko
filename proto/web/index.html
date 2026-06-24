@@ -153,6 +153,12 @@
   /* Comparaison : compteur cliquable */
   .cc-link{color:var(--accent2);cursor:pointer;font-weight:600;border-bottom:1px dotted transparent;transition:border-color .12s}
   .cc-link:hover{border-bottom-color:var(--accent2)}
+  /* Comparaison : indicateurs commutables + lignes « propres à » cliquables */
+  .cstat{cursor:pointer;transition:border-color .15s,background .15s}
+  .cstat:hover{border-color:var(--accent2)}
+  .cstat.active{border-color:var(--accent);background:rgba(63,185,132,.06)}
+  tr.c-onlyrow{cursor:pointer}
+  tr.c-onlyrow:hover td{background:var(--panel2)}
   /* Référentiel : critère commun cliquable → recherche */
   .b-cc.cc-open{cursor:pointer}
   .b-cc.cc-open:hover{color:var(--accent2)}
@@ -871,27 +877,66 @@ window.openCommonInSearch=async(code)=>{
 };
 
 // comparaison
+let CMP=null;   // résultat courant {a,b,ta,tb,shared,only_a,only_b}
 $('#c-go').onclick=async()=>{
   const a=$('#c-a').value,b=$('#c-b').value,out=$('#c-out');
   if(a===b){out.innerHTML='<p class="muted">Choisissez deux référentiels différents.</p>';return}
   out.innerHTML='<p class="spin">Calcul…</p>';
   const d=await api('/api/compare',{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({a,b})});
-  const ta=FRAMEWORKS.find(f=>f.slug===a).title, tb=FRAMEWORKS.find(f=>f.slug===b).title;
-  let h=`<div class="grid3">
-    <div class="stat"><div class="n">${d.summary.communs_partages}</div><div class="l">communs partagés</div></div>
-    <div class="stat"><div class="n">${d.summary.seulement_a}</div><div class="l">seulement ${esc(a)}</div></div>
-    <div class="stat"><div class="n">${d.summary.seulement_b}</div><div class="l">seulement ${esc(b)}</div></div></div>`;
-  h+=`<table><thead><tr><th>Critère commun</th><th>Thème</th><th>${esc(a)}</th><th>${esc(b)}</th><th></th></tr></thead><tbody>`;
-  d.detail.filter(r=>r.count_a>0&&r.count_b>0).sort((x,y)=>(y.count_a+y.count_b)-(x.count_a+x.count_b))
-   .forEach(r=>{const cc=escA(r.common_code);
+  const ta=(FRAMEWORKS.find(f=>f.slug===a)||{}).title||a, tb=(FRAMEWORKS.find(f=>f.slug===b)||{}).title||b;
+  const detail=d.detail||[];
+  CMP={ a,b,ta,tb,
+    shared: detail.filter(r=>r.count_a>0&&r.count_b>0).sort((x,y)=>(y.count_a+y.count_b)-(x.count_a+x.count_b)),
+    only_a: detail.filter(r=>r.count_a>0&&r.count_b===0).sort((x,y)=>y.count_a-x.count_a),
+    only_b: detail.filter(r=>r.count_b>0&&r.count_a===0).sort((x,y)=>y.count_b-x.count_b) };
+  out.innerHTML=`<div class="grid3">
+    <div class="stat cstat active" data-view="shared" onclick="showCompare('shared')">
+      <div class="n" style="color:var(--accent)">${d.summary.communs_partages}</div><div class="l">communs partagés</div></div>
+    <div class="stat cstat" data-view="only_a" onclick="showCompare('only_a')">
+      <div class="n">${d.summary.seulement_a}</div><div class="l">seulement ${esc(a)}</div></div>
+    <div class="stat cstat" data-view="only_b" onclick="showCompare('only_b')">
+      <div class="n">${d.summary.seulement_b}</div><div class="l">seulement ${esc(b)}</div></div>
+  </div>
+  <div id="c-detail"></div>`;
+  showCompare('shared');
+};
+
+// Bascule la vue de comparaison (partagés / propres à A / propres à B).
+window.showCompare=(which)=>{
+  if(!CMP)return;
+  $$('#c-out .cstat').forEach(el=>el.classList.toggle('active', el.dataset.view===which));
+  $('#c-detail').innerHTML = which==='shared' ? compareSharedTable() : compareOnlyTable(which);
+};
+
+function compareSharedTable(){
+  const {a,b,shared}=CMP;
+  if(!shared.length)return '<p class="muted">Aucun critère commun partagé.</p>';
+  let h=`<p class="hint" style="margin:14px 0 6px">Critères communs couverts par les <b style="color:var(--text)">deux</b> référentiels. Cliquez un compteur pour voir les critères dans un référentiel, ou « ↔ voisinage » pour la comparaison exigence par exigence.</p>
+  <table><thead><tr><th>Critère commun</th><th>Thème</th><th>${esc(a)}</th><th>${esc(b)}</th><th></th></tr></thead><tbody>`;
+  shared.forEach(r=>{const cc=escA(r.common_code);
    h+=`<tr><td><span class="code">${r.common_code}</span> ${esc(r.common_label)}</td>
    <td class="theme">${esc(r.theme_slug||'')}</td>
    <td><span class="cc-link" onclick="gotoCommon('${esc(a)}','${cc}')" title="Voir dans ${esc(a)}">${r.count_a}</span></td>
    <td><span class="cc-link" onclick="gotoCommon('${esc(b)}','${cc}')" title="Voir dans ${esc(b)}">${r.count_b}</span></td>
    <td><span class="cc-link" onclick="gotoPairCommon('${esc(a)}','${esc(b)}','${cc}')" title="Comparer ${esc(a)} ↔ ${esc(b)} sur ce critère, exigence par exigence">↔ voisinage</span></td></tr>`});
-  h+='</tbody></table>';out.innerHTML=h;
-};
+  h+='</tbody></table>';return h;
+}
+
+function compareOnlyTable(which){
+  const onlyA=which==='only_a';
+  const only=onlyA?CMP.only_a:CMP.only_b, fw=onlyA?CMP.a:CMP.b, fwTitle=onlyA?CMP.ta:CMP.tb;
+  if(!only.length)return `<p class="muted" style="padding:8px 0">Aucun critère commun propre à ${esc(fwTitle)}.</p>`;
+  let h=`<p class="hint" style="margin:14px 0 6px">Critères communs couverts par <b style="color:var(--text)">${esc(fwTitle)}</b> et <b>absents</b> de l'autre référentiel. Cliquez un critère pour le voir dans le référentiel.</p>
+  <table><thead><tr><th>Critère commun</th><th>Thème</th><th>${esc(fw)}</th><th></th></tr></thead><tbody>`;
+  only.forEach(r=>{const cc=escA(r.common_code), n=onlyA?r.count_a:r.count_b;
+   h+=`<tr class="c-onlyrow" onclick="gotoCommon('${esc(fw)}','${cc}')" title="Voir dans ${esc(fw)}">
+   <td><span class="code">${r.common_code}</span> ${esc(r.common_label)}</td>
+   <td class="theme">${esc(r.theme_slug||'')}</td>
+   <td>${n}</td>
+   <td><span class="cc-link">→ voir</span></td></tr>`});
+  h+='</tbody></table>';return h;
+}
 
 // auto-évaluation
 let CCLIST=[];
