@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frameko — Agrégateur de référentiels de certification</title>
+<meta name="description" content="Frameko relie les exigences de 13 référentiels de certification à un socle commun de 51 critères — pour les rendre cherchables, comparables et évaluables.">
+<style>
+  :root {
+    --bg: #0f1419;
+    --panel: #171d26;
+    --panel2: #1e2630;
+    --line: #2a3441;
+    --text: #e6edf3;
+    --muted: #8b97a6;
+    --accent: #3fb984;
+    --accent2: #5aa9e6;
+    --warn: #e6a23c;
+    --bad: #e25c5c;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  a { color: var(--accent2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── NAV ─────────────────────────────────── */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 40px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(15, 20, 25, 0.88);
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-logo {
+    font-weight: 700; font-size: 14px; letter-spacing: 1.5px;
+    color: var(--accent); text-decoration: none;
+  }
+  .nav-logo:hover { text-decoration: none; }
+
+  .nav-sep {
+    width: 1px; height: 18px; background: var(--line);
+  }
+
+  .nav-tagline {
+    color: var(--muted); font-size: 13px;
+  }
+
+  .nav-links {
+    display: flex; gap: 4px; margin-left: auto; align-items: center;
+  }
+
+  .nav-link {
+    color: var(--muted); font-size: 14px;
+    padding: 7px 13px; border-radius: 7px;
+    text-decoration: none; transition: color .15s, background .15s;
+  }
+  .nav-link:hover {
+    color: var(--text); background: var(--panel); text-decoration: none;
+  }
+
+  .nav-cta {
+    background: var(--accent); color: #06281c;
+    font-weight: 600; font-size: 14px;
+    padding: 8px 16px; border-radius: 8px;
+    text-decoration: none; transition: filter .15s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-cta:hover { filter: brightness(1.08); text-decoration: none; }
+
+  /* ── HERO ─────────────────────────────────── */
+  .hero {
+    text-align: center;
+    padding: 96px 40px 72px;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(63, 185, 132, 0.1);
+    border: 1px solid rgba(63, 185, 132, 0.25);
+    padding: 5px 14px; border-radius: 20px;
+    margin-bottom: 30px;
+  }
+
+  .hero-badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .4; }
+  }
+
+  .hero h1 {
+    font-size: clamp(30px, 5.5vw, 56px);
+    font-weight: 700;
+    line-height: 1.12;
+    margin: 0 0 22px;
+    letter-spacing: -0.5px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 18px; color: var(--muted);
+    max-width: 580px; margin: 0 auto 40px;
+    line-height: 1.65;
+  }
+
+  .hero-actions {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--accent); color: #06281c;
+    font-weight: 600; font-size: 15px;
+    padding: 13px 28px; border-radius: 10px;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    transition: filter .15s;
+  }
+  .btn-primary:hover { filter: brightness(1.08); text-decoration: none; }
+  .btn-primary:active { filter: brightness(0.96); }
+
+  .btn-secondary {
+    background: var(--panel); color: var(--text);
+    font-size: 15px; padding: 13px 28px;
+    border-radius: 10px; border: 1px solid var(--line);
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    transition: border-color .15s;
+  }
+  .btn-secondary:hover { border-color: var(--accent2); text-decoration: none; }
+
+  /* ── STATS ─────────────────────────────────── */
+  .stats-band {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+    padding: 36px 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .stat-item {
+    text-align: center; padding: 0 20px;
+    border-right: 1px solid var(--line);
+  }
+  .stat-item:last-child { border-right: none; }
+
+  .stat-n {
+    font-size: 38px; font-weight: 700;
+    color: var(--accent); line-height: 1; margin-bottom: 6px;
+  }
+
+  .stat-l {
+    color: var(--muted); font-size: 13px; line-height: 1.4;
+  }
+
+  /* ── GENERIC SECTION ─────────────────────────── */
+  .section {
+    max-width: 1060px; margin: 0 auto; padding: 80px 40px;
+  }
+
+  .section-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-size: clamp(20px, 3vw, 30px); font-weight: 700;
+    margin: 0 0 12px; line-height: 1.25;
+  }
+
+  .section-sub {
+    color: var(--muted); font-size: 16px; margin: 0 0 48px;
+    max-width: 560px; line-height: 1.65;
+  }
+
+  .divider { border: none; border-top: 1px solid var(--line); margin: 0; }
+
+  /* ── FEATURES GRID ─────────────────────────── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .feature-card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 26px;
+    transition: border-color .15s, transform .15s;
+  }
+  .feature-card:hover {
+    border-color: rgba(90, 169, 230, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .feature-icon {
+    width: 42px; height: 42px; border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 18px; font-size: 20px;
+    background: rgba(63, 185, 132, 0.08);
+    border: 1px solid rgba(63, 185, 132, 0.18);
+  }
+
+  .feature-icon.blue {
+    background: rgba(90, 169, 230, 0.08);
+    border-color: rgba(90, 169, 230, 0.18);
+  }
+
+  .feature-icon.amber {
+    background: rgba(230, 162, 60, 0.08);
+    border-color: rgba(230, 162, 60, 0.18);
+  }
+
+  .feature-card h3 {
+    font-size: 15px; font-weight: 600; margin: 0 0 8px;
+  }
+
+  .feature-card p {
+    color: var(--muted); font-size: 14px; margin: 0; line-height: 1.6;
+  }
+
+  /* ── ARCHITECTURE (2 couches) ───────────────── */
+  .arch-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+
+  .arch-card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 30px;
+  }
+
+  .arch-card.green-glow {
+    border-color: rgba(63, 185, 132, 0.3);
+    background: linear-gradient(140deg, var(--panel) 60%, rgba(63, 185, 132, 0.05) 100%);
+  }
+
+  .arch-card.blue-glow {
+    border-color: rgba(90, 169, 230, 0.3);
+    background: linear-gradient(140deg, var(--panel) 60%, rgba(90, 169, 230, 0.05) 100%);
+  }
+
+  .arch-label {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .arch-label.green {
+    color: var(--accent);
+    background: rgba(63, 185, 132, 0.1);
+    border: 1px solid rgba(63, 185, 132, 0.25);
+  }
+  .arch-label.blue {
+    color: var(--accent2);
+    background: rgba(90, 169, 230, 0.1);
+    border: 1px solid rgba(90, 169, 230, 0.25);
+  }
+
+  .arch-card h3 { font-size: 17px; font-weight: 600; margin: 0 0 10px; }
+  .arch-card > p { color: var(--muted); font-size: 14px; margin: 0 0 18px; line-height: 1.6; }
+
+  /* Degrés */
+  .deg-list { display: flex; flex-direction: column; gap: 0; }
+
+  .deg-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 9px 0; border-bottom: 1px solid var(--line);
+    font-size: 13px;
+  }
+  .deg-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .deg-pill {
+    font-size: 11px; font-weight: 600; padding: 2px 10px;
+    border-radius: 20px; white-space: nowrap; min-width: 114px;
+    text-align: center;
+  }
+  .deg-equivautA {
+    color: var(--accent);
+    background: rgba(63,185,132,.1);
+    border: 1px solid rgba(63,185,132,.3);
+  }
+  .deg-plusStrictQue {
+    color: var(--accent2);
+    background: rgba(90,169,230,.1);
+    border: 1px solid rgba(90,169,230,.3);
+  }
+  .deg-plusLargeQue {
+    color: var(--warn);
+    background: rgba(230,162,60,.1);
+    border: 1px solid rgba(230,162,60,.3);
+  }
+  .deg-rapprocheDe {
+    color: var(--muted);
+    background: rgba(139,151,166,.08);
+    border: 1px solid var(--line);
+  }
+
+  .deg-def { color: var(--muted); font-size: 13px; line-height: 1.4; }
+
+  /* FSI callout */
+  .arch-note {
+    background: var(--panel2); border: 1px solid var(--line);
+    border-radius: 8px; padding: 14px 16px;
+    font-size: 13px; color: var(--muted); line-height: 1.6;
+    margin-top: 18px;
+  }
+  .arch-note strong { color: var(--accent2); }
+
+  /* ── FRAMEWORKS ─────────────────────────────── */
+  .fw-grid {
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+
+  .fw-chip {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 8px; padding: 10px 18px;
+    font-size: 13px; font-weight: 500; color: var(--text);
+    transition: border-color .15s, color .15s;
+    cursor: default;
+  }
+  .fw-chip:hover {
+    border-color: var(--accent2); color: var(--accent2);
+  }
+
+  /* ── DIGITALISATION ─────────────────────────── */
+  .steps {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+
+  .step-card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 26px;
+    position: relative;
+  }
+
+  .step-num {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    color: var(--muted); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .step-num::after {
+    content: ''; flex: 1; height: 1px; background: var(--line);
+  }
+
+  .step-card h3 { font-size: 15px; font-weight: 600; margin: 0 0 8px; }
+  .step-card p { color: var(--muted); font-size: 14px; margin: 0; line-height: 1.55; }
+
+  /* ── MCP ─────────────────────────────────────── */
+  .mcp-layout {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    align-items: start;
+  }
+
+  .mcp-tools { display: flex; flex-direction: column; gap: 8px; }
+
+  .mcp-tool {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 8px; padding: 13px 16px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+
+  .mcp-tool code {
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 12px; color: var(--accent2);
+  }
+
+  .mcp-tool-desc {
+    color: var(--muted); font-size: 13px;
+  }
+
+  .code-block {
+    background: #0b0f14; border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 22px;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 13px; overflow-x: auto; line-height: 1.65;
+  }
+
+  .tok-key   { color: var(--accent2); }
+  .tok-str   { color: var(--warn); }
+  .tok-cmt   { color: var(--muted); font-style: italic; }
+  .tok-fn    { color: var(--accent); }
+  .tok-num   { color: #c89fde; }
+  .tok-muted { color: var(--muted); }
+
+  /* ── FOOTER ─────────────────────────────────── */
+  .footer-wrap {
+    border-top: 1px solid var(--line);
+    padding: 36px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 14px;
+    max-width: 1060px; margin: 0 auto;
+  }
+
+  .footer-brand {
+    color: var(--muted); font-size: 13px;
+  }
+  .footer-brand strong { color: var(--accent); }
+  .footer-brand a { color: var(--accent2); }
+
+  .footer-links {
+    display: flex; gap: 22px;
+  }
+  .footer-links a {
+    color: var(--muted); font-size: 13px; text-decoration: none;
+  }
+  .footer-links a:hover { color: var(--text); }
+
+  /* ── RESPONSIVE ─────────────────────────────── */
+  @media (max-width: 900px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .arch-grid { grid-template-columns: 1fr; }
+    .mcp-layout { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .nav { padding: 14px 20px; }
+    .nav-tagline { display: none; }
+    .nav-sep { display: none; }
+    .hero { padding: 60px 20px 50px; }
+    .stats-band { padding: 24px 20px; grid-template-columns: repeat(2, 1fr); }
+    .stat-item { padding: 16px 10px; border-right: none; border-bottom: 1px solid var(--line); }
+    .stat-item:nth-child(odd) { border-right: 1px solid var(--line); }
+    .stat-item:nth-last-child(-n+2) { border-bottom: none; }
+    .section { padding: 60px 20px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .footer-wrap { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────────────── -->
+<nav class="nav">
+  <a href="/" class="nav-logo">FRAMEKO</a>
+  <div class="nav-sep"></div>
+  <span class="nav-tagline">Référentiels de certification</span>
+  <div class="nav-links">
+    <a href="/docs" class="nav-link">Documentation</a>
+    <a href="/console" class="nav-cta">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="2.5" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M4.5 6.5L6.5 8.5L4.5 10.5M7.5 10.5H9.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Console
+    </a>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────── -->
+<header class="hero">
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    13 référentiels intégrés
+  </div>
+  <h1>Un socle commun pour<br><em>tous vos référentiels.</em></h1>
+  <p class="hero-sub">Frameko relie les exigences de chaque standard de certification à un vocabulaire commun — pour les rendre cherchables, comparables et évaluables en quelques secondes.</p>
+  <div class="hero-actions">
+    <a href="/console" class="btn-primary">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M5 8.5L7 10.5L5 12.5M9 12.5H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Ouvrir la console
+    </a>
+    <a href="/docs" class="btn-secondary">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 2h7l3 3v9a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M10 2v4h4M5 8h6M5 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Documentation
+    </a>
+  </div>
+</header>
+
+<!-- ── STATS ─────────────────────────────────────────── -->
+<div class="stats-band">
+  <div class="stat-item">
+    <div class="stat-n">13</div>
+    <div class="stat-l">référentiels<br>intégrés</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n">51</div>
+    <div class="stat-l">critères communs<br>CCCEV</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n">876+</div>
+    <div class="stat-l">exigences<br>indexées</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n">4</div>
+    <div class="stat-l">degrés de<br>rapprochement</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── SERVICES ─────────────────────────────────────── -->
+<section class="section">
+  <div class="section-eyebrow">Services</div>
+  <h2 class="section-title">Tout pour naviguer entre référentiels</h2>
+  <p class="section-sub">Six outils disponibles depuis la console — pour les équipes certification, les organismes de contrôle et les intégrateurs.</p>
+
+  <div class="features-grid">
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <circle cx="9" cy="9" r="5.5" stroke="#3fb984" stroke-width="1.5"/>
+          <path d="M13.5 13.5L17 17" stroke="#3fb984" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3>Recherche sémantique</h3>
+      <p>Décrivez une exigence en langage libre. Frameko retrouve les critères proches dans tous les référentiels — même sans les mêmes mots, même dans une autre langue.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon blue">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <circle cx="10" cy="10" r="2.5" fill="#5aa9e6"/>
+          <circle cx="4" cy="6" r="1.5" stroke="#5aa9e6" stroke-width="1.3"/>
+          <circle cx="16" cy="6" r="1.5" stroke="#5aa9e6" stroke-width="1.3"/>
+          <circle cx="4" cy="14" r="1.5" stroke="#5aa9e6" stroke-width="1.3"/>
+          <circle cx="16" cy="14" r="1.5" stroke="#5aa9e6" stroke-width="1.3"/>
+          <path d="M10 10L5.2 6.8M10 10L14.8 6.8M10 10L5.2 13.2M10 10L14.8 13.2" stroke="#5aa9e6" stroke-width="1.2"/>
+        </svg>
+      </div>
+      <h3>Voisinage & constellation</h3>
+      <p>Visualisez un référentiel pivot au centre d'une constellation. L'épaisseur des liens mesure le nombre de critères communs partagés avec chaque voisin.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <rect x="2" y="5" width="7" height="11" rx="2" stroke="#3fb984" stroke-width="1.4"/>
+          <rect x="11" y="5" width="7" height="11" rx="2" stroke="#3fb984" stroke-width="1.4"/>
+          <path d="M9 10.5h2" stroke="#3fb984" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M9 13h2" stroke="#3fb984" stroke-width="1.4" stroke-linecap="round" opacity=".5"/>
+        </svg>
+      </div>
+      <h3>Comparaison de couverture</h3>
+      <p>Choisissez deux référentiels : Frameko calcule les critères partagés et propres à chacun. Vue chiffrée idéale pour estimer l'effort de passage d'un label à un autre.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon amber">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M10 2L12.5 7H17.5L13.5 10.5L15 15.5L10 12.5L5 15.5L6.5 10.5L2.5 7H7.5L10 2Z" stroke="#e6a23c" stroke-width="1.4" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3>Couche FSI</h3>
+      <p>La Floriculture Sustainability Initiative reconnaît des standards équivalents pilier par pilier (GAP, Environmental, Social). Explorez ce «&nbsp;panier de standards&nbsp;».</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <circle cx="10" cy="10" r="7.5" stroke="#3fb984" stroke-width="1.4"/>
+          <path d="M6.5 10L8.5 12.5L13.5 7.5" stroke="#3fb984" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3>Auto-évaluation de conformité</h3>
+      <p>Répondez une fois sur le socle commun, obtenez votre taux de couverture pour tous les référentiels rattachés. Données isolées par organisation (Row-Level Security).</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon blue">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M10 3v9M6.5 8L10 3l3.5 5" stroke="#5aa9e6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 13h12v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3z" stroke="#5aa9e6" stroke-width="1.4"/>
+        </svg>
+      </div>
+      <h3>Digitaliser un référentiel</h3>
+      <p>Déposez un Excel ou PDF. Frameko extrait les exigences, propose le rattachement au socle commun, et intègre le référentiel après validation — sans rien écrire avant confirmation.</p>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── ARCHITECTURE ──────────────────────────────────── -->
+<section class="section">
+  <div class="section-eyebrow">Architecture</div>
+  <h2 class="section-title">Le principe en deux couches</h2>
+  <p class="section-sub">Frameko rapproche les référentiels à deux niveaux complémentaires. Ils se recoupent souvent — mais pas toujours, et c'est précisément cette mise en regard qui fait la valeur de la plateforme.</p>
+
+  <div class="arch-grid">
+
+    <div class="arch-card green-glow">
+      <span class="arch-label green">Couche 1 · Socle commun</span>
+      <h3>Similarité sémantique réelle</h3>
+      <p>Chaque exigence est rattachée à l'un des 51 critères communs CCCEV, avec un degré de rapprochement calculé à partir du contenu.</p>
+      <div class="deg-list">
+        <div class="deg-row">
+          <span class="deg-pill deg-equivautA">equivautA</span>
+          <span class="deg-def">couvre la même exigence à l'identique</span>
+        </div>
+        <div class="deg-row">
+          <span class="deg-pill deg-plusStrictQue">plusStrictQue</span>
+          <span class="deg-def">exigence plus précise ou plus exigeante</span>
+        </div>
+        <div class="deg-row">
+          <span class="deg-pill deg-plusLargeQue">plusLargeQue</span>
+          <span class="deg-def">périmètre plus large que le critère commun</span>
+        </div>
+        <div class="deg-row">
+          <span class="deg-pill deg-rapprocheDe">rapprocheDe</span>
+          <span class="deg-def">proche sans être équivalent ni comparable</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-card blue-glow">
+      <span class="arch-label blue">Couche 2 · FSI</span>
+      <h3>Reconnaissance marché</h3>
+      <p>La Floriculture Sustainability Initiative reconnaît certains standards comme équivalents, pilier par pilier : <strong style="color:var(--text)">GAP</strong>, <strong style="color:var(--text)">Environmental</strong>, <strong style="color:var(--text)">Social</strong>.</p>
+
+      <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:18px">
+        <div style="background:var(--panel2); border:1px solid var(--line); border-radius:8px; padding:12px 14px; font-size:13px">
+          <div style="display:flex; gap:8px; align-items:center; margin-bottom:6px">
+            <span style="color:var(--accent); font-size:16px">★</span>
+            <span style="font-weight:600; font-size:14px">Standards reconnus</span>
+          </div>
+          <span style="color:var(--muted)">Deux standards d'un même pilier FSI sont considérés équivalents au sens du marché.</span>
+        </div>
+      </div>
+
+      <div class="arch-note">
+        <strong>FSI n'est pas un référentiel de critères</strong> — c'est un «&nbsp;Basket of Standards&nbsp;» qui exprime une <em>équivalence de reconnaissance</em>, pas un rapprochement de contenu. Les deux couches sont modélisées séparément : les deux informations restent utiles indépendamment.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── RÉFÉRENTIELS ──────────────────────────────────── -->
+<section class="section">
+  <div class="section-eyebrow">Référentiels</div>
+  <h2 class="section-title">13 standards déjà intégrés</h2>
+  <p class="section-sub">Floriculture, agroforesterie, sécurité alimentaire, durabilité sociale et environnementale. D'autres peuvent être ajoutés via le wizard de digitalisation.</p>
+
+  <div class="fw-grid">
+    <span class="fw-chip">Florverde</span>
+    <span class="fw-chip">GLOBALG.A.P.</span>
+    <span class="fw-chip">MPS-ABC</span>
+    <span class="fw-chip">MPS-GAP</span>
+    <span class="fw-chip">MPS-SQ</span>
+    <span class="fw-chip">SIZA Social</span>
+    <span class="fw-chip">Rainforest Alliance</span>
+    <span class="fw-chip">Fairtrade</span>
+    <span class="fw-chip">FlorEcuador</span>
+    <span class="fw-chip">PlanetProof</span>
+    <span class="fw-chip">Viva i Fiori</span>
+    <span class="fw-chip">Plante Bleue</span>
+    <span class="fw-chip">Charte Qualité Fleurs</span>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── DIGITALISATION ──────────────────────────────────── -->
+<section class="section">
+  <div class="section-eyebrow">Wizard</div>
+  <h2 class="section-title">Digitaliser un référentiel en 3 étapes</h2>
+  <p class="section-sub">Un référentiel «&nbsp;papier&nbsp;» devient explorable, comparable et évaluable — sans rien écrire en base avant validation.</p>
+
+  <div class="steps">
+
+    <div class="step-card">
+      <div class="step-num">ÉTAPE 1</div>
+      <h3>Source</h3>
+      <p>Renseignez l'identifiant et le titre du référentiel, déposez la source (.xlsx, .csv ou .pdf). Frameko en extrait automatiquement la liste des exigences.</p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">ÉTAPE 2</div>
+      <h3>Rattachement</h3>
+      <p>Pour chaque exigence, Frameko propose le critère commun le plus proche et un degré, avec un score de confiance. L'IA révise les cas difficiles, y compris en multilingue.</p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">ÉTAPE 3</div>
+      <h3>Validation</h3>
+      <p>Relisez et ajustez les rattachements dans un tableau éditable, puis insérez. Le référentiel devient aussitôt visible dans Voisinage, Comparaison et Auto-évaluation.</p>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── MCP ──────────────────────────────────────────────── -->
+<section class="section">
+  <div class="section-eyebrow">Intégration</div>
+  <h2 class="section-title">Accessible depuis un agent IA via MCP</h2>
+  <p class="section-sub">Frameko expose un serveur MCP : Claude ou tout agent compatible peut interroger la base directement, sans passer par la console.</p>
+
+  <div class="mcp-layout">
+
+    <div class="mcp-tools">
+      <div class="mcp-tool">
+        <code>list_frameworks</code> / <code>get_framework</code>
+        <div class="mcp-tool-desc">Lister et détailler un référentiel</div>
+      </div>
+      <div class="mcp-tool">
+        <code>search_requirements</code>
+        <div class="mcp-tool-desc">Recherche sémantique d'exigences en langage libre</div>
+      </div>
+      <div class="mcp-tool">
+        <code>nearest_requirements</code>
+        <div class="mcp-tool-desc">Critère commun de rattachement + voisins les plus proches</div>
+      </div>
+      <div class="mcp-tool">
+        <code>compare_frameworks</code>
+        <div class="mcp-tool-desc">Recouvrement chiffré entre deux référentiels</div>
+      </div>
+      <div class="mcp-tool">
+        <code>start_assessment</code> / <code>answer_assessment</code> / <code>get_assessment_result</code>
+        <div class="mcp-tool-desc">Auto-évaluation complète pilotée par un agent</div>
+      </div>
+    </div>
+
+    <div class="code-block"><span class="tok-cmt"># Configuration MCP (claude_desktop_config.json)</span>
+{
+  <span class="tok-key">"mcpServers"</span>: {
+    <span class="tok-str">"frameko"</span>: {
+      <span class="tok-key">"command"</span>: <span class="tok-str">"python"</span>,
+      <span class="tok-key">"args"</span>: [<span class="tok-str">"-m"</span>, <span class="tok-str">"frameko"</span>],
+      <span class="tok-key">"env"</span>: {
+        <span class="tok-str">"FRAMEKO_DB_URL"</span>:    <span class="tok-str">"postgresql://..."</span>,
+        <span class="tok-str">"FRAMEKO_ORG_TOKEN"</span>: <span class="tok-str">"org_..."</span>
+      }
+    }
+  }
+}</div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ──────────────────────────────────────────── -->
+<hr class="divider">
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-brand">
+      <strong>FRAMEKO</strong> — un projet <a href="https://kosmio.dev" target="_blank" rel="noopener">Kosmio</a>
+    </div>
+    <div class="footer-links">
+      <a href="/console">Console</a>
+      <a href="/docs">Documentation</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

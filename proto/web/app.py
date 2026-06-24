@@ -35,6 +35,10 @@ WEB = Path(__file__).resolve().parent
 VALID_STATUS = {"conforme", "partiel", "non_conforme", "non_applicable"}
 
 
+async def landing(request: Request) -> HTMLResponse:
+    return HTMLResponse((WEB / "landing.html").read_text(encoding="utf-8"))
+
+
 async def index(request: Request) -> HTMLResponse:
     return HTMLResponse((WEB / "index.html").read_text(encoding="utf-8"))
 
@@ -264,7 +268,8 @@ async def api_assess_result(request: Request) -> JSONResponse:
 
 
 routes = [
-    Route("/", index),
+    Route("/", landing),
+    Route("/console", index),
     Route("/docs", docs),
     Route("/api/frameworks", api_frameworks),
     Route("/api/search", api_search, methods=["POST"]),
