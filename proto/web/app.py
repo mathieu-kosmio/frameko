@@ -35,16 +35,22 @@ WEB = Path(__file__).resolve().parent
 VALID_STATUS = {"conforme", "partiel", "non_conforme", "non_applicable"}
 
 
+# Le HTML embarque tout le JS de la console : on interdit la mise en cache pour
+# qu'un déploiement soit pris en compte immédiatement (sinon le navigateur sert
+# une ancienne version et les nouvelles fonctionnalités semblent ne pas marcher).
+_NOCACHE = {"Cache-Control": "no-cache, no-store, must-revalidate"}
+
+
 async def landing(request: Request) -> HTMLResponse:
-    return HTMLResponse((WEB / "landing.html").read_text(encoding="utf-8"))
+    return HTMLResponse((WEB / "landing.html").read_text(encoding="utf-8"), headers=_NOCACHE)
 
 
 async def index(request: Request) -> HTMLResponse:
-    return HTMLResponse((WEB / "index.html").read_text(encoding="utf-8"))
+    return HTMLResponse((WEB / "index.html").read_text(encoding="utf-8"), headers=_NOCACHE)
 
 
 async def docs(request: Request) -> HTMLResponse:
-    return HTMLResponse((WEB / "docs.html").read_text(encoding="utf-8"))
+    return HTMLResponse((WEB / "docs.html").read_text(encoding="utf-8"), headers=_NOCACHE)
 
 
 async def api_frameworks(request: Request) -> JSONResponse:
