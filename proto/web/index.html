@@ -107,7 +107,7 @@
 <body>
 <header>
   <h1><span class="tag">FRAMEKO</span> Console référentiels</h1>
-  <span class="sub">Socle commun · 9 référentiels · 51 critères communs · 876 critères</span>
+  <span class="sub" id="hdr-stats">Socle commun · 51 critères communs</span>
   <a class="doc" href="/docs" target="_blank" rel="noopener">Documentation ↗</a>
 </header>
 <nav>
@@ -257,6 +257,8 @@ $$('nav button').forEach(b=>b.onclick=()=>{
 // chargement référentiels
 (async()=>{
   FRAMEWORKS=await api('/api/frameworks');
+  const totalCrit=FRAMEWORKS.reduce((s,f)=>s+(f.n_criteres||0),0);
+  $('#hdr-stats').textContent=`Socle commun · ${FRAMEWORKS.length} référentiels · 51 critères communs · ${totalCrit} critères`;
   const opt=f=>`<option value="${f.slug}">${esc(f.title)} (${f.n_criteres})</option>`;
   $('#q-fw').innerHTML='<option value="">Tous les référentiels</option>'+FRAMEWORKS.map(opt).join('');
   $('#c-a').innerHTML=FRAMEWORKS.map(opt).join('');
