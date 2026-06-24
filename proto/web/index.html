@@ -135,6 +135,10 @@
   .b-crit .meta{display:flex;gap:6px;align-items:center;margin-top:5px;flex-wrap:wrap}
   .b-lvl{font-size:10px;color:var(--muted);background:var(--panel2);border:1px solid var(--line);padding:1px 7px;border-radius:10px}
   .b-cc{font-size:11px;color:var(--muted)} .b-cc .code{font-size:11px}
+  .ev-row{margin-top:6px;display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+  .ev-lab{font-size:10px;color:#4a5568;text-transform:uppercase;letter-spacing:.4px}
+  .ev-chip{font-size:10px;background:#13201a;border:1px solid #1f3d2c;color:var(--accent);padding:1px 8px;border-radius:10px}
+  .ev-detail{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45;font-style:italic}
 </style>
 </head>
 <body>
@@ -462,7 +466,9 @@ function renderBrowse(){
   const q=$('#b-filter').value.trim().toLowerCase();
   const crit=BDATA.criteria.filter(c=>!q ||
     (c.label||'').toLowerCase().includes(q) || (c.reference||'').toLowerCase().includes(q) ||
-    (c.common_label||'').toLowerCase().includes(q) || (c.theme_label||'').toLowerCase().includes(q));
+    (c.common_label||'').toLowerCase().includes(q) || (c.theme_label||'').toLowerCase().includes(q) ||
+    (c.evidence_detail||'').toLowerCase().includes(q) ||
+    (c.evidence_types||[]).some(e=>e.label.toLowerCase().includes(q)));
   if(!crit.length){$('#b-out').innerHTML='<p class="muted" style="padding:8px">Aucun critère ne correspond au filtre.</p>';return}
   // regrouper par thème (en gardant l'ordre d'arrivée = catégorie ▸ thème)
   const groups=[]; const idx={};
@@ -486,6 +492,10 @@ function renderBrowse(){
         ${c.level?`<span class="b-lvl">${esc(c.level)}</span>`:''}
         <span class="b-cc">→ <span class="code">${esc(c.common_code)}</span> ${esc(c.common_label)}</span>
       </div>
+      ${(c.evidence_types&&c.evidence_types.length)?`<div class="ev-row">
+        <span class="ev-lab">Preuves</span>
+        ${c.evidence_types.map(e=>`<span class="ev-chip">${esc(e.label)}</span>`).join('')}
+      </div>${c.evidence_detail?`<div class="ev-detail">« ${esc(c.evidence_detail.slice(0,240))}${c.evidence_detail.length>240?'…':''} »</div>`:''}`:''}
     </div>`).join('')}</div>
   </div>`).join('');
 }

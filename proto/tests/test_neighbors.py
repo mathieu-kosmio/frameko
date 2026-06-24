@@ -45,6 +45,19 @@ def test_framework_criteria(db):
     assert any(r["theme_label"] for r in rows)
 
 
+def test_criterion_evidence_linked(db):
+    """Les critères FlorEcuador sont reliés à des types de preuves (CCCEV EvidenceType)."""
+    # le catalogue de types de preuves est seedé
+    types = {r["slug"] for r in appdb.query("select slug from evidence_type")}
+    assert {"registre", "certificat", "document", "inspection"} <= types
+    rows = appdb.framework_criteria("florecuador")
+    linked = [r for r in rows if r["evidence_types"]]
+    assert len(linked) >= 150  # la grande majorité des 195 critères ont une preuve
+    sample = linked[0]
+    assert sample["evidence_detail"]  # texte du moyen de vérification
+    assert all("slug" in e and "label" in e for e in sample["evidence_types"])
+
+
 def test_ingest_propose():
     crit = [{"reference": "1.1", "criterion": "Maintien de la diversité biologique des forêts"}]
     props = ingest.propose(crit)

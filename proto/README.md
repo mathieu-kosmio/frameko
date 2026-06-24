@@ -35,6 +35,7 @@ proto/
     03_auth_rls.sql     table org + RLS + rôle applicatif frameko_app
     04_neighbors.sql    voisinage + comparaison au niveau critère
     05_recognition.sql  couche d'équivalence FSI (reconnaissance par pilier)
+    06_evidence.sql     types de preuves (CCCEV EvidenceType) + lien critère↔preuve
   scripts/
     test_connection.py  vérifie la connexion + l'extension vector
     apply_sql.py        applique un fichier .sql via DATABASE_URL
@@ -45,6 +46,7 @@ proto/
     extract_source.py   ingestion étape 1 : source (tableur/PDF) → criteria.csv
     ingest_framework.py ingestion étape 2 : rattachement → proposals.json
     apply_ingestion.py  ingestion étape 3 : insertion du référentiel validé
+    load_evidence.py    charge les liens critère↔type de preuve (CSV Code,Preuve,TypesPreuve)
   mcp_server/
     db.py               accès Postgres (+ org_scope RLS, voisinage, comparaison)
     auth.py             résolution d'organisation par jeton
@@ -253,7 +255,8 @@ autre). Les tests se sautent proprement si `DATABASE_URL`/`APP_DATABASE_URL` son
 Six onglets :
 - **Recherche** (sémantique) ;
 - **Référentiel** — parcourir un référentiel : tous ses critères groupés par thème, avec
-  référence d'origine, degré, niveau et rattachement au socle commun ; filtre plein texte
+  référence d'origine, degré, niveau, rattachement au socle commun **et les types de preuves
+  attendus** (moyen de vérification) quand ils sont renseignés ; filtre plein texte
   (endpoint `GET /api/framework/{slug}`) ;
 - **Voisinage** — un référentiel pivot au centre d'une constellation ; chaque lien mesure le
   nombre de critères communs partagés. Cliquer un voisin déroule la comparaison **jusqu'au
