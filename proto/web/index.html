@@ -540,7 +540,7 @@ function renderBrowse(){
       <div class="meta">
         <span class="dpill dp-${c.degree}">${DEG_SYM[c.degree]||''} ${DEG_FR[c.degree]||c.degree}</span>
         ${c.level?`<span class="b-lvl">${esc(c.level)}</span>`:''}
-        <span class="b-cc">→ <span class="code">${esc(c.common_code)}</span> ${esc(c.common_label)}</span>
+        <span class="b-cc cc-open" onclick="openCommonInSearch('${escA(c.common_code)}')" title="Voir ce critère commun et tous les référentiels liés">→ <span class="code">${esc(c.common_code)}</span> ${esc(c.common_label)}</span>
       </div>
       ${(c.evidence_types&&c.evidence_types.length)?`<div class="ev-row">
         <span class="ev-lab">Preuves</span>
@@ -763,6 +763,75 @@ function highlightCommon(code){
   els[0].scrollIntoView({behavior:'smooth',block:'center'});
   els.forEach(el=>{el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');});
 }
+
+// ── Critère commun dépliable (recherche ↔ référentiels) ──────────────────────
+// Carte d'un critère commun : en-tête + corps repliable chargé à la demande.
+function commonCardHTML(code,label,theme,simPct){
+  return `<div class="ccard" data-code="${escA(code)}">
+    <div class="ccard-h" onclick="toggleCommon(this)">
+      <div><span class="code">${esc(code)}</span> ${esc(label)}</div>
+      <div class="ccard-meta">${theme?`<span class="theme">${esc(theme)}</span>`:''}${simPct!=null?`<span class="sim">${simPct}%</span>`:''}<span class="ccard-caret">▾</span></div>
+    </div>
+    <div class="ccard-b"></div>
+  </div>`;
+}
+
+// Exigences liées à un critère commun, groupées par référentiel ; chacune ouvre
+// le critère dans son référentiel.
+function renderCommonItems(d){
+  const items=d.items||[];
+  if(!items.length)return '<p class="muted" style="padding:10px 14px">Aucun référentiel rattaché.</p>';
+  const groups=[]; const idx={};
+  items.forEach(it=>{
+    if(!(it.framework_slug in idx)){idx[it.framework_slug]=groups.length;
+      groups.push({slug:it.framework_slug,title:it.framework_title,items:[]});}
+    groups[idx[it.framework_slug]].items.push(it);
+  });
+  return groups.map(g=>`<div class="cgrp">
+    <div class="cgrp-h"><span class="badge">${esc(g.slug)}</span> ${esc(g.title)}
+      <span class="muted" style="font-weight:400">· ${g.items.length}</span></div>
+    ${g.items.map(it=>`<div class="cexig" data-slug="${escA(g.slug)}" data-ref="${escA(it.reference||'')}"
+        data-label="${escA(it.label||'')}" onclick="openExig(this)" title="Ouvrir dans le référentiel">
+      <span class="ref">${esc(it.reference||'—')}</span>
+      <span class="lbl">${esc(it.label||'')}</span>
+      <span class="dpill dp-${it.degree}">${DEG_SYM[it.degree]||''} ${DEG_FR[it.degree]||it.degree}</span>
+    </div>`).join('')}
+  </div>`).join('');
+}
+
+window.toggleCommon=async(hEl)=>{
+  const card=hEl.parentNode, body=card.querySelector('.ccard-b');
+  const open=card.classList.toggle('open');
+  if(open && !body.dataset.loaded){
+    body.dataset.loaded='1';
+    body.innerHTML='<p class="spin" style="padding:10px 14px">Chargement…</p>';
+    const d=await api('/api/common-criterion/'+encodeURIComponent(card.dataset.code));
+    body.innerHTML=d.error?`<p class="muted" style="padding:10px 14px">${esc(d.error)}</p>`:renderCommonItems(d);
+  }
+};
+
+// Ouvre une exigence précise dans son référentiel (depuis un critère commun déplié).
+window.openExig=async(el)=>{
+  await openBrowseFramework(el.dataset.slug);
+  highlightCriterion(el.dataset.ref,el.dataset.label);
+};
+
+// Référentiel → recherche : ouvre un critère commun, déplié, avec tous ses référentiels.
+window.openCommonInSearch=async(code)=>{
+  $$('nav button').forEach(x=>x.classList.remove('active'));
+  document.querySelector('nav button[data-tab=search]').classList.add('active');
+  $$('section').forEach(s=>s.classList.remove('active'));
+  $('#search').classList.add('active');
+  const focus=$('#q-focus');
+  focus.innerHTML='<p class="spin" style="padding:8px 0">Chargement du critère commun…</p>';
+  const d=await api('/api/common-criterion/'+encodeURIComponent(code));
+  if(d.error){focus.innerHTML=`<p class="muted">${esc(d.error)}</p>`;return}
+  focus.innerHTML='<h2 style="font-size:14px;margin:6px 0 8px">Critère commun ouvert</h2>'
+    +commonCardHTML(d.common.code,d.common.label_fr,d.common.theme_label,null);
+  const card=focus.querySelector('.ccard'), body=card.querySelector('.ccard-b');
+  card.classList.add('open'); body.dataset.loaded='1'; body.innerHTML=renderCommonItems(d);
+  focus.scrollIntoView({behavior:'smooth',block:'start'});
+};
 
 // comparaison
 $('#c-go').onclick=async()=>{
