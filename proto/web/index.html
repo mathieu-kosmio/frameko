@@ -835,11 +835,14 @@ window.openCommonInSearch=async(code)=>{
   $$('section').forEach(s=>s.classList.remove('active'));
   $('#search').classList.add('active');
   $('#q-fw').value='';                 // exploration cross-référentiel : on lève le filtre
+  $('#q').value='';                    // pas de requête texte : on ouvre un critère commun précis
+  $('#q-out').innerHTML='';            // retire d'éventuels résultats de recherche obsolètes
   const focus=$('#q-focus');
   focus.innerHTML='<p class="spin" style="padding:8px 0">Chargement du critère commun…</p>';
   const d=await api('/api/common-criterion/'+encodeURIComponent(code));
   if(d.error){focus.innerHTML=`<p class="muted">${esc(d.error)}</p>`;return}
-  focus.innerHTML='<h2 style="font-size:14px;margin:6px 0 8px">Critère commun ouvert</h2>'
+  focus.innerHTML=`<h2 style="font-size:14px;margin:6px 0 2px">Critère commun ouvert</h2>
+    <p class="hint" style="margin:0 0 12px">Vu depuis un référentiel — toutes les exigences rattachées, dans chaque référentiel. Lancez une recherche ci-dessus pour explorer d'autres critères.</p>`
     +commonCardHTML(d.common.code,d.common.label_fr,d.common.theme_label,null);
   const card=focus.querySelector('.ccard'), body=card.querySelector('.ccard-b');
   card.classList.add('open'); body.dataset.loaded='1'; body.innerHTML=renderCommonItems(d);
