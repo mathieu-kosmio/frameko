@@ -139,6 +139,18 @@
   .ev-lab{font-size:10px;color:#4a5568;text-transform:uppercase;letter-spacing:.4px}
   .ev-chip{font-size:10px;background:#13201a;border:1px solid #1f3d2c;color:var(--accent);padding:1px 8px;border-radius:10px}
   .ev-detail{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45;font-style:italic}
+  /* Recherche → critère dans le référentiel */
+  .b-crit{scroll-margin-top:70px}
+  .b-crit.flash{animation:critflash 1.9s ease-out}
+  @keyframes critflash{0%{background:rgba(63,185,132,.22)}55%{background:rgba(63,185,132,.13)}100%{background:transparent}}
+  .card.q-hit{cursor:pointer;transition:border-color .15s,transform .12s}
+  .card.q-hit:hover{border-color:var(--accent2);transform:translateY(-1px)}
+  .q-see{font-size:11px;color:var(--accent2);opacity:0;transition:opacity .15s;white-space:nowrap;flex-shrink:0}
+  .card.q-hit:hover .q-see{opacity:1}
+  @media(prefers-reduced-motion:reduce){
+    .b-crit.flash{animation:none;background:rgba(63,185,132,.15)}
+    .card.q-hit:hover{transform:none}
+  }
 </style>
 </head>
 <body>
@@ -311,7 +323,12 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const api=async(u,o)=>{const r=await fetch(u,o);return r.json()};
 const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const escA=s=>esc(s).replace(/"/g,'&quot;');
+// Clé stable d'un critère, partagée entre la recherche et la vue « Référentiel » :
+// la référence d'origine si présente, sinon un repli sur le libellé.
+const critKey=(ref,label)=>((ref||'').trim() || 'lbl:'+(label||'').trim().slice(0,80));
 let FRAMEWORKS=[];
+let QHITS=[];   // dernières exigences renvoyées par la recherche (pour le clic → référentiel)
 
 // onglets
 $$('nav button').forEach(b=>b.onclick=()=>{
@@ -483,7 +500,7 @@ function renderBrowse(){
       <div><span class="gt">${esc(g.theme)}</span> ${g.cat?`<span class="gc">· ${esc(g.cat)}</span>`:''}</div>
       <span class="gc">${g.items.length} critère${g.items.length>1?'s':''}</span>
     </div>
-    <div class="gb">${g.items.map(c=>`<div class="b-crit">
+    <div class="gb">${g.items.map(c=>`<div class="b-crit" data-key="${escA(critKey(c.reference,c.label))}">
       <div class="top">
         <span class="lbl">${esc(c.label)}</span>
         <span class="ref">${esc(c.reference||'—')}</span>
@@ -655,15 +672,42 @@ $('#q-go').onclick=async()=>{
     <div><span class="code">${c.code}</span> ${esc(c.label_fr)}</div>
     <span class="sim">${(c.similarity*100).toFixed(0)}%</span></div>
     <div class="theme">${esc(c.theme_label||'')}</div></div>`});
+  QHITS=data.framework_criteria||[];
   h+='<h2 style="font-size:14px;margin:22px 0 8px">Exigences de référentiels</h2>';
-  data.framework_criteria.forEach(r=>{h+=`<div class="card"><div class="top">
+  QHITS.forEach((r,i)=>{h+=`<div class="card q-hit" onclick="gotoCriterion(${i})"
+    title="Voir ce critère dans le référentiel"><div class="top">
     <div><span class="badge">${esc(r.framework_slug)}</span>
     <span class="code">${esc(r.reference||'')}</span> ${esc((r.label||'').slice(0,120))}</div>
     <span class="sim">${(r.similarity*100).toFixed(0)}%</span></div>
+    <div class="top" style="align-items:center">
     <div><span class="deg-${r.degree}">▸ ${r.degree}</span>
-    <span class="theme">→ ${esc(r.common_label)}</span></div></div>`});
+    <span class="theme">→ ${esc(r.common_label)}</span></div>
+    <span class="q-see">voir dans le référentiel →</span></div></div>`});
   out.innerHTML=h;
 };
+
+// Recherche → ouvre le critère dans la vue « Référentiel » (filtrée + scrollée + surlignée).
+window.gotoCriterion=async(i)=>{
+  const r=QHITS[i]; if(!r)return;
+  $$('nav button').forEach(x=>x.classList.remove('active'));
+  document.querySelector('nav button[data-tab=browse]').classList.add('active');
+  $$('section').forEach(s=>s.classList.remove('active'));
+  $('#browse').classList.add('active');
+  if(!BDATA || BDATA.framework.slug!==r.framework_slug){
+    await loadBrowse(r.framework_slug);            // charge le bon référentiel (réinitialise le filtre)
+  }else{
+    $('#b-filter').value=''; renderBrowse();        // déjà chargé : on lève un éventuel filtre
+  }
+  highlightCriterion(r.reference,r.label);
+};
+
+function highlightCriterion(ref,label){
+  const el=$('#b-out .b-crit[data-key="'+CSS.escape(critKey(ref,label))+'"]');
+  if(!el)return;
+  const gb=el.closest('.gb'); if(gb) gb.style.display='block';   // déplie le groupe si replié
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+  el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+}
 
 // comparaison
 $('#c-go').onclick=async()=>{
