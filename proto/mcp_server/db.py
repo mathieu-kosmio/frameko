@@ -368,6 +368,71 @@ def insert_evaluations(org_id, doc_id, rows) -> int:
     )
 
 
+# ── Couverture (tableau de bord) ────────────────────────────────────────────
+# Une évaluation est « active » si elle est manuelle, ou issue d'un document
+# non expiré (valid_until nul ou ≥ aujourd'hui). Un critère est couvert s'il a
+# au moins une évaluation active.
+
+_ACTIVE = ("(e.source = 'manual' or d.valid_until is null or d.valid_until >= current_date)")
+
+
+def coverage(org_id) -> list[dict]:
+    """Par référentiel : nb de critères, nb couverts (éval active), %."""
+    return query(
+        "with active as ("
+        "  select distinct e.framework_criterion_id"
+        "  from evaluation e left join document d on d.id = e.document_id"
+        f"  where e.org_id = %s and {_ACTIVE})"
+        " select f.slug, f.title,"
+        "   count(distinct fc.id) as n_total,"
+        "   count(distinct a.framework_criterion_id) as n_eval"
+        " from framework f"
+        " join framework_criterion fc on fc.framework_slug = f.slug"
+        " left join active a on a.framework_criterion_id = fc.id"
+        " group by f.slug, f.title order by f.title",
+        (org_id,),
+    )
+
+
+def framework_coverage_criteria(org_id, framework) -> list[dict]:
+    """Critères d'un référentiel + leur évaluation courante (manuelle prioritaire,
+    sinon la plus récente), avec source, document et drapeau d'expiration."""
+    return query(
+        "select fc.reference, fc.label, fc.id::text as id,"
+        "   cc.code as common_code, cc.label_fr as common_label,"
+        "   ev.status, ev.interpretation, ev.source, ev.expired, ev.doc_filename"
+        " from framework_criterion fc"
+        " join common_criterion cc on cc.id = fc.common_criterion_id"
+        " left join lateral ("
+        "   select e.status, e.interpretation, e.source,"
+        "     (e.source = 'document' and d.valid_until is not null and d.valid_until < current_date) as expired,"
+        "     d.filename as doc_filename"
+        "   from evaluation e left join document d on d.id = e.document_id"
+        "   where e.org_id = %s and e.framework_criterion_id = fc.id"
+        "   order by (e.source = 'manual') desc, e.created_at desc limit 1"
+        " ) ev on true"
+        " where fc.framework_slug = %s order by fc.reference",
+        (org_id, framework),
+    )
+
+
+def set_manual_evaluation(org_id, fc_id, status, interpretation) -> None:
+    """Remplace l'éventuelle évaluation manuelle d'un critère (une par critère)."""
+    execute("delete from evaluation where org_id = %s and framework_criterion_id = %s and source = 'manual'",
+            (org_id, fc_id))
+    execute(
+        "insert into evaluation (org_id, framework_criterion_id, status, interpretation, source)"
+        " values (%s, %s, %s, %s, 'manual')",
+        (org_id, fc_id, status, interpretation),
+    )
+
+
+def delete_manual_evaluation(org_id, fc_id) -> int:
+    return execute(
+        "delete from evaluation where org_id = %s and framework_criterion_id = %s and source = 'manual'",
+        (org_id, fc_id))
+
+
 def common_criterion_detail(code: str) -> dict | None:
     """Un critère commun (par code) + toutes les exigences des référentiels qui y
     sont rattachées, tous référentiels confondus — pour « déplier » un critère

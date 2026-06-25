@@ -347,6 +347,56 @@ async def api_document_delete(request: Request) -> JSONResponse:
     return JSONResponse({"ok": True})
 
 
+# ── Couverture (tableau de bord du mode connecté) ───────────────────────────
+
+async def api_coverage(request: Request) -> JSONResponse:
+    res = _connected_org(request)
+    if not res:
+        return JSONResponse({"error": "authentification requise"}, status_code=401)
+    _user, org = res
+    rows = db.coverage(org["id"])
+    for r in rows:
+        r["pct"] = round(100 * r["n_eval"] / r["n_total"]) if r["n_total"] else 0
+    return JSONResponse(rows)
+
+
+async def api_coverage_criteria(request: Request) -> JSONResponse:
+    res = _connected_org(request)
+    if not res:
+        return JSONResponse({"error": "authentification requise"}, status_code=401)
+    _user, org = res
+    rows = db.framework_coverage_criteria(org["id"], request.path_params["fw"])
+    flt = request.query_params.get("filter", "all")
+    covered = lambda r: bool(r["status"]) and not r["expired"]
+    if flt == "evaluated":
+        rows = [r for r in rows if covered(r)]
+    elif flt == "unevaluated":
+        rows = [r for r in rows if not covered(r)]
+    return JSONResponse(rows)
+
+
+async def api_evaluation_set(request: Request) -> JSONResponse:
+    res = _connected_org(request)
+    if not res:
+        return JSONResponse({"error": "authentification requise"}, status_code=401)
+    _user, org = res
+    body = await request.json()
+    if body.get("status") not in VALID_STATUS:
+        return JSONResponse({"error": "statut invalide"}, status_code=400)
+    db.set_manual_evaluation(org["id"], body.get("framework_criterion_id"),
+                             body["status"], body.get("interpretation"))
+    return JSONResponse({"ok": True})
+
+
+async def api_evaluation_delete(request: Request) -> JSONResponse:
+    res = _connected_org(request)
+    if not res:
+        return JSONResponse({"error": "authentification requise"}, status_code=401)
+    _user, org = res
+    db.delete_manual_evaluation(org["id"], request.path_params["fc_id"])
+    return JSONResponse({"ok": True})
+
+
 # ── Authentification par jeton d'organisation (legacy / MCP) ─────────────────
 
 async def api_login(request: Request) -> JSONResponse:
@@ -432,6 +482,10 @@ routes = [
     Route("/api/documents", api_documents_list),
     Route("/api/documents/{id}/status", api_document_status),
     Route("/api/documents/{id}", api_document_delete, methods=["DELETE"]),
+    Route("/api/coverage", api_coverage),
+    Route("/api/coverage/{fw}/criteria", api_coverage_criteria),
+    Route("/api/evaluations", api_evaluation_set, methods=["POST"]),
+    Route("/api/evaluations/{fc_id}", api_evaluation_delete, methods=["DELETE"]),
     Route("/api/doc-types", api_doc_types),
     Route("/api/doc-types/{slug}/frameworks", api_doc_type_frameworks),
     Route("/api/doc-types/{slug}/frameworks/{fw}/criteria", api_doc_type_criteria),

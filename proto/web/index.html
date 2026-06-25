@@ -258,6 +258,7 @@
   <button data-tab="assess">Auto-évaluation</button>
   <button data-tab="doctypes">Types de docs</button>
   <button data-tab="mydocs">Mes documents</button>
+  <button data-tab="coverage">Couverture</button>
   <button data-tab="ingest" style="margin-left:auto;color:var(--accent)">+ Digitaliser</button>
 </nav>
 <main>
@@ -428,6 +429,18 @@
     </div>
   </section>
 
+  <!-- ── Couverture ── -->
+  <section id="coverage">
+    <h2>Couverture des référentiels</h2>
+    <p class="hint">Taux de critères évalués par référentiel à partir de vos documents. Cliquez un
+      référentiel pour voir le détail, filtrer, et compléter manuellement les critères non couverts.</p>
+    <div id="cov-gate"></div>
+    <div id="cov-app" style="display:none">
+      <div id="cov-dash"></div>
+      <div id="cov-detail"></div>
+    </div>
+  </section>
+
   <!-- ── Types de documents ── -->
   <section id="doctypes">
     <h2>Types de documents</h2>
@@ -458,6 +471,7 @@ $$('nav button').forEach(b=>b.onclick=()=>{
   if(b.dataset.tab==='fsi' && !FSILOADED){FSILOADED=true;loadFSI();}
   if(b.dataset.tab==='doctypes' && !DOCTYPESLOADED){DOCTYPESLOADED=true;loadDocTypes();}
   if(b.dataset.tab==='mydocs'){refreshMyDocs();}
+  if(b.dataset.tab==='coverage'){refreshCoverage();}
 });
 
 // chargement référentiels
@@ -761,6 +775,72 @@ $('#md-upload').onclick=async()=>{
 };
 
 window.deleteDoc=async(id)=>{ await authedFetch('/api/documents/'+id,{method:'DELETE'}); loadMyDocs(); };
+
+// ── Couverture (mode connecté) ───────────────────────────────────────────────
+let COV_FW=null, COV_FILTER='all';
+
+async function refreshCoverage(){
+  const gate=$('#cov-gate'), app=$('#cov-app');
+  if(!AUTH_USER){
+    app.style.display='none';
+    gate.innerHTML='<p class="muted" style="padding:8px 0">Connectez-vous pour visualiser votre couverture. '
+      +'<a class="code" style="cursor:pointer" onclick="openAuth()">Se connecter →</a></p>';
+    return;
+  }
+  gate.innerHTML=''; app.style.display='block';
+  loadCoverage();
+}
+
+async function loadCoverage(){
+  const out=$('#cov-dash');
+  let rows;
+  try{ rows=await (await authedFetch('/api/coverage')).json(); }
+  catch(e){ out.innerHTML='<p class="muted">Erreur de chargement.</p>'; return; }
+  if(!Array.isArray(rows)){ out.innerHTML='<p class="muted">Erreur de chargement.</p>'; return; }
+  out.innerHTML='<table><thead><tr><th>Référentiel</th><th>Couverture</th><th>%</th></tr></thead><tbody>'
+    +rows.map(r=>`<tr class="c-onlyrow" onclick="openCoverageFw('${escA(r.slug)}')">
+      <td>${esc(r.title)}</td>
+      <td><span class="bar" style="display:inline-block;width:150px;vertical-align:middle"><i style="width:${r.pct}%"></i></span>
+          <span class="muted" style="font-size:11px;margin-left:6px">${r.n_eval}/${r.n_total}</span></td>
+      <td><b>${r.pct}%</b></td></tr>`).join('')+'</tbody></table>';
+}
+
+window.openCoverageFw=(slug)=>{ COV_FW=slug; COV_FILTER='all'; renderCoverageDetail(); };
+window.setCovFilter=(f)=>{ COV_FILTER=f; renderCoverageDetail(); };
+
+async function renderCoverageDetail(){
+  const out=$('#cov-detail'); if(!COV_FW){ out.innerHTML=''; return; }
+  out.innerHTML='<p class="spin" style="padding:10px 0">Chargement…</p>';
+  const rows=await (await authedFetch('/api/coverage/'+encodeURIComponent(COV_FW)+'/criteria?filter='+COV_FILTER)).json();
+  const tab=(f,l)=>`<button class="au-btn" style="${COV_FILTER===f?'border-color:var(--accent);color:var(--accent)':''}" onclick="setCovFilter('${f}')">${l}</button>`;
+  const opts=['conforme','partiel','non_conforme','non_applicable'];
+  let h=`<div class="row" style="margin:16px 0 8px;gap:6px"><b style="margin-right:8px">${esc(COV_FW)}</b>${tab('all','Tous')}${tab('evaluated','Évalués')}${tab('unevaluated','Non évalués')}</div>`;
+  if(!Array.isArray(rows) || !rows.length){ out.innerHTML=h+'<p class="muted">Aucun critère pour ce filtre.</p>'; return; }
+  h+='<table><thead><tr><th>Réf.</th><th>Critère</th><th>Statut</th><th>Interprétation</th><th>Saisie manuelle</th></tr></thead><tbody>';
+  rows.forEach(r=>{
+    const st=r.status
+      ? `<span class="pill s-${r.status}">${esc(r.status)}${r.expired?' · expiré':''}</span>`
+        +(r.source==='document'?`<div class="muted" style="font-size:10px">doc : ${esc(r.doc_filename||'')}</div>`
+          :r.source==='manual'?'<div class="muted" style="font-size:10px">manuel</div>':'')
+      : '<span class="muted">—</span>';
+    h+=`<tr>
+      <td class="code">${esc(r.reference||'—')}</td>
+      <td style="font-size:12px">${esc((r.label||'').slice(0,90))}</td>
+      <td>${st}</td>
+      <td style="font-size:11px;color:var(--muted)">${esc((r.interpretation||'').slice(0,120))}</td>
+      <td><select onchange="manualEval('${r.id}', this.value)">
+        <option value="">— saisir —</option>${opts.map(o=>`<option value="${o}"${r.source==='manual'&&r.status===o?' selected':''}>${o}</option>`).join('')}</select></td>
+    </tr>`;
+  });
+  out.innerHTML=h+'</tbody></table>';
+}
+
+window.manualEval=async(fcId, status)=>{
+  if(!status) return;
+  await authedFetch('/api/evaluations',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({framework_criterion_id:fcId, status})});
+  loadCoverage(); renderCoverageDetail();
+};
 
 // ── FSI — couche d'équivalence ───────────────────────────────────────────────
 let FSILOADED=false;
@@ -1247,6 +1327,7 @@ async function onSession(session){
   }else{ AUTH_USER=null; AUTH_ORG=null; }
   renderAuthbox();
   if(document.querySelector('#mydocs.active') && typeof refreshMyDocs==='function') refreshMyDocs();
+  if(document.querySelector('#coverage.active') && typeof refreshCoverage==='function') refreshCoverage();
 }
 
 // fetch authentifié pour les futurs appels du mode connecté (documents, couverture…)
