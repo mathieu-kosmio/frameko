@@ -257,6 +257,7 @@
   <button data-tab="compare">Comparaison</button>
   <button data-tab="assess">Auto-évaluation</button>
   <button data-tab="doctypes">Types de docs</button>
+  <button data-tab="mydocs">Mes documents</button>
   <button data-tab="ingest" style="margin-left:auto;color:var(--accent)">+ Digitaliser</button>
 </nav>
 <main>
@@ -409,6 +410,24 @@
     </div>
   </section>
 
+  <!-- ── Mes documents ── -->
+  <section id="mydocs">
+    <h2>Mes documents</h2>
+    <p class="hint">Importez un document associé à un type. L'IA évalue les exigences pertinentes des
+      référentiels liés à ce type et détecte une éventuelle date de validité.</p>
+    <div id="md-gate"></div>
+    <div id="md-app" style="display:none">
+      <div class="row">
+        <select id="md-type" style="flex:1;min-width:220px"></select>
+        <input type="file" id="md-file" accept=".pdf,.xlsx,.xls,.csv,.tsv,.txt,.md"
+               style="flex:1;min-width:220px">
+        <button class="go" id="md-upload">Importer</button>
+      </div>
+      <div id="md-msg"></div>
+      <div id="md-list"></div>
+    </div>
+  </section>
+
   <!-- ── Types de documents ── -->
   <section id="doctypes">
     <h2>Types de documents</h2>
@@ -438,6 +457,7 @@ $$('nav button').forEach(b=>b.onclick=()=>{
   $$('section').forEach(s=>s.classList.remove('active'));$('#'+b.dataset.tab).classList.add('active');
   if(b.dataset.tab==='fsi' && !FSILOADED){FSILOADED=true;loadFSI();}
   if(b.dataset.tab==='doctypes' && !DOCTYPESLOADED){DOCTYPESLOADED=true;loadDocTypes();}
+  if(b.dataset.tab==='mydocs'){refreshMyDocs();}
 });
 
 // chargement référentiels
@@ -683,6 +703,64 @@ window.selectDocFramework=async(fw)=>{
   </div>`).join('');
   out.innerHTML=h; out.scrollIntoView({behavior:'smooth',block:'nearest'});
 };
+
+// ── Mes documents (mode connecté) ────────────────────────────────────────────
+let MD_TYPES_LOADED=false, MD_POLL=null;
+
+async function refreshMyDocs(){
+  const gate=$('#md-gate'), app=$('#md-app');
+  if(!AUTH_USER){
+    app.style.display='none'; stopPoll();
+    gate.innerHTML='<p class="muted" style="padding:8px 0">Connectez-vous pour importer et suivre vos documents. '
+      +'<a class="code" style="cursor:pointer" onclick="openAuth()">Se connecter →</a></p>';
+    return;
+  }
+  gate.innerHTML=''; app.style.display='block';
+  if(!MD_TYPES_LOADED){
+    const types=await api('/api/doc-types');
+    $('#md-type').innerHTML=types.map(t=>`<option value="${escA(t.slug)}">${esc(t.label_fr)}</option>`).join('');
+    MD_TYPES_LOADED=true;
+  }
+  loadMyDocs();
+}
+
+async function loadMyDocs(){
+  const out=$('#md-list');
+  let docs;
+  try{ docs=await (await authedFetch('/api/documents')).json(); }
+  catch(e){ out.innerHTML='<p class="muted">Erreur de chargement.</p>'; return; }
+  if(!Array.isArray(docs) || !docs.length){
+    out.innerHTML='<p class="muted" style="padding:8px 0">Aucun document importé pour le moment.</p>'; stopPoll(); return; }
+  const badge={done:'s-conforme',running:'s-partiel',pending:'s-partiel',error:'s-non_conforme'};
+  const lab={done:'analysé',running:'analyse…',pending:'en attente',error:'erreur'};
+  out.innerHTML='<table><thead><tr><th>Type</th><th>Fichier</th><th>Statut</th><th>Validité</th><th>Éval.</th><th></th></tr></thead><tbody>'
+    +docs.map(d=>`<tr>
+      <td>${esc(d.type_label)}</td>
+      <td>${esc(d.filename)}</td>
+      <td><span class="pill ${badge[d.analysis_status]||'s-non_repondu'}">${lab[d.analysis_status]||d.analysis_status}</span></td>
+      <td>${d.valid_until?(d.expired?`<span class="pill s-non_conforme">expiré · ${esc(d.valid_until)}</span>`:esc(d.valid_until)):'<span class="muted">—</span>'}</td>
+      <td>${d.n_eval}</td>
+      <td><span class="cc-link" onclick="deleteDoc('${d.id}')">supprimer</span></td>
+    </tr>`).join('')+'</tbody></table>';
+  if(docs.some(d=>d.analysis_status==='pending'||d.analysis_status==='running')) startPoll(); else stopPoll();
+}
+function startPoll(){ if(!MD_POLL) MD_POLL=setInterval(loadMyDocs, 4000); }
+function stopPoll(){ if(MD_POLL){ clearInterval(MD_POLL); MD_POLL=null; } }
+
+$('#md-upload').onclick=async()=>{
+  const f=$('#md-file').files[0], type=$('#md-type').value, msg=$('#md-msg');
+  if(!f){ msg.className='msg-err'; msg.textContent='Choisissez un fichier.'; return; }
+  msg.className='spin'; msg.textContent='Import et lancement de l\'analyse…';
+  const fd=new FormData(); fd.append('evidence_type', type); fd.append('file', f);
+  try{
+    const d=await (await authedFetch('/api/documents',{method:'POST', body:fd})).json();
+    if(d.error){ msg.className='msg-err'; msg.textContent=d.error; return; }
+    msg.className='msg-ok'; msg.textContent='Document importé — analyse en cours.';
+    $('#md-file').value=''; loadMyDocs();
+  }catch(e){ msg.className='msg-err'; msg.textContent=String(e); }
+};
+
+window.deleteDoc=async(id)=>{ await authedFetch('/api/documents/'+id,{method:'DELETE'}); loadMyDocs(); };
 
 // ── FSI — couche d'équivalence ───────────────────────────────────────────────
 let FSILOADED=false;
@@ -1168,6 +1246,7 @@ async function onSession(session){
     AUTH_USER=me.user; AUTH_ORG=me.org;
   }else{ AUTH_USER=null; AUTH_ORG=null; }
   renderAuthbox();
+  if(document.querySelector('#mydocs.active') && typeof refreshMyDocs==='function') refreshMyDocs();
 }
 
 // fetch authentifié pour les futurs appels du mode connecté (documents, couverture…)

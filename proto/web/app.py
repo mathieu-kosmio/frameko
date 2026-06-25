@@ -26,10 +26,12 @@ from starlette.routing import Route
 PROTO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROTO))
 
-from mcp_server import auth, db, ingest  # noqa: E402
+from mcp_server import auth, db, ingest, storage, analyze  # noqa: E402
 from mcp_server.embeddings import embed_one, to_pgvector  # noqa: E402
 
 import tempfile  # noqa: E402
+import threading  # noqa: E402
+import uuid  # noqa: E402
 
 WEB = Path(__file__).resolve().parent
 VALID_STATUS = {"conforme", "partiel", "non_conforme", "non_applicable"}
@@ -266,6 +268,85 @@ async def api_auth_me(request: Request) -> JSONResponse:
     return JSONResponse({"user": {"id": user["sub"], "email": user.get("email")}, "org": org})
 
 
+# ── Documents (mode connecté) : upload + analyse IA, liste, statut, suppression ─
+
+_DOC_SUFFIXES = {".pdf", ".xlsx", ".xls", ".csv", ".tsv", ".txt", ".md"}
+
+
+async def api_documents_create(request: Request) -> JSONResponse:
+    res = _connected_org(request)
+    if not res:
+        return JSONResponse({"error": "authentification requise"}, status_code=401)
+    _user, org = res
+    form = await request.form()
+    upload = form.get("file")
+    evidence = form.get("evidence_type")
+    if upload is None or not evidence:
+        return JSONResponse({"error": "fichier et type de document requis"}, status_code=400)
+    if not db.query_one("select 1 from evidence_type where slug = %s", (evidence,)):
+        return JSONResponse({"error": "type de document inconnu"}, status_code=400)
+    data = await upload.read()
+    filename = upload.filename or "document"
+    mime = getattr(upload, "content_type", None) or "application/octet-stream"
+    suffix = Path(filename).suffix.lower()
+
+    # Extraction du texte brut (best-effort) pour l'analyse IA.
+    text = ""
+    if suffix in _DOC_SUFFIXES:
+        with tempfile.NamedTemporaryFile(suffix=suffix, delete=True) as tmp:
+            tmp.write(data)
+            tmp.flush()
+            text = analyze.extract_text(Path(tmp.name))
+
+    doc_id = str(uuid.uuid4())
+    storage_key = f"{org['id']}/{doc_id}{suffix}"
+    try:
+        storage.upload(storage_key, data, mime)
+    except Exception as exc:
+        return JSONResponse({"error": f"upload impossible : {exc}"}, status_code=502)
+    db.create_document(doc_id, org["id"], evidence, filename, storage_key, mime,
+                       len(data), _user["sub"], text[:200000])
+    # Analyse IA en tâche de fond (le front poll le statut).
+    threading.Thread(target=analyze.evaluate_document,
+                     args=(doc_id, org["id"], evidence, text), daemon=True).start()
+    return JSONResponse({"id": doc_id, "analysis_status": "pending"})
+
+
+async def api_documents_list(request: Request) -> JSONResponse:
+    res = _connected_org(request)
+    if not res:
+        return JSONResponse({"error": "authentification requise"}, status_code=401)
+    _user, org = res
+    return JSONResponse(db.list_documents(org["id"]))
+
+
+async def api_document_status(request: Request) -> JSONResponse:
+    res = _connected_org(request)
+    if not res:
+        return JSONResponse({"error": "authentification requise"}, status_code=401)
+    _user, org = res
+    doc = db.get_document(request.path_params["id"], org["id"])
+    if not doc:
+        return JSONResponse({"error": "introuvable"}, status_code=404)
+    return JSONResponse({"id": doc["id"], "analysis_status": doc["analysis_status"],
+                         "analysis_error": doc["analysis_error"], "valid_until": doc["valid_until"]})
+
+
+async def api_document_delete(request: Request) -> JSONResponse:
+    res = _connected_org(request)
+    if not res:
+        return JSONResponse({"error": "authentification requise"}, status_code=401)
+    _user, org = res
+    key = db.delete_document(request.path_params["id"], org["id"])
+    if key is None:
+        return JSONResponse({"error": "introuvable"}, status_code=404)
+    try:
+        storage.remove(key)
+    except Exception:
+        pass
+    return JSONResponse({"ok": True})
+
+
 # ── Authentification par jeton d'organisation (legacy / MCP) ─────────────────
 
 async def api_login(request: Request) -> JSONResponse:
@@ -347,6 +428,10 @@ routes = [
     Route("/api/ingest/apply", api_ingest_apply, methods=["POST"]),
     Route("/api/config", api_config),
     Route("/api/auth/me", api_auth_me),
+    Route("/api/documents", api_documents_create, methods=["POST"]),
+    Route("/api/documents", api_documents_list),
+    Route("/api/documents/{id}/status", api_document_status),
+    Route("/api/documents/{id}", api_document_delete, methods=["DELETE"]),
     Route("/api/doc-types", api_doc_types),
     Route("/api/doc-types/{slug}/frameworks", api_doc_type_frameworks),
     Route("/api/doc-types/{slug}/frameworks/{fw}/criteria", api_doc_type_criteria),

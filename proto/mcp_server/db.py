@@ -68,7 +68,11 @@ def _open_pool(label: str, dsn: str, *, autocommit: bool, min_size: int) -> Conn
     l'erreur réseau IPv6/pooler en message actionnable."""
     print(f"[frameko/db] pool '{label}' → {_host_hint(dsn)} (pooler={'on' if _use_pooler() else 'off'})",
           file=sys.stderr, flush=True)
+    # check : le pooler Supabase ferme les connexions inactives ; on valide donc
+    # chaque connexion avant de la prêter (reconnexion transparente) — utile pour
+    # les traitements longs (analyse IA d'un document entre deux appels LLM).
     pool = ConnectionPool(dsn, min_size=min_size, max_size=8, open=False,
+                          check=ConnectionPool.check_connection,
                           kwargs={"row_factory": dict_row, "autocommit": autocommit})
     try:
         pool.open(wait=True, timeout=15)
@@ -263,6 +267,105 @@ def org_for_user(user_id: str, email: str | None) -> dict:
         (org["id"], user_id, email),
     )
     return org
+
+
+# ── Documents & évaluations (mode connecté ; pool admin + scoping org_id) ────
+# Note : ces tables ont une RLS adossée à app.current_org_id (défense en
+# profondeur), mais le mode connecté y accède via le pool admin en filtrant
+# TOUJOURS explicitement par org_id (issu du JWT vérifié, jamais du client).
+
+def execute(sql: str, params: tuple = ()) -> int:
+    with _admin().connection() as conn, conn.cursor() as cur:
+        cur.execute(sql, params)
+        return cur.rowcount
+
+
+def executemany(sql: str, rows: list) -> int:
+    rows = list(rows)
+    if not rows:
+        return 0
+    with _admin().connection() as conn, conn.cursor() as cur:
+        cur.executemany(sql, rows)
+        return cur.rowcount
+
+
+def create_document(doc_id, org_id, evidence_slug, filename, storage_key,
+                    mime, size, uploaded_by, extracted_text) -> None:
+    execute(
+        "insert into document (id, org_id, evidence_type_id, filename, storage_key,"
+        "   mime, size_bytes, uploaded_by, extracted_text, analysis_status)"
+        " select %s, %s, et.id, %s, %s, %s, %s, %s, %s, 'pending'"
+        " from evidence_type et where et.slug = %s",
+        (doc_id, org_id, filename, storage_key, mime, size, uploaded_by,
+         extracted_text, evidence_slug),
+    )
+
+
+def set_document_analysis(doc_id, org_id, status, valid_until=None, error=None) -> None:
+    execute(
+        "update document set analysis_status = %s, valid_until = %s, analysis_error = %s"
+        " where id = %s and org_id = %s",
+        (status, valid_until, error, doc_id, org_id),
+    )
+
+
+def list_documents(org_id) -> list[dict]:
+    return query(
+        "select d.id::text as id, d.filename, d.mime, d.size_bytes,"
+        "       d.uploaded_at::text as uploaded_at, d.valid_until::text as valid_until,"
+        "       d.analysis_status, d.analysis_error,"
+        "       et.slug as type_slug, et.label_fr as type_label,"
+        "       (d.valid_until is not null and d.valid_until < current_date) as expired,"
+        "       (select count(*) from evaluation e where e.document_id = d.id) as n_eval"
+        " from document d join evidence_type et on et.id = d.evidence_type_id"
+        " where d.org_id = %s order by d.uploaded_at desc",
+        (org_id,),
+    )
+
+
+def get_document(doc_id, org_id) -> dict | None:
+    return query_one(
+        "select d.id::text as id, d.filename, d.storage_key, d.analysis_status,"
+        "       d.analysis_error, d.valid_until::text as valid_until, et.slug as type_slug"
+        " from document d join evidence_type et on et.id = d.evidence_type_id"
+        " where d.id = %s and d.org_id = %s",
+        (doc_id, org_id),
+    )
+
+
+def delete_document(doc_id, org_id) -> str | None:
+    """Supprime le document (les évaluations liées partent en cascade) et
+    renvoie sa storage_key pour suppression du fichier."""
+    row = query_one(
+        "delete from document where id = %s and org_id = %s returning storage_key",
+        (doc_id, org_id),
+    )
+    return row["storage_key"] if row else None
+
+
+def evidence_candidates(slug, vec_literal, limit=25) -> list[dict]:
+    """Top-N exigences (tous référentiels) attendant ce type de document, les
+    plus proches sémantiquement du texte du document (pré-filtrage pgvector)."""
+    return query(
+        "select fc.id::text as id, fc.framework_slug, fc.reference, fc.label,"
+        "       1 - (fc.embedding <=> %s::vector) as sim"
+        " from evidence_type et"
+        " join criterion_evidence ce on ce.evidence_type_id = et.id"
+        " join framework_criterion fc on fc.id = ce.framework_criterion_id"
+        " where et.slug = %s and fc.embedding is not null"
+        " order by fc.embedding <=> %s::vector limit %s",
+        (vec_literal, slug, vec_literal, limit),
+    )
+
+
+def insert_evaluations(org_id, doc_id, rows) -> int:
+    """rows = [(framework_criterion_id, status, interpretation, confidence)]."""
+    return executemany(
+        "insert into evaluation (org_id, framework_criterion_id, status,"
+        "   interpretation, source, document_id, confidence)"
+        " values (%s, %s, %s, %s, 'document', %s, %s)",
+        [(org_id, r[0], r[1], r[2], doc_id, r[3]) for r in rows],
+    )
 
 
 def common_criterion_detail(code: str) -> dict | None:
