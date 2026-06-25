@@ -236,7 +236,29 @@ async def api_ingest_apply(request: Request) -> JSONResponse:
     return JSONResponse(result)
 
 
-# ── Authentification par jeton d'organisation ───────────────────────────────
+# ── Mode connecté : identité Supabase (JWT) → organisation ──────────────────
+
+def _connected_org(request: Request) -> tuple[dict, dict] | None:
+    """(user, org) si le Bearer JWT Supabase est valide (org provisionnée au
+    besoin), sinon None. Ne lève pas : les appelants renvoient 401 eux-mêmes."""
+    try:
+        claims = auth.verify_supabase_jwt(auth.bearer_token(request.headers.get("authorization")))
+    except auth.AuthError:
+        return None
+    org = db.org_for_user(claims["sub"], claims.get("email"))
+    return claims, org
+
+
+async def api_auth_me(request: Request) -> JSONResponse:
+    """État de connexion du mode « documents » : utilisateur + organisation."""
+    res = _connected_org(request)
+    if not res:
+        return JSONResponse({"user": None, "org": None})
+    user, org = res
+    return JSONResponse({"user": {"id": user["sub"], "email": user.get("email")}, "org": org})
+
+
+# ── Authentification par jeton d'organisation (legacy / MCP) ─────────────────
 
 async def api_login(request: Request) -> JSONResponse:
     body = await request.json()
@@ -315,6 +337,7 @@ routes = [
     Route("/api/ingest/extract", api_ingest_extract, methods=["POST"]),
     Route("/api/ingest/propose", api_ingest_propose, methods=["POST"]),
     Route("/api/ingest/apply", api_ingest_apply, methods=["POST"]),
+    Route("/api/auth/me", api_auth_me),
     Route("/api/doc-types", api_doc_types),
     Route("/api/doc-types/{slug}/frameworks", api_doc_type_frameworks),
     Route("/api/doc-types/{slug}/frameworks/{fw}/criteria", api_doc_type_criteria),

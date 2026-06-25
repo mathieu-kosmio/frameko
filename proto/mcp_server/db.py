@@ -236,6 +236,35 @@ def doc_type_framework_criteria(slug: str, framework: str) -> list[dict]:
     )
 
 
+# ── Mode connecté : organisation d'un utilisateur Supabase ──────────────────
+
+def org_for_user(user_id: str, email: str | None) -> dict:
+    """Organisation de l'utilisateur (via org_member) ; en crée une « perso » au
+    premier accès et y rattache l'utilisateur comme owner. Écritures via le pool
+    admin (BYPASSRLS) car il n'y a pas encore de contexte d'org à ce stade."""
+    row = query_one(
+        "select o.id::text as id, o.slug, o.name from org_member m"
+        " join org o on o.id = m.org_id where m.user_id = %s order by m.created_at limit 1",
+        (user_id,),
+    )
+    if row:
+        return row
+    base = (email or "user").split("@")[0].lower()
+    base = "".join(c if c.isalnum() or c == "-" else "-" for c in base).strip("-") or "user"
+    slug = f"{base}-{user_id[:8]}"
+    org = query_one(
+        "insert into org (slug, name, created_by) values (%s, %s, %s)"
+        " returning id::text as id, slug, name",
+        (slug, email or slug, user_id),
+    )
+    query(
+        "insert into org_member (org_id, user_id, email, role)"
+        " values (%s, %s, %s, 'owner') returning id",
+        (org["id"], user_id, email),
+    )
+    return org
+
+
 def common_criterion_detail(code: str) -> dict | None:
     """Un critère commun (par code) + toutes les exigences des référentiels qui y
     sont rattachées, tous référentiels confondus — pour « déplier » un critère
