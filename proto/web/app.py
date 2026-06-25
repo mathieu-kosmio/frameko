@@ -249,6 +249,14 @@ def _connected_org(request: Request) -> tuple[dict, dict] | None:
     return claims, org
 
 
+async def api_config(request: Request) -> JSONResponse:
+    """Config publique pour le client Supabase JS (clé publishable = exposable)."""
+    return JSONResponse({
+        "supabaseUrl": os.environ.get("SUPABASE_URL", ""),
+        "supabaseAnonKey": os.environ.get("SUPABASE_PUBLISHABLE_KEY", ""),
+    }, headers=_NOCACHE)
+
+
 async def api_auth_me(request: Request) -> JSONResponse:
     """État de connexion du mode « documents » : utilisateur + organisation."""
     res = _connected_org(request)
@@ -337,6 +345,7 @@ routes = [
     Route("/api/ingest/extract", api_ingest_extract, methods=["POST"]),
     Route("/api/ingest/propose", api_ingest_propose, methods=["POST"]),
     Route("/api/ingest/apply", api_ingest_apply, methods=["POST"]),
+    Route("/api/config", api_config),
     Route("/api/auth/me", api_auth_me),
     Route("/api/doc-types", api_doc_types),
     Route("/api/doc-types/{slug}/frameworks", api_doc_type_frameworks),

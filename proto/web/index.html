@@ -206,6 +206,24 @@
     .card.q-hit:hover{transform:none}
     .pair-cc.flash{animation:none;box-shadow:0 0 0 2px var(--accent)}
   }
+  /* Auth (mode connecté) */
+  #authbox{display:flex;align-items:center;gap:8px;font-size:13px}
+  #authbox .au-mail{color:var(--text)} #authbox .au-org{color:var(--muted)}
+  .au-btn{cursor:pointer;border:1px solid var(--line);border-radius:7px;padding:5px 12px;
+    color:var(--accent);background:none;font-size:13px}
+  .au-btn:hover{border-color:var(--accent)}
+  .auth-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;
+    align-items:center;justify-content:center;z-index:200}
+  .auth-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;width:320px;display:flex;flex-direction:column;gap:10px}
+  .auth-head{display:flex;justify-content:space-between;align-items:center;font-size:15px}
+  .auth-x{cursor:pointer;color:var(--muted)} .auth-x:hover{color:var(--text)}
+  .auth-card input{background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:10px 12px;border-radius:8px;font-size:14px;outline:none}
+  .auth-card input:focus{border-color:var(--accent2)}
+  .auth-msg{font-size:12px;min-height:14px} .auth-msg.err{color:var(--bad)} .auth-msg.ok{color:var(--accent)}
+  .auth-alt{font-size:12px;color:var(--muted);text-align:center}
+  .auth-alt a{color:var(--accent2);cursor:pointer}
 </style>
 </head>
 <body>
@@ -214,7 +232,23 @@
   <span class="sub" id="hdr-stats">Socle commun · 51 critères communs</span>
   <a class="doc" href="/">← Accueil</a>
   <a class="doc" href="/docs" target="_blank" rel="noopener">Documentation ↗</a>
+  <span id="authbox"></span>
 </header>
+
+<!-- ── Connexion (mode documents) ── -->
+<div id="auth-modal" class="auth-modal" style="display:none">
+  <div class="auth-card">
+    <div class="auth-head"><b id="auth-title">Se connecter</b>
+      <span class="auth-x" onclick="closeAuth()">✕</span></div>
+    <input type="email" id="auth-email" placeholder="email" autocomplete="email">
+    <input type="password" id="auth-pwd" placeholder="mot de passe" autocomplete="current-password">
+    <div id="auth-msg" class="auth-msg"></div>
+    <button class="go" id="auth-submit" style="width:100%">Se connecter</button>
+    <div class="auth-alt">
+      <span id="auth-toggle"></span>
+    </div>
+  </div>
+</div>
 <nav>
   <button data-tab="search" class="active">Recherche</button>
   <button data-tab="browse">Référentiel</button>
@@ -1112,6 +1146,82 @@ async function refresh(){
       <span class="pill s-non_repondu">non répondu ${r.non_repondu}</span>
     </div></div>`;
 }
+
+// ── Authentification Supabase (mode connecté « documents ») ──────────────────
+let SB=null, AUTH_USER=null, AUTH_ORG=null, AUTH_MODE='login';
+
+async function initAuth(){
+  try{
+    const cfg=await api('/api/config');
+    if(!cfg.supabaseUrl || !cfg.supabaseAnonKey){renderAuthbox();return;}
+    const { createClient }=await import('https://esm.sh/@supabase/supabase-js@2');
+    SB=createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {auth:{persistSession:true, autoRefreshToken:true}});
+    SB.auth.onAuthStateChange((_e,session)=>onSession(session));
+    const { data }=await SB.auth.getSession();
+    onSession(data.session);
+  }catch(e){ console.warn('auth init', e); renderAuthbox(); }
+}
+
+async function onSession(session){
+  if(session && session.access_token){
+    const me=await api('/api/auth/me',{headers:{Authorization:'Bearer '+session.access_token}});
+    AUTH_USER=me.user; AUTH_ORG=me.org;
+  }else{ AUTH_USER=null; AUTH_ORG=null; }
+  renderAuthbox();
+}
+
+// fetch authentifié pour les futurs appels du mode connecté (documents, couverture…)
+async function authedFetch(url, opts={}){
+  let t=null;
+  if(SB){ const { data }=await SB.auth.getSession(); t=data.session && data.session.access_token; }
+  const headers=Object.assign({}, opts.headers||{}, t?{Authorization:'Bearer '+t}:{});
+  return fetch(url, Object.assign({}, opts, {headers}));
+}
+
+function renderAuthbox(){
+  const box=$('#authbox'); if(!box)return;
+  if(AUTH_USER){
+    const orgName=AUTH_ORG?(AUTH_ORG.name||AUTH_ORG.slug):'';
+    box.innerHTML=`<span class="au-mail">${esc(AUTH_USER.email||'')}</span>`
+      +(orgName && orgName!==AUTH_USER.email?`<span class="au-org">· ${esc(orgName)}</span>`:'')
+      +`<button class="au-btn" onclick="signOut()">Déconnexion</button>`;
+  }else{
+    box.innerHTML='<button class="au-btn" onclick="openAuth()">Se connecter</button>';
+  }
+}
+
+window.openAuth=()=>{ AUTH_MODE='login'; const m=$('#auth-msg'); m.textContent=''; m.className='auth-msg';
+  $('#auth-modal').style.display='flex'; renderAuthMode(); $('#auth-email').focus(); };
+window.closeAuth=()=>{ $('#auth-modal').style.display='none'; };
+window.setAuthMode=(mode)=>{ AUTH_MODE=mode; $('#auth-msg').textContent=''; $('#auth-msg').className='auth-msg'; renderAuthMode(); };
+function renderAuthMode(){
+  const login=AUTH_MODE==='login';
+  $('#auth-title').textContent=login?'Se connecter':'Créer un compte';
+  $('#auth-submit').textContent=login?'Se connecter':'Créer le compte';
+  $('#auth-toggle').innerHTML=login
+    ? 'Pas de compte ? <a onclick="setAuthMode(\'signup\')">Créer un compte</a>'
+    : 'Déjà un compte ? <a onclick="setAuthMode(\'login\')">Se connecter</a>';
+}
+
+$('#auth-submit').onclick=async()=>{
+  const email=$('#auth-email').value.trim(), pwd=$('#auth-pwd').value, msg=$('#auth-msg');
+  msg.className='auth-msg'; msg.textContent='…';
+  if(!SB){ msg.className='auth-msg err'; msg.textContent='Authentification indisponible.'; return; }
+  try{
+    const res = AUTH_MODE==='login'
+      ? await SB.auth.signInWithPassword({email, password:pwd})
+      : await SB.auth.signUp({email, password:pwd});
+    if(res.error){ msg.className='auth-msg err'; msg.textContent=res.error.message; return; }
+    if(AUTH_MODE==='signup' && !res.data.session){
+      msg.className='auth-msg ok'; msg.textContent='Compte créé — confirmez via l\'email reçu, puis connectez-vous.'; return;
+    }
+    closeAuth();   // onAuthStateChange rafraîchit l'UI
+  }catch(e){ msg.className='auth-msg err'; msg.textContent=String(e); }
+};
+
+window.signOut=async()=>{ if(SB){ try{ await SB.auth.signOut(); }catch(e){} } AUTH_USER=null; AUTH_ORG=null; renderAuthbox(); };
+
+initAuth();
 </script>
 </body>
 </html>
