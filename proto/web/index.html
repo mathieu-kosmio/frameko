@@ -153,12 +153,20 @@
   /* Comparaison : compteur cliquable */
   .cc-link{color:var(--accent2);cursor:pointer;font-weight:600;border-bottom:1px dotted transparent;transition:border-color .12s}
   .cc-link:hover{border-bottom-color:var(--accent2)}
-  /* Comparaison : indicateurs commutables + lignes « propres à » cliquables */
-  .cstat{cursor:pointer;transition:border-color .15s,background .15s}
-  .cstat:hover{border-color:var(--accent2)}
-  .cstat.active{border-color:var(--accent);background:rgba(63,185,132,.06)}
+  /* Comparaison & Voisinage : indicateurs commutables + lignes « propres à » cliquables */
+  .cstat,.pstat{cursor:pointer;transition:border-color .15s,background .15s}
+  .cstat:hover,.pstat:hover{border-color:var(--accent2)}
+  .cstat.active,.pstat.active{border-color:var(--accent);background:rgba(63,185,132,.06)}
   tr.c-onlyrow{cursor:pointer}
   tr.c-onlyrow:hover td{background:var(--panel2)}
+  tr.cmp-flash td{animation:critflash 1.9s ease-out}
+  /* Détail d'une ligne « propre à » : tags des référentiels liés */
+  .c-onlydetail td{background:#11161d;padding:10px 14px}
+  .otags{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .ftag{display:inline-block;background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    font-size:12px;padding:3px 10px;border-radius:14px;cursor:pointer;transition:border-color .12s,color .12s}
+  .ftag:hover{border-color:var(--accent);color:var(--accent)}
+  @media(prefers-reduced-motion:reduce){ tr.cmp-flash td{animation:none;background:rgba(63,185,132,.15)} }
   /* Référentiel : critère commun cliquable → recherche */
   .b-cc.cc-open{cursor:pointer}
   .b-cc.cc-open:hover{color:var(--accent2)}
@@ -456,24 +464,44 @@ function drawConstellation(){
       </div>`;
 }
 
+let PAIR=null;   // paire de voisinage courante {a,b,ta,tb,ca,cb,shared,only_a,only_b}
 async function openPair(slug){
   const out=$('#n-detail');
   const a=FRAMEWORKS.find(f=>f.slug===NFOCAL), b=FRAMEWORKS.find(f=>f.slug===slug);
   out.innerHTML='<p class="spin">Chargement de la comparaison…</p>';
   const d=await api(`/api/pair?a=${encodeURIComponent(NFOCAL)}&b=${encodeURIComponent(slug)}`);
   const ca=fwColor(NFOCAL), cb=fwColor(slug);
-  let h=`<div class="pair-head">
+  PAIR={ a:NFOCAL, b:slug, ta:a.title, tb:b.title, ca, cb,
+    shared:d.detail||[], only_a:d.only_a||[], only_b:d.only_b||[] };
+  out.innerHTML=`<div class="pair-head">
     <span style="color:${ca}">${esc(a.title)}</span>
     <span class="muted" style="font-weight:400">↔</span>
     <span style="color:${cb}">${esc(b.title)}</span></div>
     <div class="grid3">
-      <div class="stat"><div class="n" style="color:var(--accent)">${d.summary.communs_partages}</div><div class="l">critères communs partagés</div></div>
-      <div class="stat"><div class="n">${d.summary.seulement_a}</div><div class="l">seulement ${esc(a.slug)}</div></div>
-      <div class="stat"><div class="n">${d.summary.seulement_b}</div><div class="l">seulement ${esc(b.slug)}</div></div>
+      <div class="stat pstat active" data-view="shared" onclick="showPair('shared')"><div class="n" style="color:var(--accent)">${d.summary.communs_partages}</div><div class="l">critères communs partagés</div></div>
+      <div class="stat pstat" data-view="only_a" onclick="showPair('only_a')"><div class="n">${d.summary.seulement_a}</div><div class="l">seulement ${esc(a.slug)}</div></div>
+      <div class="stat pstat" data-view="only_b" onclick="showPair('only_b')"><div class="n">${d.summary.seulement_b}</div><div class="l">seulement ${esc(b.slug)}</div></div>
     </div>
-    <p class="hint" style="margin:14px 0 8px">Critères communs partagés — cliquez un critère pour l'ouvrir dans son référentiel.</p>`;
+    <div id="n-pairdetail"></div>`;
+  showPair('shared');
+  out.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// Bascule la vue d'une paire de voisinage (partagés / propres à A / propres à B).
+window.showPair=(which)=>{
+  if(!PAIR)return;
+  $$('#n-detail .pstat').forEach(el=>el.classList.toggle('active', el.dataset.view===which));
+  const det=$('#n-pairdetail');
+  if(which==='shared') det.innerHTML=pairSharedHTML();
+  else if(which==='only_a') det.innerHTML=renderOnlyTable(PAIR.only_a, PAIR.a, PAIR.ta, PAIR.tb, 'a', 'voisinage');
+  else det.innerHTML=renderOnlyTable(PAIR.only_b, PAIR.b, PAIR.tb, PAIR.ta, 'b', 'voisinage');
+};
+
+function pairSharedHTML(){
+  const {a,b,ca,cb,shared}=PAIR;
+  let h='<p class="hint" style="margin:14px 0 8px">Critères communs partagés — cliquez un critère pour l\'ouvrir dans son référentiel.</p>';
   PEXIG=[];
-  d.detail.forEach((r,i)=>{
+  shared.forEach((r,i)=>{
     const na=(r.a_items||[]).length, nb=(r.b_items||[]).length;
     h+=`<div class="pair-cc" id="pc${i}">
       <div class="cc-h" onclick="document.getElementById('pc${i}').classList.toggle('open')">
@@ -481,12 +509,11 @@ async function openPair(slug){
         <div class="muted" style="font-size:12px;flex-shrink:0">${na} ↔ ${nb} exigences ▾</div>
       </div>
       <div class="cc-b">
-        <div class="side"><div class="sh" style="color:${ca}">${esc(a.slug)} · ${na}</div>${exigList(r.a_items,NFOCAL)}</div>
-        <div class="side"><div class="sh" style="color:${cb}">${esc(b.slug)} · ${nb}</div>${exigList(r.b_items,slug)}</div>
+        <div class="side"><div class="sh" style="color:${ca}">${esc(a)} · ${na}</div>${exigList(r.a_items,a)}</div>
+        <div class="side"><div class="sh" style="color:${cb}">${esc(b)} · ${nb}</div>${exigList(r.b_items,b)}</div>
       </div></div>`;
   });
-  out.innerHTML=h;
-  out.scrollIntoView({behavior:'smooth',block:'nearest'});
+  return h;
 }
 
 function exigList(items,slug){
@@ -878,7 +905,7 @@ window.openCommonInSearch=async(code)=>{
 
 // comparaison
 let CMP=null;   // résultat courant {a,b,ta,tb,shared,only_a,only_b}
-$('#c-go').onclick=async()=>{
+async function runCompare(){
   const a=$('#c-a').value,b=$('#c-b').value,out=$('#c-out');
   if(a===b){out.innerHTML='<p class="muted">Choisissez deux référentiels différents.</p>';return}
   out.innerHTML='<p class="spin">Calcul…</p>';
@@ -900,7 +927,8 @@ $('#c-go').onclick=async()=>{
   </div>
   <div id="c-detail"></div>`;
   showCompare('shared');
-};
+}
+$('#c-go').onclick=runCompare;
 
 // Bascule la vue de comparaison (partagés / propres à A / propres à B).
 window.showCompare=(which)=>{
@@ -915,7 +943,7 @@ function compareSharedTable(){
   let h=`<p class="hint" style="margin:14px 0 6px">Critères communs couverts par les <b style="color:var(--text)">deux</b> référentiels. Cliquez un compteur pour voir les critères dans un référentiel, ou « ↔ voisinage » pour la comparaison exigence par exigence.</p>
   <table><thead><tr><th>Critère commun</th><th>Thème</th><th>${esc(a)}</th><th>${esc(b)}</th><th></th></tr></thead><tbody>`;
   shared.forEach(r=>{const cc=escA(r.common_code);
-   h+=`<tr><td><span class="code">${r.common_code}</span> ${esc(r.common_label)}</td>
+   h+=`<tr data-code="${cc}"><td><span class="code">${r.common_code}</span> ${esc(r.common_label)}</td>
    <td class="theme">${esc(r.theme_slug||'')}</td>
    <td><span class="cc-link" onclick="gotoCommon('${esc(a)}','${cc}')" title="Voir dans ${esc(a)}">${r.count_a}</span></td>
    <td><span class="cc-link" onclick="gotoCommon('${esc(b)}','${cc}')" title="Voir dans ${esc(b)}">${r.count_b}</span></td>
@@ -925,18 +953,64 @@ function compareSharedTable(){
 
 function compareOnlyTable(which){
   const onlyA=which==='only_a';
-  const only=onlyA?CMP.only_a:CMP.only_b, fw=onlyA?CMP.a:CMP.b, fwTitle=onlyA?CMP.ta:CMP.tb;
-  if(!only.length)return `<p class="muted" style="padding:8px 0">Aucun critère commun propre à ${esc(fwTitle)}.</p>`;
-  let h=`<p class="hint" style="margin:14px 0 6px">Critères communs couverts par <b style="color:var(--text)">${esc(fwTitle)}</b> et <b>absents</b> de l'autre référentiel. Cliquez un critère pour le voir dans le référentiel.</p>
-  <table><thead><tr><th>Critère commun</th><th>Thème</th><th>${esc(fw)}</th><th></th></tr></thead><tbody>`;
-  only.forEach(r=>{const cc=escA(r.common_code), n=onlyA?r.count_a:r.count_b;
-   h+=`<tr class="c-onlyrow" onclick="gotoCommon('${esc(fw)}','${cc}')" title="Voir dans ${esc(fw)}">
+  return renderOnlyTable(onlyA?CMP.only_a:CMP.only_b, onlyA?CMP.a:CMP.b,
+    onlyA?CMP.ta:CMP.tb, onlyA?CMP.tb:CMP.ta, onlyA?'a':'b', 'compare');
+}
+
+// Tableau des critères communs propres à un référentiel (partagé Comparaison/Voisinage).
+// owner = référentiel qui possède ces critères ; which = 'a'|'b' (colonne de comptage) ;
+// mode = 'compare'|'voisinage' (détermine la navigation au clic d'un tag).
+function renderOnlyTable(rows, owner, ownerTitle, otherTitle, which, mode){
+  if(!rows.length)return `<p class="muted" style="padding:8px 0">Aucun critère commun propre à ${esc(ownerTitle)}.</p>`;
+  let h=`<p class="hint" style="margin:14px 0 6px">Critères communs couverts par <b style="color:var(--text)">${esc(ownerTitle)}</b> et <b>absents</b> de ${esc(otherTitle)}. Cliquez un critère pour le voir dans le référentiel, ou « référentiels liés » pour comparer ce critère à un autre label.</p>
+  <table><thead><tr><th>Critère commun</th><th>Thème</th><th>${esc(owner)}</th><th></th></tr></thead><tbody>`;
+  rows.forEach(r=>{const cc=escA(r.common_code), n=r['count_'+which];
+   h+=`<tr class="c-onlyrow" onclick="gotoCommon('${esc(owner)}','${cc}')" title="Voir dans ${esc(owner)}">
    <td><span class="code">${r.common_code}</span> ${esc(r.common_label)}</td>
    <td class="theme">${esc(r.theme_slug||'')}</td>
    <td>${n}</td>
-   <td><span class="cc-link">→ voir</span></td></tr>`});
+   <td><span class="cc-link" onclick="event.stopPropagation();toggleOnlyTags(this,'${esc(owner)}','${cc}','${mode}')">référentiels liés ▾</span></td></tr>`});
   h+='</tbody></table>';return h;
 }
+
+// Déplie, sous une ligne « propre à », les autres référentiels couvrant ce critère commun.
+window.toggleOnlyTags=async(el,owner,code,mode)=>{
+  const tr=el.closest('tr'), next=tr.nextElementSibling;
+  if(next && next.classList.contains('c-onlydetail')){
+    const vis=next.style.display!=='none'; next.style.display=vis?'none':'';
+    el.classList.toggle('open',!vis); return;
+  }
+  const det=document.createElement('tr');
+  det.className='c-onlydetail';
+  const td=document.createElement('td'); td.colSpan=tr.children.length;
+  td.innerHTML='<span class="spin">Chargement…</span>'; det.appendChild(td); tr.after(det);
+  el.classList.add('open');
+  const d=await api('/api/common-criterion/'+encodeURIComponent(code));
+  const others=[...new Set((d.items||[]).map(i=>i.framework_slug))].filter(s=>s!==owner);
+  if(!others.length){td.innerHTML='<span class="muted">Aucun autre référentiel ne couvre ce critère commun.</span>';return}
+  const tags=others.map(slug=>{const t=(FRAMEWORKS.find(f=>f.slug===slug)||{}).title||slug;
+    return `<span class="ftag" onclick="tagNav('${mode}','${esc(owner)}','${esc(slug)}','${escA(code)}')" title="Comparer ${esc(owner)} ↔ ${esc(slug)} sur ce critère">${esc(t)}</span>`;}).join('');
+  td.innerHTML=`<div class="otags"><span class="muted" style="font-size:11px">Aussi présent dans (cliquez pour comparer) :</span> ${tags}</div>`;
+};
+
+// Clic sur un tag : reste dans la vue courante (comparaison ou voisinage), centré sur owner ↔ tag.
+window.tagNav=(mode,owner,tag,code)=>{
+  if(mode==='voisinage') gotoPairCommon(owner,tag,code);
+  else gotoCompareCommon(owner,tag,code);
+};
+
+// Comparaison de owner ↔ b, vue partagés, ligne du critère commun mise en évidence.
+window.gotoCompareCommon=async(owner,b,code)=>{
+  $$('nav button').forEach(x=>x.classList.remove('active'));
+  document.querySelector('nav button[data-tab=compare]').classList.add('active');
+  $$('section').forEach(s=>s.classList.remove('active'));
+  $('#compare').classList.add('active');
+  $('#c-a').value=owner; $('#c-b').value=b;
+  await runCompare(); showCompare('shared');
+  const row=$$('#c-detail tr[data-code]').find(r=>r.dataset.code===code);
+  if(row){ row.scrollIntoView({behavior:'smooth',block:'center'});
+    row.classList.remove('cmp-flash'); void row.offsetWidth; row.classList.add('cmp-flash'); }
+};
 
 // auto-évaluation
 let CCLIST=[];

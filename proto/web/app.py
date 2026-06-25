@@ -117,6 +117,8 @@ async def api_pair(request: Request) -> JSONResponse:
         "summary": {"communs_partages": len(shared),
                     "seulement_a": len(only_a), "seulement_b": len(only_b)},
         "detail": db.pair_detail(a, b),
+        "only_a": only_a,
+        "only_b": only_b,
     })
 
 
