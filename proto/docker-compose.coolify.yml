@@ -45,6 +45,12 @@ services:
       APP_DATABASE_URL: ${APP_DATABASE_URL}
       USE_POOLER: ${USE_POOLER:-0}
       DATABASE_POOLER_URL: ${DATABASE_POOLER_URL:-}
+      # Mode connecté (auth Supabase + Storage + analyse IA des documents)
+      SUPABASE_URL: ${SUPABASE_URL:-}
+      SUPABASE_PUBLISHABLE_KEY: ${SUPABASE_PUBLISHABLE_KEY:-}
+      SUPABASE_SECRET_KEY: ${SUPABASE_SECRET_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
     volumes:
       - model-cache-web:/data/models
     expose:
