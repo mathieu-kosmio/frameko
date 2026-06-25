@@ -433,6 +433,20 @@ def delete_manual_evaluation(org_id, fc_id) -> int:
         (org_id, fc_id))
 
 
+def export_documents(org_id, framework) -> list[dict]:
+    """Documents ayant servi à évaluer des critères de ce référentiel (pour l'export)."""
+    return query(
+        "select distinct d.id::text as id, d.filename, d.storage_key,"
+        "       d.valid_until, d.uploaded_at, et.slug as type_slug"
+        " from evaluation e"
+        " join framework_criterion fc on fc.id = e.framework_criterion_id"
+        " join document d on d.id = e.document_id"
+        " join evidence_type et on et.id = d.evidence_type_id"
+        " where e.org_id = %s and fc.framework_slug = %s",
+        (org_id, framework),
+    )
+
+
 def common_criterion_detail(code: str) -> dict | None:
     """Un critère commun (par code) + toutes les exigences des référentiels qui y
     sont rattachées, tous référentiels confondus — pour « déplier » un critère

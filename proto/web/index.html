@@ -814,7 +814,7 @@ async function renderCoverageDetail(){
   const rows=await (await authedFetch('/api/coverage/'+encodeURIComponent(COV_FW)+'/criteria?filter='+COV_FILTER)).json();
   const tab=(f,l)=>`<button class="au-btn" style="${COV_FILTER===f?'border-color:var(--accent);color:var(--accent)':''}" onclick="setCovFilter('${f}')">${l}</button>`;
   const opts=['conforme','partiel','non_conforme','non_applicable'];
-  let h=`<div class="row" style="margin:16px 0 8px;gap:6px"><b style="margin-right:8px">${esc(COV_FW)}</b>${tab('all','Tous')}${tab('evaluated','Évalués')}${tab('unevaluated','Non évalués')}</div>`;
+  let h=`<div class="row" style="margin:16px 0 8px;gap:6px"><b style="margin-right:8px">${esc(COV_FW)}</b>${tab('all','Tous')}${tab('evaluated','Évalués')}${tab('unevaluated','Non évalués')}<button class="au-btn" style="margin-left:auto" onclick="exportFw('${escA(COV_FW)}')">Exporter (zip)</button></div>`;
   if(!Array.isArray(rows) || !rows.length){ out.innerHTML=h+'<p class="muted">Aucun critère pour ce filtre.</p>'; return; }
   h+='<table><thead><tr><th>Réf.</th><th>Critère</th><th>Statut</th><th>Interprétation</th><th>Saisie manuelle</th></tr></thead><tbody>';
   rows.forEach(r=>{
@@ -840,6 +840,14 @@ window.manualEval=async(fcId, status)=>{
   await authedFetch('/api/evaluations',{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({framework_criterion_id:fcId, status})});
   loadCoverage(); renderCoverageDetail();
+};
+
+window.exportFw=async(slug)=>{
+  const r=await authedFetch('/api/export/'+encodeURIComponent(slug));
+  if(!r.ok){ alert('Export indisponible.'); return; }
+  const blob=await r.blob(), url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='frameko-'+slug+'.zip';
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
 };
 
 // ── FSI — couche d'équivalence ───────────────────────────────────────────────

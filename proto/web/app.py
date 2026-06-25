@@ -20,7 +20,7 @@ from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.requests import Request
-from starlette.responses import HTMLResponse, JSONResponse
+from starlette.responses import HTMLResponse, JSONResponse, Response
 from starlette.routing import Route
 
 PROTO = Path(__file__).resolve().parent.parent
@@ -32,6 +32,9 @@ from mcp_server.embeddings import embed_one, to_pgvector  # noqa: E402
 import tempfile  # noqa: E402
 import threading  # noqa: E402
 import uuid  # noqa: E402
+import io  # noqa: E402
+import csv  # noqa: E402
+import zipfile  # noqa: E402
 
 WEB = Path(__file__).resolve().parent
 VALID_STATUS = {"conforme", "partiel", "non_conforme", "non_applicable"}
@@ -397,6 +400,55 @@ async def api_evaluation_delete(request: Request) -> JSONResponse:
     return JSONResponse({"ok": True})
 
 
+async def api_export(request: Request) -> Response:
+    """Export zip d'un référentiel : exigences + évaluations + documents utilisés."""
+    res = _connected_org(request)
+    if not res:
+        return JSONResponse({"error": "authentification requise"}, status_code=401)
+    _user, org = res
+    fw = request.path_params["fw"]
+    if not db.framework_exists(fw):
+        return JSONResponse({"error": "référentiel inconnu"}, status_code=404)
+    crit = db.framework_criteria(fw)
+    evals = db.framework_coverage_criteria(org["id"], fw)
+    docs = db.export_documents(org["id"], fw)
+
+    def _csv(header, rows):
+        s = io.StringIO()
+        w = csv.writer(s)
+        w.writerow(header)
+        w.writerows(rows)
+        return s.getvalue()
+
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr("exigences.csv", _csv(
+            ["reference", "exigence", "theme", "critere_commun_code", "critere_commun", "degre"],
+            [[c.get("reference"), c.get("label"), c.get("theme_label"),
+              c.get("common_code"), c.get("common_label"), c.get("degree")] for c in crit]))
+        z.writestr("evaluations.csv", _csv(
+            ["reference", "exigence", "statut", "interpretation", "source", "document", "expire"],
+            [[e.get("reference"), e.get("label"), e.get("status"), e.get("interpretation"),
+              e.get("source"), e.get("doc_filename"), e.get("expired")]
+             for e in evals if e.get("status")]))
+        used = set()
+        for d in docs:
+            try:
+                data = storage.download(d["storage_key"])
+            except Exception:
+                continue
+            ext = Path(d["filename"]).suffix or ""
+            datestr = str(d.get("valid_until") or (d.get("uploaded_at") and d["uploaded_at"].date()) or "")
+            name = f"{d['type_slug']}_{datestr}{ext}"
+            if name in used:
+                name = f"{d['type_slug']}_{datestr}_{d['id'][:8]}{ext}"
+            used.add(name)
+            z.writestr(f"documents/{name}", data)
+
+    headers = {"Content-Disposition": f'attachment; filename="frameko-{fw}.zip"'}
+    return Response(buf.getvalue(), media_type="application/zip", headers=headers)
+
+
 # ── Authentification par jeton d'organisation (legacy / MCP) ─────────────────
 
 async def api_login(request: Request) -> JSONResponse:
@@ -486,6 +538,7 @@ routes = [
     Route("/api/coverage/{fw}/criteria", api_coverage_criteria),
     Route("/api/evaluations", api_evaluation_set, methods=["POST"]),
     Route("/api/evaluations/{fc_id}", api_evaluation_delete, methods=["DELETE"]),
+    Route("/api/export/{fw}", api_export),
     Route("/api/doc-types", api_doc_types),
     Route("/api/doc-types/{slug}/frameworks", api_doc_type_frameworks),
     Route("/api/doc-types/{slug}/frameworks/{fw}/criteria", api_doc_type_criteria),
