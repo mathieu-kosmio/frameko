@@ -167,6 +167,15 @@
     font-size:12px;padding:3px 10px;border-radius:14px;cursor:pointer;transition:border-color .12s,color .12s}
   .ftag:hover{border-color:var(--accent);color:var(--accent)}
   @media(prefers-reduced-motion:reduce){ tr.cmp-flash td{animation:none;background:rgba(63,185,132,.15)} }
+  /* Types de documents */
+  .dt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
+  @media(max-width:720px){.dt-grid{grid-template-columns:1fr}}
+  .dt-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:13px 15px;cursor:pointer;transition:border-color .15s,background .15s}
+  .dt-card:hover{border-color:var(--accent2)}
+  .dt-card.sel{border-color:var(--accent);background:rgba(63,185,132,.06)}
+  .dt-card .dt-lbl{font-weight:600;font-size:14px;margin-bottom:8px}
+  .dt-card .dt-meta{display:flex;gap:8px;align-items:center;font-size:12px}
   /* Référentiel : critère commun cliquable → recherche */
   .b-cc.cc-open{cursor:pointer}
   .b-cc.cc-open:hover{color:var(--accent2)}
@@ -213,6 +222,7 @@
   <button data-tab="fsi">FSI</button>
   <button data-tab="compare">Comparaison</button>
   <button data-tab="assess">Auto-évaluation</button>
+  <button data-tab="doctypes">Types de docs</button>
   <button data-tab="ingest" style="margin-left:auto;color:var(--accent)">+ Digitaliser</button>
 </nav>
 <main>
@@ -365,6 +375,16 @@
     </div>
   </section>
 
+  <!-- ── Types de documents ── -->
+  <section id="doctypes">
+    <h2>Types de documents</h2>
+    <p class="hint">Chaque type de document correspond à un moyen de preuve attendu. Cliquez un type pour
+      voir les référentiels concernés, puis un référentiel pour voir les exigences couvertes par ce type.</p>
+    <div id="dt-types"></div>
+    <div id="dt-frameworks"></div>
+    <div id="dt-criteria"></div>
+  </section>
+
 </main>
 <script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -383,6 +403,7 @@ $$('nav button').forEach(b=>b.onclick=()=>{
   $$('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
   $$('section').forEach(s=>s.classList.remove('active'));$('#'+b.dataset.tab).classList.add('active');
   if(b.dataset.tab==='fsi' && !FSILOADED){FSILOADED=true;loadFSI();}
+  if(b.dataset.tab==='doctypes' && !DOCTYPESLOADED){DOCTYPESLOADED=true;loadDocTypes();}
 });
 
 // chargement référentiels
@@ -587,6 +608,47 @@ function renderBrowse(){
     </div>`).join('')}</div>
   </div>`).join('');
 }
+
+// ── Types de documents → référentiels → exigences ────────────────────────────
+let DOCTYPESLOADED=false, DT_SEL=null;
+
+async function loadDocTypes(){
+  const wrap=$('#dt-types'); $('#dt-frameworks').innerHTML=''; $('#dt-criteria').innerHTML='';
+  wrap.innerHTML='<p class="spin">Chargement des types de documents…</p>';
+  const types=await api('/api/doc-types');
+  wrap.innerHTML='<div class="dt-grid">'+types.map(t=>`<div class="dt-card" data-slug="${escA(t.slug)}" onclick="selectDocType('${escA(t.slug)}')">
+    <div class="dt-lbl">${esc(t.label_fr)}</div>
+    <div class="dt-meta"><span class="badge">${t.n_frameworks} référentiels</span>
+      <span class="muted">${t.n_criteria} exigences</span></div>
+  </div>`).join('')+'</div>';
+}
+
+window.selectDocType=async(slug)=>{
+  $$('#dt-types .dt-card').forEach(c=>c.classList.toggle('sel', c.dataset.slug===slug));
+  DT_SEL=slug; $('#dt-criteria').innerHTML='';
+  const out=$('#dt-frameworks'); out.innerHTML='<p class="spin">Chargement des référentiels…</p>';
+  const fws=await api('/api/doc-types/'+encodeURIComponent(slug)+'/frameworks');
+  out.innerHTML='<h2 style="font-size:14px;margin:18px 0 8px">Référentiels concernés</h2>'
+    +'<table><thead><tr><th>Référentiel</th><th>Exigences</th></tr></thead><tbody>'
+    +fws.map(f=>`<tr class="c-onlyrow" onclick="selectDocFramework('${escA(f.slug)}')" title="Voir les exigences">
+        <td>${esc(f.title)} <span class="muted">· ${esc(f.slug)}</span></td><td>${f.n_criteria}</td></tr>`).join('')
+    +'</tbody></table>';
+};
+
+window.selectDocFramework=async(fw)=>{
+  if(!DT_SEL)return;
+  const out=$('#dt-criteria'); out.innerHTML='<p class="spin">Chargement des exigences…</p>';
+  const crit=await api('/api/doc-types/'+encodeURIComponent(DT_SEL)+'/frameworks/'+encodeURIComponent(fw)+'/criteria');
+  const ft=(FRAMEWORKS.find(f=>f.slug===fw)||{}).title||fw;
+  let h=`<h2 style="font-size:14px;margin:18px 0 8px">Exigences — ${esc(ft)} <span class="muted" style="font-weight:400;font-size:12px">· ${crit.length}</span></h2>`;
+  h+=crit.map(c=>`<div class="b-crit">
+    <div class="top"><span class="lbl">${esc(c.label)}</span><span class="ref">${esc(c.reference||'—')}</span></div>
+    <div class="meta">${c.level?`<span class="b-lvl">${esc(c.level)}</span>`:''}
+      <span class="b-cc">→ <span class="code">${esc(c.common_code)}</span> ${esc(c.common_label)}</span></div>
+    ${c.detail?`<div class="ev-detail">« ${esc(c.detail.slice(0,240))}${c.detail.length>240?'…':''} »</div>`:''}
+  </div>`).join('');
+  out.innerHTML=h; out.scrollIntoView({behavior:'smooth',block:'nearest'});
+};
 
 // ── FSI — couche d'équivalence ───────────────────────────────────────────────
 let FSILOADED=false;

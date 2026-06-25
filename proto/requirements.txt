@@ -22,6 +22,9 @@ fastmcp>=2.0
 # Sessions de l'UI web (auth par jeton d'organisation)
 itsdangerous>=2.2
 
+# Vérification des JWT Supabase (mode connecté : auto-évaluation par documents)
+PyJWT>=2.9
+
 # Ingestion IA — optionnel (uniquement pour scripts/ingest_framework.py --llm)
 openai>=1.50
 

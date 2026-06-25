@@ -151,6 +151,22 @@ async def api_equivalences(request: Request) -> JSONResponse:
     return JSONResponse({"focal": slug, "equivalences": db.framework_equivalences(slug)})
 
 
+async def api_doc_types(request: Request) -> JSONResponse:
+    """Catalogue des types de documents + nb de référentiels/exigences liés."""
+    return JSONResponse(db.document_types())
+
+
+async def api_doc_type_frameworks(request: Request) -> JSONResponse:
+    """Référentiels qui attendent un type de document donné."""
+    return JSONResponse(db.doc_type_frameworks(request.path_params["slug"]))
+
+
+async def api_doc_type_criteria(request: Request) -> JSONResponse:
+    """Exigences d'un référentiel rattachées à un type de document."""
+    return JSONResponse(db.doc_type_framework_criteria(
+        request.path_params["slug"], request.path_params["fw"]))
+
+
 async def api_common_criterion(request: Request) -> JSONResponse:
     """Détail d'un critère commun : toutes les exigences des référentiels liées."""
     code = request.path_params["code"]
@@ -299,6 +315,9 @@ routes = [
     Route("/api/ingest/extract", api_ingest_extract, methods=["POST"]),
     Route("/api/ingest/propose", api_ingest_propose, methods=["POST"]),
     Route("/api/ingest/apply", api_ingest_apply, methods=["POST"]),
+    Route("/api/doc-types", api_doc_types),
+    Route("/api/doc-types/{slug}/frameworks", api_doc_type_frameworks),
+    Route("/api/doc-types/{slug}/frameworks/{fw}/criteria", api_doc_type_criteria),
     Route("/api/common-criterion/{code}", api_common_criterion),
     Route("/api/common-criteria", api_common_criteria),
     Route("/api/login", api_login, methods=["POST"]),

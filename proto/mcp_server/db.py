@@ -187,6 +187,55 @@ def framework_criteria(slug: str) -> list[dict]:
     )
 
 
+# ── Types de documents (= types de preuve) → référentiels → exigences ───────
+
+def document_types() -> list[dict]:
+    """Catalogue des types de documents (evidence_type) avec, pour chacun, le
+    nombre de référentiels et d'exigences qui l'attendent."""
+    return query(
+        "select et.slug, et.label_fr,"
+        "       count(distinct fc.framework_slug) as n_frameworks,"
+        "       count(distinct ce.framework_criterion_id) as n_criteria"
+        " from evidence_type et"
+        " left join criterion_evidence ce on ce.evidence_type_id = et.id"
+        " left join framework_criterion fc on fc.id = ce.framework_criterion_id"
+        " group by et.slug, et.label_fr"
+        " order by n_criteria desc, et.label_fr"
+    )
+
+
+def doc_type_frameworks(slug: str) -> list[dict]:
+    """Référentiels qui attendent un type de document donné, avec le nombre
+    d'exigences concernées."""
+    return query(
+        "select f.slug, f.title,"
+        "       count(distinct ce.framework_criterion_id) as n_criteria"
+        " from evidence_type et"
+        " join criterion_evidence ce on ce.evidence_type_id = et.id"
+        " join framework_criterion fc on fc.id = ce.framework_criterion_id"
+        " join framework f on f.slug = fc.framework_slug"
+        " where et.slug = %s"
+        " group by f.slug, f.title"
+        " order by n_criteria desc, f.title",
+        (slug,),
+    )
+
+
+def doc_type_framework_criteria(slug: str, framework: str) -> list[dict]:
+    """Exigences d'un référentiel rattachées à un type de document donné."""
+    return query(
+        "select fc.reference, fc.label, fc.level,"
+        "       cc.code as common_code, cc.label_fr as common_label, ce.detail"
+        " from evidence_type et"
+        " join criterion_evidence ce on ce.evidence_type_id = et.id"
+        " join framework_criterion fc on fc.id = ce.framework_criterion_id"
+        " join common_criterion cc on cc.id = fc.common_criterion_id"
+        " where et.slug = %s and fc.framework_slug = %s"
+        " order by fc.reference",
+        (slug, framework),
+    )
+
+
 def common_criterion_detail(code: str) -> dict | None:
     """Un critère commun (par code) + toutes les exigences des référentiels qui y
     sont rattachées, tous référentiels confondus — pour « déplier » un critère
