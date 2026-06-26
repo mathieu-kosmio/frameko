@@ -376,8 +376,9 @@ def insert_evaluations(org_id, doc_id, rows) -> int:
 _ACTIVE = ("(e.source = 'manual' or d.valid_until is null or d.valid_until >= current_date)")
 
 
-def coverage(org_id) -> list[dict]:
-    """Par référentiel : nb de critères, nb couverts (éval active), %."""
+def org_coverage(org_id) -> list[dict]:
+    """Par référentiel : nb de critères, nb couverts (éval active), %.
+    (NB : distinct de coverage(a, b) qui compare deux référentiels.)"""
     return query(
         "with active as ("
         "  select distinct e.framework_criterion_id"

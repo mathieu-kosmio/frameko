@@ -357,7 +357,7 @@ async def api_coverage(request: Request) -> JSONResponse:
     if not res:
         return JSONResponse({"error": "authentification requise"}, status_code=401)
     _user, org = res
-    rows = db.coverage(org["id"])
+    rows = db.org_coverage(org["id"])
     for r in rows:
         r["pct"] = round(100 * r["n_eval"] / r["n_total"]) if r["n_total"] else 0
     return JSONResponse(rows)
