@@ -20,7 +20,7 @@ from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.requests import Request
-from starlette.responses import HTMLResponse, JSONResponse, Response
+from starlette.responses import HTMLResponse, JSONResponse, FileResponse, Response
 from starlette.routing import Route
 
 PROTO = Path(__file__).resolve().parent.parent
@@ -56,6 +56,12 @@ async def index(request: Request) -> HTMLResponse:
 
 async def docs(request: Request) -> HTMLResponse:
     return HTMLResponse((WEB / "docs.html").read_text(encoding="utf-8"), headers=_NOCACHE)
+
+
+async def vendor_supabase(request: Request) -> FileResponse:
+    """Client Supabase JS servi en local (vendoré) — pas de dépendance CDN au runtime."""
+    return FileResponse(WEB / "vendor" / "supabase.js", media_type="application/javascript",
+                        headers={"Cache-Control": "public, max-age=86400"})
 
 
 async def api_frameworks(request: Request) -> JSONResponse:
@@ -517,6 +523,7 @@ routes = [
     Route("/", landing),
     Route("/console", index),
     Route("/docs", docs),
+    Route("/vendor/supabase.js", vendor_supabase),
     Route("/api/frameworks", api_frameworks),
     Route("/api/search", api_search, methods=["POST"]),
     Route("/api/compare", api_compare, methods=["POST"]),

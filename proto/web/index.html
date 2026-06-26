@@ -240,10 +240,12 @@
   <div class="auth-card">
     <div class="auth-head"><b id="auth-title">Se connecter</b>
       <span class="auth-x" onclick="closeAuth()">✕</span></div>
+    <form id="auth-form" style="display:flex;flex-direction:column;gap:10px">
     <input type="email" id="auth-email" placeholder="email" autocomplete="email">
     <input type="password" id="auth-pwd" placeholder="mot de passe" autocomplete="current-password">
     <div id="auth-msg" class="auth-msg"></div>
-    <button class="go" id="auth-submit" style="width:100%">Se connecter</button>
+    <button type="submit" class="go" id="auth-submit" style="width:100%">Se connecter</button>
+    </form>
     <div class="auth-alt">
       <span id="auth-toggle"></span>
     </div>
@@ -452,6 +454,7 @@
   </section>
 
 </main>
+<script src="/vendor/supabase.js"></script>
 <script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const api=async(u,o)=>{const r=await fetch(u,o);return r.json()};
@@ -1320,8 +1323,9 @@ async function initAuth(){
   try{
     const cfg=await api('/api/config');
     if(!cfg.supabaseUrl || !cfg.supabaseAnonKey){renderAuthbox();return;}
-    const { createClient }=await import('https://esm.sh/@supabase/supabase-js@2');
-    SB=createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {auth:{persistSession:true, autoRefreshToken:true}});
+    if(!window.supabase || !window.supabase.createClient){
+      console.warn('Client Supabase indisponible'); renderAuthbox(); return; }
+    SB=window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {auth:{persistSession:true, autoRefreshToken:true}});
     SB.auth.onAuthStateChange((_e,session)=>onSession(session));
     const { data }=await SB.auth.getSession();
     onSession(data.session);
@@ -1371,7 +1375,8 @@ function renderAuthMode(){
     : 'Déjà un compte ? <a onclick="setAuthMode(\'login\')">Se connecter</a>';
 }
 
-$('#auth-submit').onclick=async()=>{
+$('#auth-form').onsubmit=async(ev)=>{
+  ev.preventDefault();
   const email=$('#auth-email').value.trim(), pwd=$('#auth-pwd').value, msg=$('#auth-msg');
   msg.className='auth-msg'; msg.textContent='…';
   if(!SB){ msg.className='auth-msg err'; msg.textContent='Authentification indisponible.'; return; }
